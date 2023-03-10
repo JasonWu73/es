@@ -1,23 +1,32 @@
 import React, { useState } from 'react';
 
-function NewTodo() {
-  const [ todo, setTodo ] = useState('');
+interface NewTodoProps {
+  onAdd(todo: { id: string, text: string }): void;
+}
+
+function NewTodo(props: NewTodoProps) {
+  const [ todoText, setTodoText ] = useState('');
 
   const submitHandler = (event: React.FormEvent) => {
     event.preventDefault();
-    console.log('submit: ', todo);
-    setTodo('');
+    props.onAdd({ id: Math.random().toString(), text: todoText });
+    setTodoText('');
   };
 
   const todoChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTodo(event.target.value);
+    setTodoText(event.target.value);
   };
 
   return (
     <form onSubmit={submitHandler}>
       <div>
         <label htmlFor="todo">Todo Text</label>
-        <input type="text" id="todo" value={todo} onChange={todoChangeHandler}/>
+        <input
+          type="text"
+          id="todo"
+          value={todoText}
+          onChange={todoChangeHandler}
+        />
       </div>
       <div>
         <button type="submit">ADD TODO</button>

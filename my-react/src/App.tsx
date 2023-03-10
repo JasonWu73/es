@@ -1,13 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import TodoList from './components/TodoList';
 import NewTodo from './components/NewTodo';
 
 function App() {
-  const todos = [ { id: 't1', text: 'Finish the course' } ];
+  const [ todos, setTodos ] = useState([ {
+    id: 't1',
+    text: 'Finish the course'
+  } ]);
+  const addTodoHandler = (todo: { id: string, text: string }) => {
+    setTodos(prevTodo => {
+      prevTodo.push(todo);
+      return prevTodo;
+    });
+  };
   return (
     <div className="App">
-      <NewTodo/>
+      <NewTodo onAdd={addTodoHandler}/>
       <TodoList items={todos}/>
     </div>
   );
