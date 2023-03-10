@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import styles from './NewTodo.module.scss';
 
 interface NewTodoProps {
   onAdd(todo: { id: string, text: string }): void;
@@ -18,7 +19,7 @@ function NewTodo(props: NewTodoProps) {
   };
 
   return (
-    <form onSubmit={submitHandler}>
+    <form onSubmit={submitHandler} className={styles.form}>
       <div>
         <label htmlFor="todo">Todo Text</label>
         <input

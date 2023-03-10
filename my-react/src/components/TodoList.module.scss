@@ -1,0 +1,14 @@
+.list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1rem;
+
+  li {
+    background-color: forestgreen;
+    color: white;
+    border-radius: 0.6rem;
+    padding: 0.5rem;
+  }
+}

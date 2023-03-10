@@ -1,0 +1,11 @@
+.form {
+  border: 0.1rem solid #ccc;
+  border-radius: 0.6rem;
+  box-shadow: 0 1rem 1.2rem rgba(0, 0, 0, 0.2);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
