@@ -10,8 +10,7 @@ function App() {
   } ]);
   const addTodoHandler = (todo: { id: string, text: string }) => {
     setTodos(prevTodo => {
-      prevTodo.push(todo);
-      return prevTodo;
+      return [ todo, ...prevTodo ];
     });
   };
   return (
