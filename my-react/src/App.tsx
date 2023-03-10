@@ -7,14 +7,19 @@ import { Todo } from './todo.model';
 function App() {
   const [ todos, setTodos ] = useState<Todo[]>([]);
   const addTodoHandler = (todo: Todo) => {
-    setTodos(prevTodo => {
-      return [ todo, ...prevTodo ];
+    setTodos(prevTodos => {
+      return [ todo, ...prevTodos ];
+    });
+  };
+  const todoDeleteHandler = (id: string) => {
+    setTodos(prevTodos => {
+      return prevTodos.filter(todo => todo.id !== id);
     });
   };
   return (
     <div className="app">
       <NewTodo onAdd={addTodoHandler}/>
-      <TodoList items={todos}/>
+      <TodoList items={todos} onDelete={todoDeleteHandler}/>
     </div>
   );
 }
