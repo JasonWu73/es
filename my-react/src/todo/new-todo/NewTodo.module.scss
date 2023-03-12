@@ -6,6 +6,32 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   gap: 1rem;
+
+  label {
+    font-weight: bold;
+
+    &:after {
+      content: ": ";
+    }
+  }
+
+  input {
+    border: 0.1rem solid #ccc;
+    border-radius: 0.4rem;
+    padding: 0.4rem;
+  }
+
+  button {
+    background: purple;
+    color: white;
+    padding: 0.6rem;
+    border: 0.1rem solid purple;
+    cursor: pointer;
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
 }
