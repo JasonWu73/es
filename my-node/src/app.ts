@@ -1,9 +1,11 @@
 import express, { NextFunction, Request, Response } from 'express';
 // 这里采用 ES 模块写法, TS 会自动转换为 Node.js 可识别的模块语法
-
 import todoRoutes from './routes/todos';
+import { json } from 'body-parser';
 
 const app = express();
+
+app.use(json());
 
 app.use('/todos', todoRoutes);
 
