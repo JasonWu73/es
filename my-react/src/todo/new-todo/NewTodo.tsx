@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styles from './NewTodo.module.scss';
 import { Todo } from '../model/todo';
 import ErrorModal from '../modal/ErrorModal';
@@ -44,7 +44,7 @@ function NewTodo(props: NewTodoProps) {
       {errTitle && <ErrorModal
         title={errTitle}
         message={errMsg}
-        onClose={errorCloseHandler}
+        onConfirm={errorCloseHandler}
       />}
       <form onSubmit={submitHandler} className={styles.form}>
         <label htmlFor="todo">Todo Text</label>

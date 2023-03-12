@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import './TodoApp.css';
+import { useState } from 'react';
+import './TodoApp.scss';
 import TodoList from './todo-list/TodoList';
 import NewTodo from './new-todo/NewTodo';
 import { Todo } from './model/todo';

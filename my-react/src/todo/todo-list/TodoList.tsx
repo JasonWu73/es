@@ -1,4 +1,3 @@
-import React from 'react';
 import styles from './TodoList.module.scss';
 import { Todo } from '../model/todo';
 
