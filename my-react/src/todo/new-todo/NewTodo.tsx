@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styles from './NewTodo.module.scss';
-import { Todo } from '../todo.model';
+import { Todo } from '../model/todo';
 
 interface NewTodoProps {
   onAdd(todo: Todo): void;

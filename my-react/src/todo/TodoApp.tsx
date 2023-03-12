@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import './App.css';
-import TodoList from './components/TodoList';
-import NewTodo from './components/NewTodo';
-import { Todo } from './todo.model';
+import './TodoApp.css';
+import TodoList from './todo-list/TodoList';
+import NewTodo from './new-todo/NewTodo';
+import { Todo } from './model/todo';
 
-function App() {
+function TodoApp() {
   const [ todos, setTodos ] = useState<Todo[]>([]);
   const addTodoHandler = (todo: Todo) => {
     setTodos(prevTodos => {
@@ -24,4 +24,4 @@ function App() {
   );
 }
 
-export default App;
+export default TodoApp;
