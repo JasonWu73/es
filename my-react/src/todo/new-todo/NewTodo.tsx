@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import styles from './NewTodo.module.scss';
 import { Todo } from '../model/todo';
 import ErrorModal from '../modal/ErrorModal';
@@ -7,53 +7,43 @@ interface NewTodoProps {
   onAdd(todo: Todo): void;
 }
 
-function NewTodo(props: NewTodoProps) {
-  const [ todoText, setTodoText ] = useState('');
-  const [ errTitle, setErrTitle ] = useState('');
-  const [ errMsg, setErrMsg ] = useState('');
+interface InputError {
+  title: string,
+  message: string
+}
 
-  const resetErr = () => {
-    setErrTitle('');
-    setErrMsg('');
-  };
+type InputErrorOrNull = InputError | null;
+
+function NewTodo(props: NewTodoProps) {
+  const todoTextRef = useRef<HTMLInputElement>(null);
+  const [ error, setError ] = useState<InputErrorOrNull>(null);
 
   const submitHandler = (event: React.FormEvent) => {
     event.preventDefault();
+    const todoText = (todoTextRef.current! as HTMLInputElement).value.trim();
     if (!todoText) {
-      setErrTitle('Invalid input');
-      setErrMsg('Please enter a non-empty text.');
+      setError({
+        title: 'Invalid input',
+        message: 'Please enter a non-empty text.'
+      });
       return;
     }
 
     props.onAdd({ id: Math.random().toString(), text: todoText });
-    resetErr();
-    setTodoText('');
-  };
-
-  const todoChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const todoText = event.target.value.trim();
-    setTodoText(todoText);
-  };
-
-  const errorCloseHandler = () => {
-    resetErr();
+    setError(null);
+    (todoTextRef.current! as HTMLInputElement).value = '';
   };
 
   return (
     <>
-      {errTitle && <ErrorModal
-        title={errTitle}
-        message={errMsg}
-        onConfirm={errorCloseHandler}
+      {error && <ErrorModal
+        title={error.title}
+        message={error.message}
+        onConfirm={() => setError(null)}
       />}
       <form onSubmit={submitHandler} className={styles.form}>
         <label htmlFor="todo">Todo Text</label>
-        <input
-          type="text"
-          id="todo"
-          value={todoText}
-          onChange={todoChangeHandler}
-        />
+        <input type="text" id="todo" ref={todoTextRef}/>
         <button type="submit">ADD TODO</button>
       </form>
     </>
