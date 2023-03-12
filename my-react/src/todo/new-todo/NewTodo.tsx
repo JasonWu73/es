@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styles from './NewTodo.module.scss';
 import { Todo } from '../model/todo';
+import ErrorModal from '../modal/ErrorModal';
 
 interface NewTodoProps {
   onAdd(todo: Todo): void;
@@ -8,20 +9,44 @@ interface NewTodoProps {
 
 function NewTodo(props: NewTodoProps) {
   const [ todoText, setTodoText ] = useState('');
+  const [ errTitle, setErrTitle ] = useState('');
+  const [ errMsg, setErrMsg ] = useState('');
+
+  const resetErr = () => {
+    setErrTitle('');
+    setErrMsg('');
+  };
 
   const submitHandler = (event: React.FormEvent) => {
     event.preventDefault();
+    if (!todoText) {
+      setErrTitle('Invalid input');
+      setErrMsg('Please enter a non-empty text.');
+      return;
+    }
+
     props.onAdd({ id: Math.random().toString(), text: todoText });
+    resetErr();
     setTodoText('');
   };
 
   const todoChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTodoText(event.target.value);
+    const todoText = event.target.value.trim();
+    setTodoText(todoText);
+  };
+
+  const errorCloseHandler = () => {
+    resetErr();
   };
 
   return (
-    <form onSubmit={submitHandler} className={styles.form}>
-      <div>
+    <>
+      {errTitle && <ErrorModal
+        title={errTitle}
+        message={errMsg}
+        onClose={errorCloseHandler}
+      />}
+      <form onSubmit={submitHandler} className={styles.form}>
         <label htmlFor="todo">Todo Text</label>
         <input
           type="text"
@@ -29,11 +54,9 @@ function NewTodo(props: NewTodoProps) {
           value={todoText}
           onChange={todoChangeHandler}
         />
-      </div>
-      <div>
         <button type="submit">ADD TODO</button>
-      </div>
-    </form>
+      </form>
+    </>
   );
 }
 
