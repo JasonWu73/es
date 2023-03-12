@@ -10,6 +10,7 @@ app.use(json());
 app.use('/todos', todoRoutes);
 
 // error handling middleware
+// @ts-ignore
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   res.status(500).send({ message: err.message });
 });
