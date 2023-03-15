@@ -1,83 +1,55 @@
 import styles from './Login.module.scss';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 interface Props {
   onLogin: (username: string, password: string) => void;
 }
 
 function Login({ onLogin }: Props) {
-  const usernameRef = useRef<HTMLInputElement>(null);
-  const passwordRef = useRef<HTMLInputElement>(null);
-  const [ error, setError ] = useState(false);
+  const [ username, setUsername ] = useState('');
+  const [ invalidUsername, setInvalidUsername ] = useState(false);
+  const [ password, setPassword ] = useState('');
+  const [ invalidPassword, setInvalidPassword ] = useState(false);
+  const [ invalidForm, setInvalidForm ] = useState(false);
 
-  const getUsername = () => {
-    return usernameRef.current!.value.trim();
-  };
-
-  const getPassword = () => {
-    return passwordRef.current!.value.trim();
-  };
+  useEffect(() => {
+    setInvalidForm(username.length < 3 || password.length < 3);
+  }, [ username, password ]);
 
   const loginSubmitHandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    const validUsername = validateUsernameInput();
-    const validPassword = validatePasswordInput();
-    if (!validUsername || !validPassword) return;
-
-    const username = getUsername();
-    const password = getPassword();
     onLogin(username, password);
   };
 
-  function validateUsernameInput() {
-    const classList = usernameRef.current!.classList;
-    if (getUsername().length <= 2) {
-      classList.add(styles.error);
-      setError(true);
-      return false;
-    }
-
-    classList.remove(styles.error);
-    setError(false);
-    return true;
-  }
-
-  const usernameChangeHandler = () => {
-    validateUsernameInput();
+  const usernameChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const username = event.target.value.trim();
+    setUsername(username);
+    setInvalidUsername(username.length < 3);
   };
 
-  function validatePasswordInput() {
-    const classList = passwordRef.current!.classList;
-    if (getPassword().length <= 2) {
-      classList.add(styles.error);
-      setError(true);
-      return false;
-    }
-    classList.remove(styles.error);
-    setError(false);
-    return true;
-  }
-
-  const passwordChangeHandler = () => {
-    validatePasswordInput();
+  const passwordChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const password = event.target.value.trim();
+    setPassword(password);
+    setInvalidPassword(password.length < 3);
   };
 
   return (
     <form onSubmit={loginSubmitHandler} className={styles.login}>
       <input
-        ref={usernameRef}
+        value={username}
         onChange={usernameChangeHandler}
+        className={invalidUsername ? styles.error: ''}
         type="text"
         placeholder="Username"
       />
       <input
-        ref={passwordRef}
+        value={password}
         onChange={passwordChangeHandler}
+        className={invalidPassword ? styles.error: ''}
         type="password"
         placeholder="Password"
       />
-      <button type="submit" disabled={error}>Login</button>
+      <button type="submit" disabled={invalidForm}>Login</button>
     </form>
   );
 }
