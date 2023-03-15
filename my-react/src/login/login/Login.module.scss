@@ -16,6 +16,11 @@
     border-radius: 0.4rem;
     padding: 1rem;
     width: 80%;
+
+    &.error {
+      border: 0.1rem solid red;
+      outline: transparent;
+    }
   }
 
   button {
@@ -29,6 +34,12 @@
 
     &:hover {
       opacity: 0.8;
+    }
+
+    &[disabled] {
+      cursor: not-allowed;
+      background-color: grey;
+      border-color: grey;
     }
   }
 }
