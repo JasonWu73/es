@@ -1,3 +1,9 @@
+/* @font-face 应该在任何其他样式之前定义 */
+@font-face {
+  font-family: "JetBrains Mono Web";
+  src: url("./fonts/JetBrainsMono-Regular.woff2") format("woff2");
+}
+
 *,
 *:before,
 *:after {
@@ -12,6 +18,7 @@ html {
 
 body {
   font-size: 1.6rem;
+  font-family: "JetBrains Mono Web", sans-serif;
 }
 
 code {
