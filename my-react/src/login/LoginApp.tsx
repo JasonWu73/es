@@ -10,7 +10,7 @@ function LoginApp() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    const loggedStatus = window.localStorage.getItem(LOGGED_KEY);
+    const loggedStatus = localStorage.getItem(LOGGED_KEY);
     if (loggedStatus === LOGGED_IN) {
       setIsLoggedIn(true);
     }
@@ -18,16 +18,16 @@ function LoginApp() {
 
   const loginHandler = (username: string, password: string) => {
     if (username === 'wxj' && password === '123') {
-      window.localStorage.setItem(LOGGED_KEY, LOGGED_IN);
+      localStorage.setItem(LOGGED_KEY, LOGGED_IN);
       setIsLoggedIn(true);
       return;
     }
 
-    window.alert('WRONG USERNAME OR PASSWORD');
+    alert('WRONG USERNAME OR PASSWORD');
   };
 
   const logoutHandler = () => {
-    window.localStorage.removeItem(LOGGED_KEY);
+    localStorage.removeItem(LOGGED_KEY);
     setIsLoggedIn(false);
   };
 
