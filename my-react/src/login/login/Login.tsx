@@ -14,14 +14,12 @@ function Login({ onLogin }: Props) {
 
   useEffect(() => {
     // debounce
-    const timeout = setTimeout(() => {
-      console.log('check form validity');
+    const timeout = window.setTimeout(() => {
       setInvalidForm(username.length < 3 || password.length < 3);
     }, 500);
 
     return () => {
-      console.log('cleanup check form validity timer');
-      clearTimeout(timeout);
+      window.clearTimeout(timeout);
     };
   }, [username, password]);
 
