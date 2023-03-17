@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import { FormEvent, useRef, useState } from 'react';
 import styles from './NewTodo.module.scss';
 import { Todo } from '../model/todo';
 import ErrorModal from '../modal/ErrorModal';
@@ -14,13 +14,14 @@ interface InputError {
 
 type InputErrorOrNull = InputError | null;
 
-function NewTodo(props: NewTodoProps) {
+export default function NewTodo(props: NewTodoProps) {
   const todoTextRef = useRef<HTMLInputElement>(null);
-  const [ error, setError ] = useState<InputErrorOrNull>(null);
+  const [error, setError] = useState<InputErrorOrNull>(null);
 
-  const submitHandler = (event: React.FormEvent) => {
+  const submitHandler = (event: FormEvent) => {
     event.preventDefault();
-    const todoText = (todoTextRef.current! as HTMLInputElement).value.trim();
+    const todoText =
+      (todoTextRef.current! as HTMLInputElement).value.trim();
     if (!todoText) {
       setError({
         title: 'Invalid input',
@@ -49,5 +50,3 @@ function NewTodo(props: NewTodoProps) {
     </>
   );
 }
-
-export default NewTodo;

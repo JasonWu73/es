@@ -1,11 +1,11 @@
 import styles from './Login.module.scss';
-import React, { useEffect, useState } from 'react';
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 
 interface Props {
   onLogin: (username: string, password: string) => void;
 }
 
-function Login({ onLogin }: Props) {
+export default function Login({ onLogin }: Props) {
   const [username, setUsername] = useState('');
   const [invalidUsername, setInvalidUsername] = useState(false);
   const [password, setPassword] = useState('');
@@ -23,18 +23,18 @@ function Login({ onLogin }: Props) {
     };
   }, [username, password]);
 
-  const loginSubmitHandler = (event: React.FormEvent<HTMLFormElement>) => {
+  const loginSubmitHandler = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     onLogin(username, password);
   };
 
-  const usernameChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const usernameChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     const username = event.target.value.trim();
     setUsername(username);
     setInvalidUsername(username.length < 3);
   };
 
-  const passwordChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const passwordChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     const password = event.target.value.trim();
     setPassword(password);
     setInvalidPassword(password.length < 3);
@@ -60,5 +60,3 @@ function Login({ onLogin }: Props) {
     </form>
   );
 }
-
-export default Login;

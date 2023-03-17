@@ -1,13 +1,13 @@
 import styles from './MainHeader.module.scss';
-import React from 'react';
+import { MouseEvent } from 'react';
 
 interface Props {
   isLoggedIn: boolean,
   onLogout: () => void
 }
 
-function MainHeader({ isLoggedIn, onLogout }: Props) {
-  const logoutHandler = (event: React.MouseEvent<HTMLAnchorElement>) => {
+export default function MainHeader({ isLoggedIn, onLogout }: Props) {
+  const logoutHandler = (event: MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
     onLogout();
   };
@@ -19,5 +19,3 @@ function MainHeader({ isLoggedIn, onLogout }: Props) {
     </header>
   );
 }
-
-export default MainHeader;

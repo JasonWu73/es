@@ -1,5 +1,5 @@
-import ReactDOM from 'react-dom';
 import styles from './ErrorModal.module.scss';
+import { createPortal } from 'react-dom';
 
 interface Props {
   title: string,
@@ -21,19 +21,23 @@ function ModalOverlay({ title, message, onConfirm }: Props) {
   );
 }
 
-function ErrorModal({ title, message, onConfirm }: Props) {
+export default function ErrorModal(
+  { title, message, onConfirm }: Props
+) {
   return (
     <>
-      {ReactDOM.createPortal(
+      {createPortal(
         <Backdrop onConfirm={onConfirm}/>,
         document.querySelector('body')!
       )}
-      {ReactDOM.createPortal(
-        <ModalOverlay title={title} message={message} onConfirm={onConfirm}/>,
+      {createPortal(
+        <ModalOverlay
+          title={title}
+          message={message}
+          onConfirm={onConfirm}
+        />,
         document.querySelector('body')!
       )}
     </>
   );
 }
-
-export default ErrorModal;

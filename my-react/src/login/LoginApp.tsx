@@ -6,7 +6,7 @@ import Home from './home/Home';
 const LOGGED_KEY = 'isLoggedIn';
 const LOGGED_IN = '1';
 
-function LoginApp() {
+export default function LoginApp() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
@@ -38,5 +38,3 @@ function LoginApp() {
     </>
   );
 }
-
-export default LoginApp;

@@ -1,11 +1,9 @@
-import React from 'react';
+import { ReactNode } from 'react';
 
 interface Children {
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
-function Wrapper({ children }: Children) {
+export default function Wrapper({ children }: Children) {
   return children;
 }
-
-export default Wrapper;

@@ -4,11 +4,11 @@ import TodoList from './todo-list/TodoList';
 import NewTodo from './new-todo/NewTodo';
 import { Todo } from './model/todo';
 
-function TodoApp() {
-  const [ todos, setTodos ] = useState<Todo[]>([]);
+export default function TodoApp() {
+  const [todos, setTodos] = useState<Todo[]>([]);
   const addTodoHandler = (todo: Todo) => {
     setTodos(prevTodos => {
-      return [ todo, ...prevTodos ];
+      return [todo, ...prevTodos];
     });
   };
   const todoDeleteHandler = (id: string) => {
@@ -23,5 +23,3 @@ function TodoApp() {
     </div>
   );
 }
-
-export default TodoApp;

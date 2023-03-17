@@ -7,7 +7,7 @@ interface TodoListProps {
   onDelete(id: string): void;
 }
 
-function TodoList(props: TodoListProps) {
+export default function TodoList(props: TodoListProps) {
   const deleteClickHandler = (id: string) => {
     props.onDelete(id);
   };
@@ -15,10 +15,11 @@ function TodoList(props: TodoListProps) {
     <ul className={styles.list}>
       {props.items.map(todo => <li key={todo.id}>
         <span>{todo.text}</span>
-        <button onClick={deleteClickHandler.bind(null, todo.id)}>DELETE</button>
+        <button
+          onClick={deleteClickHandler.bind(null, todo.id)}
+        >DELETE
+        </button>
       </li>)}
     </ul>
   );
 }
-
-export default TodoList;
