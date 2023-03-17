@@ -7,7 +7,7 @@ const LOGGED_KEY = 'isLoggedIn';
 const LOGGED_IN = '1';
 
 function LoginApp() {
-  const [ isLoggedIn, setIsLoggedIn ] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     console.log('check is logged in');

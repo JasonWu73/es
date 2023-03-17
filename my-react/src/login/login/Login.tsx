@@ -6,24 +6,24 @@ interface Props {
 }
 
 function Login({ onLogin }: Props) {
-  const [ username, setUsername ] = useState('');
-  const [ invalidUsername, setInvalidUsername ] = useState(false);
-  const [ password, setPassword ] = useState('');
-  const [ invalidPassword, setInvalidPassword ] = useState(false);
-  const [ invalidForm, setInvalidForm ] = useState(false);
+  const [username, setUsername] = useState('');
+  const [invalidUsername, setInvalidUsername] = useState(false);
+  const [password, setPassword] = useState('');
+  const [invalidPassword, setInvalidPassword] = useState(false);
+  const [invalidForm, setInvalidForm] = useState(false);
 
   useEffect(() => {
     // debounce
-    const timer = setTimeout(() => {
+    const timeout = setTimeout(() => {
       console.log('check form validity');
       setInvalidForm(username.length < 3 || password.length < 3);
     }, 500);
 
     return () => {
       console.log('cleanup check form validity timer');
-      clearTimeout(timer);
+      clearTimeout(timeout);
     };
-  }, [ username, password ]);
+  }, [username, password]);
 
   const loginSubmitHandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -47,14 +47,14 @@ function Login({ onLogin }: Props) {
       <input
         value={username}
         onChange={usernameChangeHandler}
-        className={invalidUsername ? styles.error: ''}
+        className={invalidUsername ? styles.error : ''}
         type="text"
         placeholder="Username"
       />
       <input
         value={password}
         onChange={passwordChangeHandler}
-        className={invalidPassword ? styles.error: ''}
+        className={invalidPassword ? styles.error : ''}
         type="password"
         placeholder="Password"
       />
