@@ -13,7 +13,16 @@ function Login({ onLogin }: Props) {
   const [ invalidForm, setInvalidForm ] = useState(false);
 
   useEffect(() => {
-    setInvalidForm(username.length < 3 || password.length < 3);
+    // debounce
+    const timer = setTimeout(() => {
+      console.log('check form validity');
+      setInvalidForm(username.length < 3 || password.length < 3);
+    }, 500);
+
+    return () => {
+      console.log('cleanup check form validity timer');
+      clearTimeout(timer);
+    };
   }, [ username, password ]);
 
   const loginSubmitHandler = (event: React.FormEvent<HTMLFormElement>) => {

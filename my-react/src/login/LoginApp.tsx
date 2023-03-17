@@ -10,6 +10,7 @@ function LoginApp() {
   const [ isLoggedIn, setIsLoggedIn ] = useState(false);
 
   useEffect(() => {
+    console.log('check is logged in');
     const loggedStatus = localStorage.getItem(LOGGED_KEY);
     if (loggedStatus === LOGGED_IN) {
       setIsLoggedIn(true);
