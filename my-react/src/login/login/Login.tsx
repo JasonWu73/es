@@ -19,28 +19,35 @@ export default function Login({ onLogin }: Props) {
     setInvalidForm
   });
 
-  const handleLoginSubmit = (event: FormEvent<HTMLFormElement>) => {
+  function handleLoginSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     onLogin(username, password);
-  };
+  }
 
-  const handleUsernameChange = (event: ChangeEvent<HTMLInputElement>) => {
+  function handleUsernameChange(event: ChangeEvent<HTMLInputElement>) {
     const username = event.target.value.trim();
     setUsername(username);
-    setInvalidUsername(username.length < 3);
-  };
+  }
 
-  const handlePasswordChange = (event: ChangeEvent<HTMLInputElement>) => {
+  function handleUsernameBlur() {
+    setInvalidUsername(username.length < 3);
+  }
+
+  function handlePasswordChange(event: ChangeEvent<HTMLInputElement>) {
     const password = event.target.value.trim();
     setPassword(password);
+  }
+
+  function handlePasswordBlur() {
     setInvalidPassword(password.length < 3);
-  };
+  }
 
   return (
     <form onSubmit={handleLoginSubmit} className={styles.login}>
       <input
         value={username}
         onChange={handleUsernameChange}
+        onBlur={handleUsernameBlur}
         className={invalidUsername ? styles.error : ''}
         type="text"
         placeholder="Username"
@@ -48,6 +55,7 @@ export default function Login({ onLogin }: Props) {
       <input
         value={password}
         onChange={handlePasswordChange}
+        onBlur={handlePasswordBlur}
         className={invalidPassword ? styles.error : ''}
         type="password"
         placeholder="Password"
