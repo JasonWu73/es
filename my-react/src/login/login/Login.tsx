@@ -1,12 +1,6 @@
 import styles from './Login.module.scss';
-import {
-  ChangeEvent,
-  Dispatch,
-  FormEvent,
-  SetStateAction,
-  useEffect,
-  useState
-} from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
+import useValidationForm from './useValidationForm';
 
 interface Props {
   onLogin: (username: string, password: string) => void;
@@ -61,27 +55,4 @@ export default function Login({ onLogin }: Props) {
       <button type="submit" disabled={invalidForm}>Login</button>
     </form>
   );
-}
-
-function useValidationForm(
-  {
-    username,
-    password,
-    setInvalidForm
-  }: {
-    username: string,
-    password: string,
-    setInvalidForm: Dispatch<SetStateAction<boolean>>
-  }
-): void {
-  useEffect(() => {
-    // debounce
-    const timeout = setTimeout(() => {
-      setInvalidForm(username.length < 3 || password.length < 3);
-    }, 500);
-
-    return () => {
-      clearTimeout(timeout);
-    };
-  }, [username, password]);
 }
