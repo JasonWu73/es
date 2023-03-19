@@ -1,6 +1,5 @@
 import styles from './Login.module.scss';
-import { ChangeEvent, FormEvent, useReducer, useState } from 'react';
-import useValidationForm from './useValidationForm';
+import { ChangeEvent, FormEvent, useReducer } from 'react';
 
 interface Props {
   onLogin: (username: string, password: string) => void;
@@ -10,42 +9,56 @@ interface LoginForm {
   username: string,
   invalidUsername: boolean,
   password: string,
-  invalidPassword: boolean
+  invalidPassword: boolean,
+  invalidForm: boolean
 }
 
 interface LoginAction {
   type: 'changed_username' | 'checked_username' |
     'changed_password' | 'checked_password',
-  nextUsername?: string,
+  nextUsername?: string, // 要更新的值以 `next` 为前缀命名
   nextPassword?: string
 }
 
+function isInvalidUsername(username: string) {
+  return username.length < 3;
+}
+
+function isInvalidPassword(password: string) {
+  return password.length < 3;
+}
+
 function loginFormReducer(state: LoginForm, action: LoginAction): LoginForm {
+  // Reducer 中常用 `switch` + `throw`
   switch (action.type) {
     case 'changed_username': {
+      const invalidUsername = isInvalidUsername(action.nextUsername!);
       return {
         ...state,
-        username: action.nextUsername!
+        username: action.nextUsername!,
+        invalidUsername: invalidUsername,
+        invalidForm: invalidUsername || isInvalidPassword(state.password)
       };
     }
     case 'checked_username': {
-      const invalidUsername = state.username.length < 3;
       return {
         ...state,
-        invalidUsername: invalidUsername
+        invalidUsername: isInvalidUsername(state.username)
       };
     }
     case 'changed_password': {
+      const invalidPassword = isInvalidPassword(action.nextPassword!);
       return {
         ...state,
-        password: action.nextPassword!
+        password: action.nextPassword!,
+        invalidPassword: invalidPassword,
+        invalidForm: invalidPassword || isInvalidUsername(state.username)
       };
     }
     case 'checked_password': {
-      const invalidPassword = state.password.length < 3;
       return {
         ...state,
-        invalidPassword: invalidPassword
+        invalidPassword: state.password.length < 3
       };
     }
   }
@@ -56,16 +69,10 @@ function loginFormReducer(state: LoginForm, action: LoginAction): LoginForm {
 export default function Login({ onLogin }: Props) {
   const [state, dispatch] = useReducer(loginFormReducer, {
     username: '',
-    invalidUsername: true,
+    invalidUsername: false,
     password: '',
-    invalidPassword: true
-  });
-  const [invalidForm, setInvalidForm] = useState(true);
-
-  useValidationForm({
-    invalidUsername: state.invalidUsername,
-    invalidPassword: state.invalidPassword,
-    setInvalidForm
+    invalidPassword: false,
+    invalidForm: true
   });
 
   function handleLoginSubmit(event: FormEvent<HTMLFormElement>) {
@@ -119,7 +126,7 @@ export default function Login({ onLogin }: Props) {
         type="password"
         placeholder="Password"
       />
-      <button type="submit" disabled={invalidForm}>Login</button>
+      <button type="submit" disabled={state.invalidForm}>Login</button>
     </form>
   );
 }

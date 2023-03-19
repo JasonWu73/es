@@ -6,11 +6,13 @@ interface Props {
   setInvalidForm: Dispatch<SetStateAction<boolean>>
 }
 
-export default function useValidationForm({
-                                            invalidUsername,
-                                            invalidPassword,
-                                            setInvalidForm
-                                          }: Props): void {
+export default function useValidationForm(
+  {
+    invalidUsername,
+    invalidPassword,
+    setInvalidForm
+  }: Props
+): void {
   useEffect(() => {
     console.log('userValidationForm: setup');
     // debounce
@@ -22,5 +24,5 @@ export default function useValidationForm({
       console.log('userValidationForm: cleanup');
       clearTimeout(timeout);
     };
-  }, [invalidUsername, invalidPassword]);
+  }, [invalidUsername, invalidPassword, setInvalidForm]);
 }
