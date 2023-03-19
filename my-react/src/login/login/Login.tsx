@@ -1,5 +1,6 @@
 import styles from './Login.module.scss';
-import { ChangeEvent, FormEvent, useReducer } from 'react';
+import { ChangeEvent, FormEvent, useReducer, useState } from 'react';
+import useValidationForm from './useValidationForm';
 
 interface Props {
   onLogin: (username: string, password: string) => void;
@@ -9,14 +10,13 @@ interface LoginForm {
   username: string,
   invalidUsername: boolean,
   password: string,
-  invalidPassword: boolean,
-  invalidForm: boolean
+  invalidPassword: boolean
 }
 
 interface LoginAction {
   type: 'changed_username' | 'checked_username' |
     'changed_password' | 'checked_password',
-  nextUsername?: string, // 下一个 `state` 以 `next` 为前缀
+  nextUsername?: string,
   nextPassword?: string
 }
 
@@ -32,8 +32,7 @@ function loginFormReducer(state: LoginForm, action: LoginAction): LoginForm {
       const invalidUsername = state.username.length < 3;
       return {
         ...state,
-        invalidUsername: invalidUsername,
-        invalidForm: invalidUsername || state.invalidPassword
+        invalidUsername: invalidUsername
       };
     }
     case 'changed_password': {
@@ -46,8 +45,7 @@ function loginFormReducer(state: LoginForm, action: LoginAction): LoginForm {
       const invalidPassword = state.password.length < 3;
       return {
         ...state,
-        invalidPassword: invalidPassword,
-        invalidForm: invalidPassword || state.invalidUsername
+        invalidPassword: invalidPassword
       };
     }
   }
@@ -56,14 +54,18 @@ function loginFormReducer(state: LoginForm, action: LoginAction): LoginForm {
 }
 
 export default function Login({ onLogin }: Props) {
-  // `state` 与 `dispatch` 因为属于组件，故可统一使用命名
-  // 而 `reducer` 会放于组件外面，故需要明确命名
   const [state, dispatch] = useReducer(loginFormReducer, {
     username: '',
-    invalidUsername: false,
+    invalidUsername: true,
     password: '',
-    invalidPassword: false,
-    invalidForm: true
+    invalidPassword: true
+  });
+  const [invalidForm, setInvalidForm] = useState(true);
+
+  useValidationForm({
+    invalidUsername: state.invalidUsername,
+    invalidPassword: state.invalidPassword,
+    setInvalidForm
   });
 
   function handleLoginSubmit(event: FormEvent<HTMLFormElement>) {
@@ -117,7 +119,7 @@ export default function Login({ onLogin }: Props) {
         type="password"
         placeholder="Password"
       />
-      <button type="submit" disabled={state.invalidForm}>Login</button>
+      <button type="submit" disabled={invalidForm}>Login</button>
     </form>
   );
 }

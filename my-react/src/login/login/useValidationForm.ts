@@ -1,24 +1,26 @@
 import { Dispatch, SetStateAction, useEffect } from 'react';
 
 interface Props {
-  username: string,
-  password: string,
+  invalidUsername: boolean,
+  invalidPassword: boolean,
   setInvalidForm: Dispatch<SetStateAction<boolean>>
 }
 
 export default function useValidationForm({
-                                            username,
-                                            password,
+                                            invalidUsername,
+                                            invalidPassword,
                                             setInvalidForm
                                           }: Props): void {
   useEffect(() => {
+    console.log('userValidationForm: setup');
     // debounce
     const timeout = setTimeout(() => {
-      setInvalidForm(username.length < 3 || password.length < 3);
+      setInvalidForm(invalidUsername || invalidPassword);
     }, 500);
 
     return () => {
+      console.log('userValidationForm: cleanup');
       clearTimeout(timeout);
     };
-  }, [username, password]);
+  }, [invalidUsername, invalidPassword]);
 }
