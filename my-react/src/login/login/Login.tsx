@@ -5,10 +5,10 @@ import { useAuth } from '../AuthContext';
 export default function Login() {
   const [state, dispatch] = useReducer(loginFormReducer, {
     username: '',
-    invalidUsername: false,
+    isInvalidUsername: false,
     password: '',
-    invalidPassword: false,
-    invalidForm: true
+    isInvalidPassword: false,
+    isInvalidForm: true
   });
   const { login } = useAuth();
 
@@ -51,7 +51,7 @@ export default function Login() {
         value={state.username}
         onChange={handleUsernameChange}
         onBlur={handleUsernameBlur}
-        className={state.invalidUsername ? styles.error : ''}
+        className={state.isInvalidUsername ? styles.error : ''}
         type="text"
         placeholder="Username"
       />
@@ -59,11 +59,11 @@ export default function Login() {
         value={state.password}
         onChange={handlePasswordChange}
         onBlur={handlePasswordBlur}
-        className={state.invalidPassword ? styles.error : ''}
+        className={state.isInvalidPassword ? styles.error : ''}
         type="password"
         placeholder="Password"
       />
-      <button type="submit" disabled={state.invalidForm}>Login</button>
+      <button type="submit" disabled={state.isInvalidForm}>Login</button>
     </form>
   );
 }
@@ -76,14 +76,14 @@ function loginFormReducer(state: LoginForm, action: LoginAction): LoginForm {
       return {
         ...state,
         username: action.nextUsername!,
-        invalidUsername: invalidUsername,
-        invalidForm: invalidUsername || isInvalidPassword(state.password)
+        isInvalidUsername: invalidUsername,
+        isInvalidForm: invalidUsername || isInvalidPassword(state.password)
       };
     }
     case 'checked_username': {
       return {
         ...state,
-        invalidUsername: isInvalidUsername(state.username)
+        isInvalidUsername: isInvalidUsername(state.username)
       };
     }
     case 'changed_password': {
@@ -91,14 +91,14 @@ function loginFormReducer(state: LoginForm, action: LoginAction): LoginForm {
       return {
         ...state,
         password: action.nextPassword!,
-        invalidPassword: invalidPassword,
-        invalidForm: invalidPassword || isInvalidUsername(state.username)
+        isInvalidPassword: invalidPassword,
+        isInvalidForm: invalidPassword || isInvalidUsername(state.username)
       };
     }
     case 'checked_password': {
       return {
         ...state,
-        invalidPassword: state.password.length < 3
+        isInvalidPassword: state.password.length < 3
       };
     }
   }
@@ -123,8 +123,8 @@ interface LoginAction {
 
 interface LoginForm {
   username: string,
-  invalidUsername: boolean,
+  isInvalidUsername: boolean,
   password: string,
-  invalidPassword: boolean,
-  invalidForm: boolean
+  isInvalidPassword: boolean,
+  isInvalidForm: boolean
 }

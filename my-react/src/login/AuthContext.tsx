@@ -8,7 +8,7 @@ import {
   useState
 } from 'react';
 
-const LOGGED_KEY = 'loggedIn';
+const LOGGED_KEY = 'isLoggedIn';
 const LOGGED_IN = '1';
 const PRESET_USERNAME = 'wxj';
 const PRESET_PASSWORD = '111';
