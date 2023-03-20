@@ -1,21 +1,17 @@
 import styles from './MainHeader.module.scss';
-import { MouseEvent } from 'react';
+import Navigation from './Navigation';
 
 interface Props {
-  isLoggedIn: boolean,
+  loggedIn: boolean,
   onLogout: () => void
 }
 
-export default function MainHeader({ isLoggedIn, onLogout }: Props) {
-  const logoutHandler = (event: MouseEvent<HTMLAnchorElement>) => {
-    event.preventDefault();
-    onLogout();
-  };
+export default function MainHeader({ loggedIn, onLogout }: Props) {
 
   return (
     <header className={styles.header}>
       <h1>Login Demo</h1>
-      {isLoggedIn && <a href="#" onClick={logoutHandler}>Logout</a>}
+      <Navigation loggedIn={loggedIn} onLogout={onLogout}/>
     </header>
   );
 }
