@@ -10,11 +10,11 @@ export default function Login() {
     isInvalidPassword: false,
     isInvalidForm: true
   });
-  const { login } = useAuth();
+  const { onLogin } = useAuth();
 
   function handleLoginSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    login(state.username, state.password);
+    onLogin(state.username, state.password);
   }
 
   function handleUsernameChange(event: ChangeEvent<HTMLInputElement>) {

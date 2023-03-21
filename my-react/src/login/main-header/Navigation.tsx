@@ -2,11 +2,11 @@ import { MouseEvent } from 'react';
 import { useAuth } from '../AuthContext';
 
 export default function Navigation() {
-  const { loggedIn, logout } = useAuth();
+  const { loggedIn, onLogout } = useAuth();
 
   function handleLogout(event: MouseEvent<HTMLAnchorElement>) {
     event.preventDefault();
-    logout();
+    onLogout();
   }
 
   return (

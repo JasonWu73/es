@@ -15,9 +15,9 @@ const PRESET_PASSWORD = '111';
 
 const AuthContext = createContext({
   loggedIn: false,
-  login: (_: string, _2: string) => {
+  onLogin: (_: string, _2: string) => {
   },
-  logout: () => {
+  onLogout: () => {
   }
 });
 
@@ -30,37 +30,33 @@ export function AuthProvider({ children }: Props) {
 
   useAutoLogin(setLoggedIn);
 
+  function handleLogout() {
+    localStorage.removeItem(LOGGED_KEY);
+    setLoggedIn(false);
+  }
+
+  function handleLogin(username: string, password: string) {
+    if (username === PRESET_USERNAME && password === PRESET_PASSWORD) {
+      localStorage.setItem(LOGGED_KEY, LOGGED_IN);
+      setLoggedIn(true);
+      return;
+    }
+
+    alert('WRONG USERNAME OR PASSWORD');
+  }
+
   return (
     <AuthContext.Provider
       value={{
         loggedIn,
-        login: (username: string, password: string) =>
-          handleLogin(username, password, setLoggedIn),
-        logout: () => handleLogout(setLoggedIn)
+        onLogin: (username: string, password: string) =>
+          handleLogin(username, password),
+        onLogout: () => handleLogout()
       }}
     >
       {children}
     </AuthContext.Provider>
   );
-}
-
-function handleLogout(setLoggedIn: Dispatch<SetStateAction<boolean>>) {
-  localStorage.removeItem(LOGGED_KEY);
-  setLoggedIn(false);
-}
-
-function handleLogin(
-  username: string,
-  password: string,
-  setLoggedIn: Dispatch<SetStateAction<boolean>>
-) {
-  if (username === PRESET_USERNAME && password === PRESET_PASSWORD) {
-    localStorage.setItem(LOGGED_KEY, LOGGED_IN);
-    setLoggedIn(true);
-    return;
-  }
-
-  alert('WRONG USERNAME OR PASSWORD');
 }
 
 function useAutoLogin(setIsLoggedIn: Dispatch<SetStateAction<boolean>>) {
@@ -69,7 +65,7 @@ function useAutoLogin(setIsLoggedIn: Dispatch<SetStateAction<boolean>>) {
     if (loggedStatus === LOGGED_IN) {
       setIsLoggedIn(true);
     }
-  }, []);
+  }, [setIsLoggedIn]);
 }
 
 interface Props {
