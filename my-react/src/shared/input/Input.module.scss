@@ -1,0 +1,19 @@
+label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  width: 80%;
+
+  input {
+    border: 0.1rem solid #ccc;
+    border-radius: 0.4rem;
+    padding: 1rem;
+    flex: 1 1 auto;
+
+    &.error {
+      border: 0.1rem solid red;
+      outline: transparent;
+    }
+  }
+}

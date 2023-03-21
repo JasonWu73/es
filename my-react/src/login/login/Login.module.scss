@@ -11,18 +11,6 @@
   align-items: center;
   gap: 1rem;
 
-  input {
-    border: 0.1rem solid #ccc;
-    border-radius: 0.4rem;
-    padding: 1rem;
-    width: 80%;
-
-    &.error {
-      border: 0.1rem solid red;
-      outline: transparent;
-    }
-  }
-
   button {
     background-color: purple;
     color: white;

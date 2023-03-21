@@ -1,6 +1,7 @@
 import styles from './Login.module.scss';
 import { ChangeEvent, FormEvent, useReducer } from 'react';
 import { useAuth } from '../AuthContext';
+import Input from '../../shared/input/Input';
 
 export default function Login() {
   const [state, dispatch] = useReducer(loginFormReducer, {
@@ -47,21 +48,21 @@ export default function Login() {
 
   return (
     <form onSubmit={handleLoginSubmit} className={styles.login}>
-      <input
+      <Input
+        label="Username"
+        type="text"
+        isInvalid={state.isInvalidUsername}
         value={state.username}
         onChange={handleUsernameChange}
         onBlur={handleUsernameBlur}
-        className={state.isInvalidUsername ? styles.error : ''}
-        type="text"
-        placeholder="Username"
       />
-      <input
+      <Input
+        label="Password"
+        type="password"
+        isInvalid={state.isInvalidPassword}
         value={state.password}
         onChange={handlePasswordChange}
         onBlur={handlePasswordBlur}
-        className={state.isInvalidPassword ? styles.error : ''}
-        type="password"
-        placeholder="Password"
       />
       <button type="submit" disabled={state.isInvalidForm}>Login</button>
     </form>
