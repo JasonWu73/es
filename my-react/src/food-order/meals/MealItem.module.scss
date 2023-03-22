@@ -1,0 +1,22 @@
+.item {
+  padding: 1rem;
+
+  &:not(:last-child) {
+    border-bottom: 0.1rem solid #ccc;
+  }
+
+  .name {
+    margin-bottom: 1rem;
+  }
+
+  .description {
+    font-style: italic;
+    margin-bottom: 1rem;
+  }
+
+  .price {
+    color: sandybrown;
+    font-weight: bolder;
+    font-size: 1.8rem;
+  }
+}

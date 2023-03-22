@@ -1,15 +1,19 @@
 import styles from './AvailableMeals.module.scss';
 import { DUMMY_MEALS } from './dummy-meals';
 import Card from '../shared/card/Card';
+import MealItem from './MealItem';
 
 export default function AvailableMeals() {
-  const meals = DUMMY_MEALS.map(meal => <li key={meal.id}>{meal.name}</li>);
-
   return (
     <div className={styles.meals}>
       <Card>
         <ul>
-          {meals}
+          {DUMMY_MEALS.map(meal => <MealItem
+            key={meal.id}
+            name={meal.name}
+            description={meal.description}
+            price={meal.price}
+          />)}
         </ul>
       </Card>
     </div>
