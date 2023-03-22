@@ -1,7 +1,7 @@
 import styles from './Login.module.scss';
 import { ChangeEvent, FormEvent, useReducer, useRef } from 'react';
 import { useAuth } from '../AuthContext';
-import Input, { InputRef } from '../../shared/input/Input';
+import Input, { InputRef } from '../../todo/shared/input/Input';
 
 export default function Login() {
   const [state, dispatch] = useReducer(loginFormReducer, {
