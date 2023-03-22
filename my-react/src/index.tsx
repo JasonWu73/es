@@ -1,15 +1,14 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import './index.scss';
+import FoodOrder from './food-order/FoodOrder';
 
 const root = createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <StrictMode>
-    <div>
-      <h2>Let's get started!</h2>
-    </div>
+    <FoodOrder/>
     {/* <LoginApp/> */}
     {/* {<TodoApp/>} */}
   </StrictMode>
