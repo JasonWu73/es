@@ -1,12 +1,17 @@
 import styles from './AvailableMeals.module.scss';
 import { DUMMY_MEALS } from './dummy-meals';
+import Card from '../shared/card/Card';
 
 export default function AvailableMeals() {
   const meals = DUMMY_MEALS.map(meal => <li key={meal.id}>{meal.name}</li>);
 
   return (
-    <ul className={styles.meals}>
-      {meals}
-    </ul>
+    <div className={styles.meals}>
+      <Card>
+        <ul>
+          {meals}
+        </ul>
+      </Card>
+    </div>
   );
 };
