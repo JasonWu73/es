@@ -1,7 +1,7 @@
 import styles from './Login.module.scss';
-import { ChangeEvent, FormEvent, useReducer } from 'react';
+import { ChangeEvent, FormEvent, useReducer, useRef } from 'react';
 import { useAuth } from '../AuthContext';
-import Input from '../../shared/input/Input';
+import Input, { InputRef } from '../../shared/input/Input';
 
 export default function Login() {
   const [state, dispatch] = useReducer(loginFormReducer, {
@@ -12,9 +12,32 @@ export default function Login() {
     isInvalidForm: true
   });
   const { onLogin } = useAuth();
+  const usernameRef = useRef<InputRef>(null);
+  const passwordRef = useRef<InputRef>(null);
 
   function handleLoginSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+
+    if (state.isInvalidUsername) {
+      usernameRef.current!.focus();
+      return;
+    }
+
+    if (state.isInvalidPassword) {
+      passwordRef.current!.focus();
+      return;
+    }
+
+    if (state.isInvalidForm) {
+      dispatch({
+        type: 'checked_username'
+      });
+      dispatch({
+        type: 'checked_password'
+      });
+      return;
+    }
+
     onLogin(state.username, state.password);
   }
 
@@ -49,6 +72,7 @@ export default function Login() {
   return (
     <form onSubmit={handleLoginSubmit} className={styles.login}>
       <Input
+        ref={usernameRef}
         label="Username"
         type="text"
         isInvalid={state.isInvalidUsername}
@@ -57,6 +81,7 @@ export default function Login() {
         onBlur={handleUsernameBlur}
       />
       <Input
+        ref={passwordRef}
         label="Password"
         type="password"
         isInvalid={state.isInvalidPassword}
@@ -64,7 +89,7 @@ export default function Login() {
         onChange={handlePasswordChange}
         onBlur={handlePasswordBlur}
       />
-      <button type="submit" disabled={state.isInvalidForm}>Login</button>
+      <button type="submit">Login</button>
     </form>
   );
 }
