@@ -1,4 +1,5 @@
 import styles from './MealItem.module.scss';
+import MealItemForm from './MealItemForm';
 
 export default function MealItem({ name, description, price }: Props) {
   const formattedPrice = `$${price.toFixed(2)}`;
@@ -10,9 +11,7 @@ export default function MealItem({ name, description, price }: Props) {
         <div className={styles.description}>{description}</div>
         <div className={styles.price}>{formattedPrice}</div>
       </div>
-      <div>
-        {/* // TODO: Amount component */}
-      </div>
+      <MealItemForm/>
     </li>
   );
 };
