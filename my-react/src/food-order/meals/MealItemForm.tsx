@@ -1,16 +1,22 @@
 import styles from './MealItemForm.module.scss';
 import Input, { InputRef } from '../shared/input/Input';
-import { useRef } from 'react';
+import { FormEvent, useRef } from 'react';
 
 export default function MealItemForm(
-  { onAddClick }: {
-    onAddClick: (quantity: number) => void
+  { onAdd }: {
+    onAdd: (quantity: number) => void
   }
 ) {
   const inputRef = useRef<InputRef>(null);
 
+  function handleSubmit(event: FormEvent) {
+    event.preventDefault();
+
+    onAdd(inputRef.current!.getQuantity());
+  }
+
   return (
-    <div className={styles.form}>
+    <form onSubmit={handleSubmit} className={styles.form}>
       <Input
         label="Amount"
         input={{
@@ -23,13 +29,8 @@ export default function MealItemForm(
         ref={inputRef}
       />
       <div>
-        <button
-          className={styles.badge}
-          onClick={() => onAddClick(inputRef.current!.getQuantity())}
-        >+
-          Add
-        </button>
+        <button type="submit" className={styles.badge}>+ Add</button>
       </div>
-    </div>
+    </form>
   );
 }

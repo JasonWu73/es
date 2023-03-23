@@ -6,7 +6,7 @@ export default function MealItem({ id, name, description, price }: Props) {
   const formattedPrice = `$${price.toFixed(2)}`;
   const cartCtx = useCart();
 
-  function handleAddClick(quantity: number) {
+  function handleAddMeal(quantity: number) {
     cartCtx.addItem({ id, name, description, price, quantity });
   }
 
@@ -17,7 +17,7 @@ export default function MealItem({ id, name, description, price }: Props) {
         <div className={styles.description}>{description}</div>
         <div className={styles.price}>{formattedPrice}</div>
       </div>
-      <MealItemForm onAddClick={handleAddClick}/>
+      <MealItemForm onAdd={handleAddMeal}/>
     </li>
   );
 };
