@@ -1,28 +1,30 @@
 import styles from './Cart.module.scss';
-import { DUMMY_MEALS } from '../meals/dummy-meals';
 import Modal from '../shared/modal/Modal';
 import { useCart } from '../CartContext';
 
 export default function Cart({ onClose }: Props) {
-  const carCtx = useCart();
+  const cartCtx = useCart();
+  const hasItems = cartCtx.items.length > 0;
 
   return (
     <Modal onClose={onClose}>
       <div className={styles.cart}>
         <ul className={styles.items}>
-          {carCtx.items.map(meal => <li key={meal.id}>{meal.name}</li>)}
+          {cartCtx.items.map(meal => <li key={meal.id}>{meal.name}</li>)}
         </ul>
         <div className={styles.amount}>
           <span>Total Amount</span>
-          <span>{carCtx.totalAmount}</span>
+          <span>{`$${cartCtx.totalAmount}`}</span>
         </div>
         <div className={styles.controls}>
           <button className={styles.btn} onClick={onClose}>Close</button>
-          <button
-            className={`${styles.btn} ${styles['btn--filled']}`}
-          >
-            Order
-          </button>
+          {hasItems &&
+            <button
+              className={`${styles.btn} ${styles['btn--filled']}`}
+            >
+              Order
+            </button>
+          }
         </div>
       </div>
     </Modal>
