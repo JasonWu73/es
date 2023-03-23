@@ -1,6 +1,7 @@
 import styles from './Cart.module.scss';
 import Modal from '../shared/modal/Modal';
 import { useCart } from '../CartContext';
+import CartItem from './CartItem';
 
 export default function Cart({ onClose }: Props) {
   const cartCtx = useCart();
@@ -10,7 +11,15 @@ export default function Cart({ onClose }: Props) {
     <Modal onClose={onClose}>
       <div className={styles.cart}>
         <ul className={styles.items}>
-          {cartCtx.items.map(meal => <li key={meal.id}>{meal.name}</li>)}
+          {cartCtx.items.map(meal =>
+            <CartItem
+              key={meal.id}
+              id={meal.id}
+              name={meal.name}
+              price={meal.price}
+              quantity={meal.quantity}
+            />
+          )}
         </ul>
         <div className={styles.amount}>
           <span>Total Amount</span>

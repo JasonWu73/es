@@ -1,4 +1,5 @@
 import { createContext, ReactNode, useContext, useReducer } from 'react';
+import { Meal } from './model/meal';
 
 const CartContext = createContext<{
   items: Meal[],
@@ -105,12 +106,4 @@ interface CartState {
 
 interface Props {
   children: ReactNode;
-}
-
-interface Meal {
-  id: string,
-  name: string,
-  description: string,
-  price: number,
-  quantity: number
 }

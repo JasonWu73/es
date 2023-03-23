@@ -1,0 +1,51 @@
+.item {
+  border-bottom: 0.1rem solid saddlebrown;
+  padding: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+
+  .info {
+
+    h2 {
+      margin-bottom: 1rem;
+    }
+
+    .amount {
+      width: 20rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .price {
+        color: saddlebrown;
+        font-weight: bolder;
+      }
+
+      .quantity {
+        padding: 0.5rem 1rem;
+        border: 0.1rem solid #ccc;
+        border-radius: 0.8rem;
+      }
+    }
+  }
+
+  .controls {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+
+    button {
+      cursor: pointer;
+      padding: 0.5rem 1.7rem;
+      border-radius: 0.8rem;
+      border: 0.1rem solid saddlebrown;
+      background-color: white;
+
+      &:hover {
+        opacity: 0.7;
+      }
+    }
+  }
+}
