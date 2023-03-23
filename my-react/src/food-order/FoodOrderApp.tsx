@@ -3,6 +3,7 @@ import Header from './layout/Header';
 import Meals from './meals/Meals';
 import Cart from './cart/Cart';
 import { useState } from 'react';
+import { CartProvider } from './CartContext';
 
 export default function FoodOrderApp() {
   const [showCart, setShowCart] = useState(false);
@@ -16,12 +17,14 @@ export default function FoodOrderApp() {
   }
 
   return (
-    <div className={styles.app}>
-      {showCart && <Cart onClose={handleHideCart}/>}
-      <Header onShowCart={handleShowCart}/>
-      <main>
-        <Meals/>
-      </main>
-    </div>
+    <CartProvider>
+      <div className={styles.app}>
+        {showCart && <Cart onClose={handleHideCart}/>}
+        <Header onShowCart={handleShowCart}/>
+        <main>
+          <Meals/>
+        </main>
+      </div>
+    </CartProvider>
   );
 };
