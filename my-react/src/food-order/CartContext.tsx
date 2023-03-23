@@ -87,12 +87,23 @@ function cartReducer(
         throw Error('Can not found meal');
       }
 
-      const newItems = state.items.filter(item => item.id !== action.id);
-      const newTotalAmount = state.totalAmount - (deletedItem.quantity * deletedItem.price);
+      const remainingQuantity = deletedItem.quantity - 1;
+      if (remainingQuantity <= 0) {
+        const newItems = state.items.filter(item => item.id !== action.id);
+        const newTotalAmount = state.totalAmount - deletedItem.price;
+
+        return {
+          items: newItems,
+          totalAmount: +newTotalAmount.toFixed(2)
+        };
+      }
+
+      deletedItem.quantity = remainingQuantity;
+      const newTotalAmount = state.totalAmount - deletedItem.price;
 
       return {
-        items: newItems,
-        totalAmount: newTotalAmount
+        items: [...state.items],
+        totalAmount: +newTotalAmount.toFixed(2)
       };
     }
   }
