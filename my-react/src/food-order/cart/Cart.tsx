@@ -2,11 +2,11 @@ import styles from './Cart.module.scss';
 import { DUMMY_MEALS } from '../meals/dummy-meals';
 import Modal from '../shared/modal/Modal';
 
-export default function Cart() {
+export default function Cart({ onClose }: Props) {
   const orderedMeals = DUMMY_MEALS.slice(0, 2);
 
   return (
-    <Modal>
+    <Modal onClose={onClose}>
       <div className={styles.cart}>
         <ul className={styles.items}>
           {orderedMeals.map(meal => <li key={meal.id}>{meal.name}</li>)}
@@ -16,10 +16,18 @@ export default function Cart() {
           <span>35.62</span>
         </div>
         <div className={styles.controls}>
-          <button className={styles.btn}>Close</button>
-          <button className={`${styles.btn} ${styles['btn--filled']}`}>Order</button>
+          <button className={styles.btn} onClick={onClose}>Close</button>
+          <button
+            className={`${styles.btn} ${styles['btn--filled']}`}
+          >
+            Order
+          </button>
         </div>
       </div>
     </Modal>
   );
+}
+
+interface Props {
+  onClose: () => void;
 }

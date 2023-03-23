@@ -2,15 +2,15 @@ import styles from './Modal.module.scss';
 import { ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 
-export default function Modal({ children }: Props) {
+export default function Modal({ children, onClose }: Props) {
   return (
     <>
       {createPortal(
-        <Backdrop/>,
+        <Backdrop onClose={onClose}/>,
         document.body
       )}
       {createPortal(
-        <ModalOverlay>{children}</ModalOverlay>,
+        <ModalOverlay onClose={onClose}>{children}</ModalOverlay>,
         document.body
       )}
     </>
@@ -25,12 +25,13 @@ function ModalOverlay({ children }: Props) {
   );
 }
 
-function Backdrop() {
+function Backdrop({ onClose }: Props) {
   return (
-    <div className={styles.backdrop}></div>
+    <div className={styles.backdrop} onClick={onClose}></div>
   );
 }
 
 interface Props {
-  children: ReactNode;
+  children?: ReactNode,
+  onClose: () => void
 }
