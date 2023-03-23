@@ -13,11 +13,15 @@ const LOGGED_IN = '1';
 const PRESET_USERNAME = 'wxj';
 const PRESET_PASSWORD = '111';
 
-const AuthContext = createContext({
+const AuthContext = createContext<{
+  loggedIn: boolean,
+  onLogin: (username: string, password: string) => void,
+  onLogout: () => void
+}>({
   loggedIn: false,
-  onLogin: (_: string, _2: string) => {
+  onLogin() {
   },
-  onLogout: () => {
+  onLogout() {
   }
 });
 
