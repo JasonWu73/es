@@ -1,14 +1,15 @@
-import { createRoot } from 'react-dom/client';
+import React from 'react';
+import ReactDOM from 'react-dom/client';
 import './index.scss';
 import FoodOrderApp from './food-order/FoodOrderApp';
 
-const root = createRoot(
+const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
-  <>
+  <React.StrictMode>
     <FoodOrderApp/>
     {/* <LoginApp/> */}
     {/* {<TodoApp/>} */}
-  </>
+  </React.StrictMode>
 );
