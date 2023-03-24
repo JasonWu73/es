@@ -7,9 +7,10 @@ export default function App() {
   const [showParagraph, setShowParagraph] = React.useState(false);
   console.log('APP RUNNING');
 
-  function handleToggleShowParagraph() {
-    setShowParagraph(prevShowParagraph => !prevShowParagraph);
-  }
+  const handleToggleShowParagraph = React.useCallback(
+    () => setShowParagraph(prevShowParagraph => !prevShowParagraph),
+    []
+  );
 
   return (
     <div className="app">
