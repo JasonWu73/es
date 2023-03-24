@@ -1,6 +1,7 @@
 import './App.scss';
 import React from 'react';
 import Button from './components/ui/Button';
+import DemoOutput from './components/demo/DemoOutput';
 
 export default function App() {
   const [showParagraph, setShowParagraph] = React.useState(false);
@@ -13,13 +14,8 @@ export default function App() {
   return (
     <div className="app">
       <h1>Hi there!</h1>
-      {showParagraph && <p>This is new!</p>}
-      <Button
-        onClick={handleToggleShowParagraph}
-        style="green"
-      >
-        Show Paragraph!
-      </Button>
+      <DemoOutput show={false}/>
+      <Button onClick={handleToggleShowParagraph}>Show Paragraph!</Button>
     </div>
   );
 }

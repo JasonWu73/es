@@ -1,12 +1,10 @@
 import classes from './Button.module.scss';
 import React from 'react';
 
-export default function Button({ onClick, style, children }: ButtonProps) {
+export default function Button({ onClick, children }: ButtonProps) {
+  console.log('Button RUNNING');
   return (
-    <button
-      onClick={onClick}
-      className={`${classes.btn} ${classes[style]}`}
-    >
+    <button onClick={onClick} className={classes.btn}>
       {children}
     </button>
   );
@@ -14,6 +12,5 @@ export default function Button({ onClick, style, children }: ButtonProps) {
 
 interface ButtonProps {
   onClick: () => void;
-  style: 'green' | 'blue' | 'red' | 'grey' | 'black';
   children: React.ReactNode;
 }
