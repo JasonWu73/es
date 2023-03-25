@@ -3,8 +3,13 @@ import React from 'react';
 import Button from './components/ui/Button';
 import DemoOutput from './components/demo/DemoOutput';
 
+function getFalse() {
+  console.log('getFalse');
+  return false;
+}
+
 export default function App() {
-  const [showParagraph, setShowParagraph] = React.useState(false);
+  const [showParagraph, setShowParagraph] = React.useState(getFalse);
   const [allowToggle, setAllowToggle] = React.useState(false);
   console.log('APP RUNNING');
 
