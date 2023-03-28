@@ -110,18 +110,18 @@
 
         start() {
           const url = this.urlEl.value.trim();
-          this.player = new QgRtcClientMin.Endpoint(
+          this.player = new QgRtcClient.Endpoint(
             {
               element: this.videoEl, // video 标签
               url: url // 流地址
             }
           );
 
-          this.player.on(QgRtcClientMin.Events.WEBRTC_ON_REMOTE_STREAMS, (e) => {
+          this.player.on(QgRtcClient.Events.WEBRTC_ON_REMOTE_STREAMS, (e) => {
             console.log('播放成功', e.streams);
           });
 
-          this.player.on(QgRtcClientMin.Events.WEBRTC_OFFER_ANWSER_EXCHANGE_FAILED, (e) => {
+          this.player.on(QgRtcClient.Events.WEBRTC_OFFER_ANWSER_EXCHANGE_FAILED, (e) => {
             console.error('播放失败', e);
           });
         }
