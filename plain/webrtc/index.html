@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8">
+    <title>WebRTC Demo</title>
+    <script defer src="RtcClient.js"></script>
+    <style>
+      *,
+      *:before,
+      *:after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html {
+        font-size: 62.5%;
+      }
+
+      body {
+        font-size: 1.6rem;
+      }
+
+      .container {
+        width: 80%;
+        padding: 2rem;
+        margin: 8rem auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+        border: 0.1rem solid #ccc;
+        box-shadow: 0 1rem 1.2rem rgba(0, 0, 0, 0.2);
+      }
+
+      .input {
+        width: 100%;
+        text-align: center;
+      }
+
+      .input input {
+        padding: 1rem;
+        width: 80%;
+      }
+
+      .action button {
+        padding: 1rem;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="video">
+        <video id="video" controls autoplay>
+          浏览器版本过旧，不支持 HTML5 播放.
+        </video>
+      </div>
+      <div class="input">
+        URL：
+        <label>
+          <input
+            class="url"
+            type="text"
+            value="http://192.168.2.42:8065/index/api/webrtc?app=live&stream=4&type=play"
+          >
+        </label>
+      </div>
+
+      <div class="action">
+        <button class="play">开始播放</button>
+        <button class="pause">暂停播放</button>
+      </div>
+    </div>
+
+    <script>
+      class Video {
+        videoEl;
+        urlEl;
+        playEl;
+        pauseEl;
+        player;
+
+        constructor() {
+          this.videoEl = document.querySelector('#video');
+          this.urlEl = document.querySelector('.url');
+          this.playEl = document.querySelector('.play');
+          this.pauseEl = document.querySelector('.pause');
+          this.setup();
+        }
+
+        setup() {
+          this.handlePlayClick();
+          this.handlePauseClick();
+        }
+
+        handlePlayClick() {
+          this.playEl.addEventListener('click', () => {
+            this.stop();
+            this.start();
+          });
+        }
+
+        handlePauseClick() {
+          this.pauseEl.addEventListener('click', () => {
+            this.stop();
+          });
+        }
+
+        start() {
+          const url = this.urlEl.value.trim();
+          this.player = new RtcClient.Endpoint(
+            {
+              element: this.videoEl, // video 标签
+              url: url // 流地址
+            }
+          );
+
+          this.player.on(RtcClient.Events.WEBRTC_ON_REMOTE_STREAMS, (e) => {
+            console.log('播放成功', e.streams);
+          });
+
+          this.player.on(RtcClient.Events.WEBRTC_OFFER_ANWSER_EXCHANGE_FAILED, (e) => {
+            console.error('播放失败', e);
+          });
+        }
+
+        stop() {
+          if (!this.player) {
+            return;
+          }
+          this.player.close();
+          this.player = null;
+          this.resetMedia();
+        }
+
+        resetMedia() {
+          this.videoEl.srcObject = null;
+          this.videoEl.load();
+        }
+      }
+
+      new Video();
+    </script>
+  </body>
+</html>
