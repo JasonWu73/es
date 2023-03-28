@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <title>WebRTC Demo</title>
-    <script defer src="RtcClient.js"></script>
+    <script defer src="qg-rtc-client.min.js"></script>
     <style>
       *,
       *:before,
@@ -110,18 +110,18 @@
 
         start() {
           const url = this.urlEl.value.trim();
-          this.player = new RtcClient.Endpoint(
+          this.player = new QgRtcClientMin.Endpoint(
             {
               element: this.videoEl, // video 标签
               url: url // 流地址
             }
           );
 
-          this.player.on(RtcClient.Events.WEBRTC_ON_REMOTE_STREAMS, (e) => {
+          this.player.on(QgRtcClientMin.Events.WEBRTC_ON_REMOTE_STREAMS, (e) => {
             console.log('播放成功', e.streams);
           });
 
-          this.player.on(RtcClient.Events.WEBRTC_OFFER_ANWSER_EXCHANGE_FAILED, (e) => {
+          this.player.on(QgRtcClientMin.Events.WEBRTC_OFFER_ANWSER_EXCHANGE_FAILED, (e) => {
             console.error('播放失败', e);
           });
         }
