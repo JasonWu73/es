@@ -1,10 +1,11 @@
 import React from 'react';
 import './App.scss';
+import ToggleMsg from './components/toggle-message/ToggleMsg';
 
 export default function App() {
   return (
     <div className="app">
-      <h2>Class-based Components</h2>
+      <ToggleMsg/>
     </div>
   );
 }
