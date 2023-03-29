@@ -9,9 +9,14 @@ function getFalse() {
 }
 
 export default function App() {
-  console.log("=====App=====");
+  console.log('=====App=====');
   const [titleState, setTitleState] = React.useState('Original Title');
-  const [nums, setNums] = React.useState([2, 1, 3, 6]);
+  const nums = React.useMemo(() => initNums([11, 10]), []);
+
+  function initNums(initials: number[]) {
+    console.log('init number array');
+    return [...initials, 2, 1, 4, 3];
+  }
 
   const handleChangeTitleClick = React.useCallback(() => {
     setTitleState(Math.random().toString());
