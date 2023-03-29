@@ -1,7 +1,7 @@
 import './App.scss';
 import React from 'react';
+import DemoList from './components/demo/DemoList';
 import Button from './components/ui/Button';
-import DemoOutput from './components/demo/DemoOutput';
 
 function getFalse() {
   console.log('getFalse');
@@ -9,30 +9,18 @@ function getFalse() {
 }
 
 export default function App() {
-  const [showParagraph, setShowParagraph] = React.useState(getFalse);
-  const [allowToggle, setAllowToggle] = React.useState(false);
-  console.log('APP RUNNING');
+  console.log("=====App=====");
+  const [titleState, setTitleState] = React.useState('Original Title');
+  const [nums, setNums] = React.useState([2, 1, 3, 6]);
 
-  const handleToggleShowParagraph = React.useCallback(
-    () => {
-      if (allowToggle) {
-        setShowParagraph(prevShowParagraph => !prevShowParagraph);
-      }
-    },
-    [allowToggle]
-  );
-
-  const handleAllowToggle = React.useCallback(
-    () => setAllowToggle(true),
-    []
-  );
+  const handleChangeTitleClick = React.useCallback(() => {
+    setTitleState(Math.random().toString());
+  }, []);
 
   return (
     <div className="app">
-      <h1>Hi there!</h1>
-      <DemoOutput show={showParagraph}/>
-      <Button onClick={handleAllowToggle}>Allow Toggle</Button>
-      <Button onClick={handleToggleShowParagraph}>Show Paragraph!</Button>
+      <DemoList title={titleState} items={nums}/>
+      <Button onClick={handleChangeTitleClick}>Change Title</Button>
     </div>
   );
 }
