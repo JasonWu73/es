@@ -7,17 +7,24 @@ import { Post } from './model/Post';
 
 export default function App() {
   const [posts, setPosts] = useState<Post[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   function handlePostFetch() {
+    setIsLoading(true);
     getPosts().then(posts => {
       setPosts(posts);
+      setIsLoading(false);
     });
   }
+
+  const postsContent = isLoading ?
+    <p>Loading...</p> :
+    <PostList posts={posts}/>;
 
   return (
     <div className="app">
       <PostFetcher onFetch={handlePostFetch}/>
-      <PostList posts={posts}/>
+      {postsContent}
     </div>
   );
 }
