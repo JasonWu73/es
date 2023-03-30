@@ -21,9 +21,10 @@ interface PostItemProps {
 }
 
 function PostItem({ post }: PostItemProps) {
+  const title = `${post.id} - ${post.title}`;
   return (
     <li>
-      <h2>{post.title}</h2>
+      <h2>{title}</h2>
       <p>{post.body}</p>
     </li>
   );
