@@ -1,9 +1,13 @@
 import classes from './PostFetcher.module.scss';
 
-export default function PostFetcher() {
+interface Props {
+  onFetch: () => void;
+}
+
+export default function PostFetcher({ onFetch }: Props) {
   return (
     <div className={classes.fetcher}>
-      <button>Fetch Posts</button>
+      <button onClick={onFetch}>Fetch Posts</button>
     </div>
   );
 }

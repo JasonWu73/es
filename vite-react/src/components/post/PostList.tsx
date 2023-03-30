@@ -1,11 +1,5 @@
 import classes from './PostList.module.scss';
-
-interface Post {
-  'userId': number,
-  'id': number,
-  'title': string,
-  'body': string
-}
+import { Post } from '../../model/Post';
 
 interface PostListProps {
   posts: Post[];
