@@ -13,7 +13,7 @@ export default class MessageFinder extends React.Component<Props, State> {
     if (prevState.filterMessage === this.state.filterMessage) {
       return;
     }
-    this.props.onFind(this.state.filterMessage);
+    this.props.onFind(this.state.filterMessage.trim());
   }
 
   render() {
@@ -32,7 +32,7 @@ export default class MessageFinder extends React.Component<Props, State> {
   }
 
   handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-    const enteredMessage = event.target.value.trim();
+    const enteredMessage = event.target.value;
     this.setState({ filterMessage: enteredMessage });
   }
 }

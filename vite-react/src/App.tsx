@@ -3,7 +3,7 @@ import './App.scss';
 import ToggleMessages from './components/toggle-message/ToggleMessages';
 import MessageFinder from './components/message-finder/MessageFinder';
 
-const MESSAGES = ['Message One', 'Message Two', 'Message Three'];
+const MESSAGES = ['Planning to do work', 'Planning learn React.js', 'Cleaning house'];
 
 export default function App() {
   const [filteredMessages, setFilteredMessages] = React.useState(MESSAGES);
