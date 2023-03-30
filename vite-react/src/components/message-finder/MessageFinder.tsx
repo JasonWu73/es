@@ -1,6 +1,7 @@
 import React from 'react';
 import classes from './MessageFinder.module.scss';
 
+/*
 export default class MessageFinder extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
@@ -53,8 +54,8 @@ interface Props {
 interface State {
   filterMessage: string;
 }
+*/
 
-/*
 export default function MessageFinder({ onFind }: {
   onFind: (filterMessage: string) => void
 }) {
@@ -77,8 +78,7 @@ export default function MessageFinder({ onFind }: {
 };
 
 function useFilter(filterMessage: string, onFind: (filterMessage: string) => void) {
-  useEffect(() => {
+  React.useEffect(() => {
     onFind(filterMessage);
   }, [filterMessage]);
 }
-*/
