@@ -11,18 +11,16 @@ export default function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
-  const handlePostFetch = useCallback(() => {
+  const handlePostFetch = useCallback(async () => {
     setIsLoading(true);
     setErrorMsg(null);
-    getPosts()
-      .then(([posts, err]) => {
-        setIsLoading(false);
-        if (posts) {
-          setPosts(posts);
-          return;
-        }
-        setErrorMsg(err);
-      });
+    const [posts, err] = await getPosts();
+    setIsLoading(false);
+    if (posts) {
+      setPosts(posts);
+      return;
+    }
+    setErrorMsg(err);
   }, []);
 
   useFetchPost(handlePostFetch);
@@ -39,17 +37,13 @@ export default function App() {
         )
     );
 
-  function handleAddPost(addedPost: AddedPost) {
-    savePost(addedPost)
-      .then(([post, err]) => {
-        if (post) {
-          setPosts(prevPosts => {
-            return [post, ...prevPosts];
-          });
-          return;
-        }
-        alert(err);
-      });
+  async function handleAddPost(addedPost: AddedPost) {
+    const [post, err] = await savePost(addedPost);
+    if (post) {
+      setPosts(prevPosts => [post, ...prevPosts]);
+      return;
+    }
+    alert(err);
   }
 
   return (
