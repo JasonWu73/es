@@ -8,12 +8,12 @@ import ErrorBoundary from './components/error/ErrorBoundary';
 export default function App() {
   return (
     <div className="app">
-      <ErrorBoundary fallback={<p>Something went wrong</p>}>
-        <MessageProvider>
-          <MessageFinder/>
+      <MessageProvider>
+        <MessageFinder/>
+        <ErrorBoundary fallback={<p>Something went wrong</p>}>
           <ToggleMessages/>
-        </MessageProvider>
-      </ErrorBoundary>
+        </ErrorBoundary>
+      </MessageProvider>
     </div>
   );
 }
