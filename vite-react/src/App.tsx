@@ -3,7 +3,7 @@ import './App.scss';
 import PostFetcher from './components/post-fetcher/PostFetcher';
 import PostList from './components/post/PostList';
 import axios, { AxiosError } from 'axios';
-import { Post } from './model/post';
+import { AddedPost, Post } from './model/post';
 import AddPost from './components/post-form/AddPost';
 
 export default function App() {
@@ -39,9 +39,13 @@ export default function App() {
         )
     );
 
+  function handleAddPost(addedPost: AddedPost) {
+    console.log(addedPost);
+  }
+
   return (
     <div className="app">
-      <AddPost/>
+      <AddPost onAdd={handleAddPost}/>
       <PostFetcher onFetch={handlePostFetch}/>
       {postsContent}
     </div>
