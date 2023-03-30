@@ -41,7 +41,9 @@ export default function App() {
 
 async function getPosts(): Promise<[Post[] | null, string | null]> {
   try {
-    const { data } = await axios.get('https://jsonplaceholder.typicode.com/posts1');
+    const { data } = await axios.get(
+      `https://jsonplaceholder.typicode.com/posts${Math.random() > 0.5 ? '' : '1'}`
+    );
     return [data, null];
   } catch (err) {
     return [null, (err as AxiosError).message];
