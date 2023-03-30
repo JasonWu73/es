@@ -12,6 +12,7 @@ export default function App() {
 
   function handlePostFetch() {
     setIsLoading(true);
+    setErrorMsg(null);
     getPosts()
       .then(([posts, err]) => {
         setIsLoading(false);
@@ -26,9 +27,12 @@ export default function App() {
   let postsContent = isLoading ?
     <p>Loading...</p> :
     (
-      posts.length > 0 ?
-        <PostList posts={posts}/> :
-        (errorMsg ? <p>{errorMsg}</p> : <p>Found no posts.</p>)
+      errorMsg ? <p>{errorMsg}</p> :
+        (
+          posts.length === 0 ?
+            <p>Found no posts.</p> :
+            <PostList posts={posts}/>
+        )
     );
 
   return (
