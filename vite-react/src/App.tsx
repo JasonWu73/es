@@ -19,7 +19,7 @@ export default function App() {
 
   const postsContent = isLoading ?
     <p>Loading...</p> :
-    <PostList posts={posts}/>;
+    (posts.length > 0 ? <PostList posts={posts}/> : <p>Found no posts.</p>);
 
   return (
     <div className="app">
