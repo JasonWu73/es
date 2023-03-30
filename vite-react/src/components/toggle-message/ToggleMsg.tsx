@@ -3,6 +3,40 @@ import Button from '../ui/Button';
 import classes from './ToggleMsg.module.scss';
 import MessageList from './MessageList';
 
+const MESSAGES = ['Message One', 'Message Two', 'Message Three'];
+
+export default class ToggleMsg extends React.Component<
+  void,
+  { showMessages: boolean }
+> {
+  state = {
+    showMessages: true
+  };
+
+  render() {
+    return (
+      <div className={classes.toggle}>
+        <Button
+          onClick={this.handleToggleHideOrShowMessagesClick}
+        >
+          {`${this.state.showMessages ? 'Hide' : 'Show'} Messages`}
+        </Button>
+        {this.state.showMessages && <MessageList items={MESSAGES}/>}
+      </div>
+    );
+  }
+
+  handleToggleHideOrShowMessagesClick = () => {
+    this.setState(prevState => {
+      return {
+        ...prevState,
+        showMessages: !prevState.showMessages
+      };
+    });
+  };
+}
+
+/*
 export default function ToggleMsg() {
   const messages = React.useMemo(
     () => ['Message One', 'Message Two', 'Message Three'],
@@ -25,3 +59,4 @@ export default function ToggleMsg() {
     </div>
   );
 };
+*/
