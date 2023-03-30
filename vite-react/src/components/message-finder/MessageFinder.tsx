@@ -10,15 +10,15 @@ export default class MessageFinder extends React.Component<any, State> {
   };
 
   componentDidMount() {
-    console.log('componentDidMount');
+    // console.log('componentDidMount');
   }
 
   componentWillUnmount() {
-    console.log('componentWillUnmount');
+    // console.log('componentWillUnmount');
   }
 
   componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<State>) {
-    console.log('componentDidUpdate');
+    // console.log('componentDidUpdate');
     if (prevState.filterMessage === this.state.filterMessage) {
       return;
     }

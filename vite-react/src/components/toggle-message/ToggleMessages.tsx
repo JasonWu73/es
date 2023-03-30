@@ -13,6 +13,9 @@ export default class ToggleMessages extends React.Component<any, State> {
 
   render() {
     const messages = this.context;
+    if (messages.length === 0) {
+      throw Error('No messages found!');
+    }
     return (
       <div className={classes.toggle}>
         <Button
