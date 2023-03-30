@@ -17,7 +17,7 @@ export default class ToggleMsg extends React.Component<
     return (
       <div className={classes.toggle}>
         <Button
-          onClick={this.handleToggleHideOrShowMessagesClick}
+          onClick={this.handleToggleHideOrShowMessagesClick.bind(this)}
         >
           {`${this.state.showMessages ? 'Hide' : 'Show'} Messages`}
         </Button>
@@ -26,7 +26,7 @@ export default class ToggleMsg extends React.Component<
     );
   }
 
-  handleToggleHideOrShowMessagesClick = () => {
+  handleToggleHideOrShowMessagesClick() {
     this.setState(prevState => {
       return {
         ...prevState,
