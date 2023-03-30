@@ -117,6 +117,12 @@
             }
           );
 
+          this.player.on(QgRtcClient.Events.WEBRTC_ON_CONNECTION_STATE_CHANGE, (state) => {
+            // RTC 状态变化
+            // 详见: https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection/connectionState
+            console.log('当前连接状态', state);
+          });
+
           this.player.on(QgRtcClient.Events.WEBRTC_ON_REMOTE_STREAMS, (e) => {
             console.log('播放成功', e.streams);
           });
