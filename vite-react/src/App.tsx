@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import './App.scss';
 import PostFetcher from './components/post-fetcher/PostFetcher';
 import PostList from './components/post/PostList';
@@ -10,7 +10,7 @@ export default function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
-  function handlePostFetch() {
+  const handlePostFetch = useCallback(() => {
     setIsLoading(true);
     setErrorMsg(null);
     getPosts()
@@ -22,12 +22,17 @@ export default function App() {
         }
         setErrorMsg(err);
       });
-  }
+  }, []);
+
+  useEffect(() => {
+    handlePostFetch();
+  }, [handlePostFetch]);
 
   let postsContent = isLoading ?
     <p>Loading...</p> :
     (
-      errorMsg ? <p>{errorMsg}</p> :
+      errorMsg ?
+        <p>{errorMsg}</p> :
         (
           posts.length === 0 ?
             <p>Found no posts.</p> :
