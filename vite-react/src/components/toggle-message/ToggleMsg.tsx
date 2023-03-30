@@ -9,9 +9,12 @@ export default class ToggleMsg extends React.Component<
   void,
   { showMessages: boolean }
 > {
-  state = {
-    showMessages: true
-  };
+  constructor() {
+    super();
+    this.state = {
+      showMessages: true
+    };
+  }
 
   render() {
     return (
