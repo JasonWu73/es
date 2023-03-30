@@ -1,15 +1,13 @@
 import React from 'react';
 import classes from './MessageFinder.module.scss';
-import { useMessagesFilter } from '../toggle-message/MessageContext';
+import { MessagesFilterContext } from '../toggle-message/MessageContext';
 
-/*
-export default class MessageFinder extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      filterMessage: ''
-    };
-  }
+export default class MessageFinder extends React.Component<any, State> {
+  declare context: React.ContextType<typeof MessagesFilterContext>;
+  static contextType = MessagesFilterContext;
+  state = {
+    filterMessage: ''
+  };
 
   componentDidMount() {
     console.log('componentDidMount');
@@ -19,12 +17,13 @@ export default class MessageFinder extends React.Component<Props, State> {
     console.log('componentWillUnmount');
   }
 
-  componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<State>) {
+  componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<State>) {
     console.log('componentDidUpdate');
     if (prevState.filterMessage === this.state.filterMessage) {
       return;
     }
-    this.props.onFind(this.state.filterMessage.trim());
+    const handleMessagesFilter = this.context;
+    handleMessagesFilter(this.state.filterMessage.trim());
   }
 
   render() {
@@ -47,8 +46,12 @@ export default class MessageFinder extends React.Component<Props, State> {
     this.setState({ filterMessage: enteredMessage });
   }
 }
-*/
 
+interface State {
+  filterMessage: string;
+}
+
+/*
 export default function MessageFinder() {
   const [filterMessage, setFilterMessage] = React.useState('');
   useFilter(filterMessage.trim());
@@ -74,3 +77,4 @@ function useFilter(filterMessage: string) {
     handleMessagesFilter(filterMessage);
   }, [filterMessage]);
 }
+*/

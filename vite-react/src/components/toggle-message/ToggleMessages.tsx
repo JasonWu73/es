@@ -2,21 +2,17 @@ import React from 'react';
 import Button from '../ui/Button';
 import classes from './ToggleMsg.module.scss';
 import MessageList from './MessageList';
-import { useMessages } from './MessageContext';
+import { MessagesContext } from './MessageContext';
 
-/*
-export default class ToggleMessages extends React.Component<
-  Props,
-  { showMessages: boolean }
-> {
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      showMessages: true
-    };
-  }
+export default class ToggleMessages extends React.Component<any, State> {
+  declare context: React.ContextType<typeof MessagesContext>;
+  static contextType = MessagesContext;
+  state = {
+    showMessages: true
+  };
 
   render() {
+    const messages = this.context;
     return (
       <div className={classes.toggle}>
         <Button
@@ -24,7 +20,7 @@ export default class ToggleMessages extends React.Component<
         >
           {`${this.state.showMessages ? 'Hide' : 'Show'} Messages`}
         </Button>
-        {this.state.showMessages && <MessageList items={this.props.items}/>}
+        {this.state.showMessages && <MessageList items={messages}/>}
       </div>
     );
   }
@@ -38,8 +34,12 @@ export default class ToggleMessages extends React.Component<
     });
   };
 }
-*/
 
+interface State {
+  showMessages: boolean;
+}
+
+/*
 export default function ToggleMessages() {
   const messages = useMessages();
   const [showMessages, setShowMessages] = React.useState(true);
@@ -59,3 +59,4 @@ export default function ToggleMessages() {
     </div>
   );
 };
+*/

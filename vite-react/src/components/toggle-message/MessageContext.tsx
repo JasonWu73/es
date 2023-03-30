@@ -2,8 +2,8 @@ import React from 'react';
 
 const MESSAGES = ['Planning to do work', 'Planning learn React.js', 'Cleaning house'];
 
-const MessagesContext = React.createContext(MESSAGES);
-const MessagesFilterContext = React.createContext((_: string) => {
+export const MessagesContext = React.createContext(MESSAGES);
+export const MessagesFilterContext = React.createContext((_: string) => {
 });
 
 export function MessageProvider({ children }: Props) {
