@@ -2,7 +2,9 @@ import React from 'react';
 import Button from '../ui/Button';
 import classes from './ToggleMsg.module.scss';
 import MessageList from './MessageList';
+import { useMessages } from './MessageContext';
 
+/*
 export default class ToggleMessages extends React.Component<
   Props,
   { showMessages: boolean }
@@ -36,17 +38,10 @@ export default class ToggleMessages extends React.Component<
     });
   };
 }
+*/
 
-interface Props {
-  items: string[];
-}
-
-/*
 export default function ToggleMessages() {
-  const messages = React.useMemo(
-    () => ['Message One', 'Message Two', 'Message Three'],
-    []
-  );
+  const messages = useMessages();
   const [showMessages, setShowMessages] = React.useState(true);
 
   function handleToggleHideOrShowMessagesClick() {
@@ -64,4 +59,3 @@ export default function ToggleMessages() {
     </div>
   );
 };
-*/

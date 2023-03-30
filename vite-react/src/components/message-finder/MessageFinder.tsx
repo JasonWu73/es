@@ -1,5 +1,6 @@
 import React from 'react';
 import classes from './MessageFinder.module.scss';
+import { useMessagesFilter } from '../toggle-message/MessageContext';
 
 /*
 export default class MessageFinder extends React.Component<Props, State> {
@@ -46,25 +47,14 @@ export default class MessageFinder extends React.Component<Props, State> {
     this.setState({ filterMessage: enteredMessage });
   }
 }
-
-interface Props {
-  onFind: (filterMessage: string) => void;
-}
-
-interface State {
-  filterMessage: string;
-}
 */
 
-export default function MessageFinder({ onFind }: {
-  onFind: (filterMessage: string) => void
-}) {
+export default function MessageFinder() {
   const [filterMessage, setFilterMessage] = React.useState('');
-  useFilter(filterMessage, onFind);
+  useFilter(filterMessage.trim());
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-    const enteredMessage = event.target.value.trim();
-    setFilterMessage(enteredMessage);
+    setFilterMessage(event.target.value);
   }
 
   return (
@@ -77,8 +67,10 @@ export default function MessageFinder({ onFind }: {
   );
 };
 
-function useFilter(filterMessage: string, onFind: (filterMessage: string) => void) {
+function useFilter(filterMessage: string) {
+  const handleMessagesFilter = useMessagesFilter();
+
   React.useEffect(() => {
-    onFind(filterMessage);
+    handleMessagesFilter(filterMessage);
   }, [filterMessage]);
 }
