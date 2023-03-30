@@ -24,9 +24,7 @@ export default function App() {
       });
   }, []);
 
-  useEffect(() => {
-    handlePostFetch();
-  }, [handlePostFetch]);
+  useFetchPost(handlePostFetch);
 
   let postsContent = isLoading ?
     <p>Loading...</p> :
@@ -57,4 +55,10 @@ async function getPosts(): Promise<[Post[] | null, string | null]> {
   } catch (err) {
     return [null, (err as AxiosError).message];
   }
+}
+
+function useFetchPost(handlePostFetch: () => void) {
+  useEffect(() => {
+    handlePostFetch();
+  }, [handlePostFetch]);
 }
