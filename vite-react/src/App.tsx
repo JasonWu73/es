@@ -4,6 +4,7 @@ import PostFetcher from './components/post-fetcher/PostFetcher';
 import PostList from './components/post/PostList';
 import axios, { AxiosError } from 'axios';
 import { Post } from './model/post';
+import AddPost from './components/post-form/AddPost';
 
 export default function App() {
   const [posts, setPosts] = useState<Post[]>([]);
@@ -40,6 +41,7 @@ export default function App() {
 
   return (
     <div className="app">
+      <AddPost/>
       <PostFetcher onFetch={handlePostFetch}/>
       {postsContent}
     </div>
