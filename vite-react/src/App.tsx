@@ -17,7 +17,7 @@ export default function App() {
     getPosts()
       .then(([posts, err]) => {
         setIsLoading(false);
-        if (posts !== null) {
+        if (posts) {
           setPosts(posts);
           return;
         }
@@ -40,7 +40,16 @@ export default function App() {
     );
 
   function handleAddPost(addedPost: AddedPost) {
-    console.log(addedPost);
+    savePost(addedPost)
+      .then(([post, err]) => {
+        if (post) {
+          setPosts(prevPosts => {
+            return [post, ...prevPosts];
+          });
+          return;
+        }
+        alert(err);
+      });
   }
 
   return (
@@ -50,6 +59,18 @@ export default function App() {
       {postsContent}
     </div>
   );
+}
+
+async function savePost(addedPost: AddedPost): Promise<[Post | null, string | null]> {
+  try {
+    const { data } = await axios.post(
+      `https://jsonplaceholder.typicode.com/posts`,
+      addedPost
+    );
+    return [data, null];
+  } catch (err) {
+    return [null, (err as AxiosError).message];
+  }
 }
 
 async function getPosts(): Promise<[Post[] | null, string | null]> {
