@@ -1,31 +1,21 @@
-import { Dispatch, SetStateAction, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
-export function useCounter(
-  setCounter: Dispatch<SetStateAction<number>>,
-  forward: 'forward' | 'backward'
-) {
+export function useCounter(forward = true) {
+  const [counter, setCounter] = useState(0);
+
   useEffect(() => {
-    const timer = autoCount(setCounter, forward);
+    const timer = setInterval(() => {
+      if (forward) {
+        setCounter(prevCounter => prevCounter + 1);
+      } else {
+        setCounter(prevCounter => prevCounter - 1);
+      }
+    }, 1000);
 
     return () => {
-      console.log('clear timeout: ' + timer);
-      clearTimeout(timer);
+      clearInterval(timer);
     };
   }, []);
-}
 
-function autoCount(
-  setCounter: Dispatch<SetStateAction<number>>,
-  forward: 'forward' | 'backward'
-) {
-  const timer = setTimeout(() => {
-    if (forward === 'forward') {
-      setCounter(prevCounter => prevCounter + 1);
-    } else {
-      setCounter(prevCounter => prevCounter - 1);
-    }
-    autoCount(setCounter, forward);
-  }, 1000);
-  console.log('timer: ' + timer);
-  return timer;
+  return counter;
 }
