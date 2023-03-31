@@ -15,7 +15,7 @@ export function useCounter(forward = true) {
     return () => {
       clearInterval(timer);
     };
-  }, []);
+  }, [forward]);
 
   return counter;
 }
