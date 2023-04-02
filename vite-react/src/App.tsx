@@ -4,23 +4,19 @@ import PostList from "./components/post/PostList";
 import {Post} from "./model/post";
 import {useEffect, useState} from "react";
 import axios, {AxiosError} from "axios";
+import useHttp from "./hooks/use-http";
 
 export default function App() {
     const [posts, setPosts] = useState<Post[]>([]);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState('');
+    const {loading, error, sendRequest} = useHttp({
+        method: 'get',
+        url: 'https://jsonplaceholder.typicode.com/posts'
+    });
 
     useEffect(() => {
-        setLoading(true);
-        setError('');
-        getPosts().then(([posts, err]) => {
-            setLoading(false);
-            if (err) {
-                setError(err);
-                return;
-            }
-            setPosts(posts!);
-        })
+        sendRequest().then(result => {
+            result && setPosts(result);
+        });
     }, []);
 
     function handleAddPost(postToAdd: Post) {
@@ -34,16 +30,9 @@ export default function App() {
     }
 
     function handleFetchPost() {
-        setLoading(true);
-        setError('');
-        getPosts().then(([posts, err]) => {
-            setLoading(false);
-            if (err) {
-                setError(err);
-                return;
-            }
-            setPosts(posts!);
-        })
+        sendRequest().then(result => {
+            result && setPosts(result);
+        });
     }
 
     return (
