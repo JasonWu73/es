@@ -1,5 +1,5 @@
 import classes from './Counter.module.scss';
-import { useCounter } from '../../hooks/useCounter';
+import { useCounter } from '../../hooks/use-counter';
 
 export default function BackwardCounter() {
   const counter = useCounter(false);
