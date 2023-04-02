@@ -23,7 +23,7 @@ export default function AddPost({onAdd}: Props) {
         await sendRequest({
             method: 'post',
             url: 'https://jsonplaceholder.typicode.com/posts',
-            params: postToAdd
+            data: postToAdd
         }, addPost.bind(null, postToAdd));
     }
 
