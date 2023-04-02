@@ -24,11 +24,26 @@ export default function App() {
     }, []);
 
     function handleAddPost(postToAdd: Post) {
-        console.log('add post', postToAdd);
+        addPost(postToAdd).then(([addedPost, err]) => {
+            if (err) {
+                console.log(err)
+                return;
+            }
+            setPosts(prevPosts => [addedPost!, ...prevPosts]);
+        });
     }
 
     function handleFetchPost() {
-        console.log('fetch posts');
+        setLoading(true);
+        setError('');
+        getPosts().then(([posts, err]) => {
+            setLoading(false);
+            if (err) {
+                setError(err);
+                return;
+            }
+            setPosts(posts!);
+        })
     }
 
     return (
@@ -39,6 +54,19 @@ export default function App() {
         </div>
     );
 };
+
+async function addPost(post: Post): Promise<[Post | null, string | null]> {
+    try {
+        const {data: addedPost} = await axios({
+            method: 'post',
+            url: 'https://jsonplaceholder.typicode.com/posts',
+            data: post
+        });
+        return [{...addedPost, id: Math.random().toString()}, null];
+    } catch (err) {
+        return [null, (err as AxiosError).message]
+    }
+}
 
 async function getPosts(): Promise<[Post[] | null, string | null]> {
     try {

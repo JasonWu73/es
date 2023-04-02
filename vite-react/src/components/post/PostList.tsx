@@ -18,7 +18,7 @@ export default function PostList({posts, onFetch}: Props) {
                 <Button onClick={handleFetchPostsClick}>Fetch Posts</Button>
             </div>
             <ul>
-                {posts.map(post => <PostItem key={post.title} post={post}/>)}
+                {posts.map(post => <PostItem key={post.id} post={post}/>)}
             </ul>
         </div>
     );
