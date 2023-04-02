@@ -8,14 +8,10 @@ interface Props {
 }
 
 export default function PostList({posts, onFetch}: Props) {
-    function handleFetchPostsClick() {
-        onFetch();
-    }
-
     return (
         <div className={classes.posts}>
             <div>
-                <Button onClick={handleFetchPostsClick}>Fetch Posts</Button>
+                <Button onClick={onFetch}>Fetch Posts</Button>
             </div>
             <ul>
                 {posts.map(post => <PostItem key={post.id} post={post}/>)}

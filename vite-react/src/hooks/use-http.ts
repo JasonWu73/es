@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useCallback, useState} from "react";
 import axios, {AxiosError} from "axios";
 
 interface Request {
@@ -7,23 +7,25 @@ interface Request {
     params?: object;
 }
 
-export default function useHttp({method, url, params}: Request) {
+export function useHttp() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
 
-    async function sendRequest() {
+    const sendRequest = useCallback(async (
+        {method, url, params}: Request,
+        applyData: (data: any) => void
+    ) => {
         setLoading(true);
         setError('');
         try {
             const {data} = await axios({method, url, params});
-            return data;
+            applyData(data);
         } catch (err) {
             setError((err as AxiosError).message);
-            return null;
         } finally {
             setLoading(false);
         }
-    }
+    }, []);
 
     return {loading, error, sendRequest};
 }

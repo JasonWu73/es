@@ -3,36 +3,28 @@ import AddPost from "./components/post/AddPost";
 import PostList from "./components/post/PostList";
 import {Post} from "./model/post";
 import {useEffect, useState} from "react";
-import axios, {AxiosError} from "axios";
-import useHttp from "./hooks/use-http";
+import {useHttp} from "./hooks/use-http";
 
 export default function App() {
     const [posts, setPosts] = useState<Post[]>([]);
-    const {loading, error, sendRequest} = useHttp({
-        method: 'get',
-        url: 'https://jsonplaceholder.typicode.com/posts'
-    });
+    const {loading, error, sendRequest} = useHttp();
 
     useEffect(() => {
-        sendRequest().then(result => {
-            result && setPosts(result);
-        });
+        sendRequest({
+            method: 'get',
+            url: 'https://jsonplaceholder.typicode.com/posts'
+        }, setPosts).then();
     }, []);
 
-    function handleAddPost(postToAdd: Post) {
-        addPost(postToAdd).then(([addedPost, err]) => {
-            if (err) {
-                console.log(err)
-                return;
-            }
-            setPosts(prevPosts => [addedPost!, ...prevPosts]);
-        });
+    async function handleAddPost(addedPost: Post) {
+        setPosts(prevPosts => [addedPost, ...prevPosts]);
     }
 
-    function handleFetchPost() {
-        sendRequest().then(result => {
-            result && setPosts(result);
-        });
+    async function handleFetchPost() {
+        await sendRequest({
+            method: 'get',
+            url: 'https://jsonplaceholder.typicode.com/posts'
+        }, setPosts);
     }
 
     return (
@@ -43,28 +35,3 @@ export default function App() {
         </div>
     );
 };
-
-async function addPost(post: Post): Promise<[Post | null, string | null]> {
-    try {
-        const {data: addedPost} = await axios({
-            method: 'post',
-            url: 'https://jsonplaceholder.typicode.com/posts',
-            data: post
-        });
-        return [{...addedPost, id: Math.random().toString()}, null];
-    } catch (err) {
-        return [null, (err as AxiosError).message]
-    }
-}
-
-async function getPosts(): Promise<[Post[] | null, string | null]> {
-    try {
-        const {data: posts} = await axios({
-            method: 'get',
-            url: 'https://jsonplaceholder.typicode.com/posts'
-        });
-        return [posts, null];
-    } catch (err) {
-        return [null, (err as AxiosError).message]
-    }
-}
