@@ -1,24 +1,23 @@
 import {ChangeEvent, useCallback, useState} from "react";
 
 export function useInput(validate: (value: string) => boolean) {
-    const [value, setValue] = useState('');
-    const [valueTouched, setValueTouched] = useState(false);
+    const [value, setValue] = useState(''); // 值
+    const [touched, setTouched] = useState(false); // 用于判断是否触发 UI 渲染错误
+    const valid = validate(value); // 校验值是否合法
+    const hasError = touched && !valid; // 用于判断 UI 是否需要渲染错误信息
 
-    const valueInvalid = valueTouched && !validate(value);
-    console.log(valueInvalid);
-
-    const handleValueBlur = useCallback(() => {
-        setValueTouched(true);
+    const handleBlur = useCallback(() => {
+        setTouched(true);
     }, []);
 
-    const handleValueChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
+    const handleChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
         setValue(event.target.value);
     }, []);
 
     function reset() {
         setValue('');
-        setValueTouched(false);
+        setTouched(false);
     }
 
-    return {value, valueInvalid, handleValueBlur, handleValueChange, reset};
+    return {value, valid, hasError, handleBlur, handleChange, reset};
 }

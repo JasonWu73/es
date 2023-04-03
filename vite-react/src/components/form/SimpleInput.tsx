@@ -6,25 +6,27 @@ import {useInput} from "../../hooks/use-input";
 export default function SimpleInput() {
     const {
         value: name,
-        valueInvalid: nameInvalid,
-        handleValueBlur: handleNameBlur,
-        handleValueChange: handleNameChange,
+        valid: nameValid,
+        hasError: nameHasError,
+        handleBlur: handleNameBlur,
+        handleChange: handleNameChange,
         reset: resetName
     } = useInput(name => name.trim().length > 0);
 
     const {
         value: email,
-        valueInvalid: emailInvalid,
-        handleValueBlur: handleEmailBlur,
-        handleValueChange: handleEmailChange,
+        valid: emailValid,
+        hasError: emailHasError,
+        handleBlur: handleEmailBlur,
+        handleChange: handleEmailChange,
         reset: resetEmail
     } = useInput(email => email.trim().includes('@'));
 
-    const formInvalid = nameInvalid || emailInvalid;
+    const formValid = nameValid && emailValid;
 
     function handleSubmit(event: FormEvent) {
         event.preventDefault();
-        if (formInvalid) {
+        if (!formValid) {
             return;
         }
         console.log({
@@ -35,23 +37,23 @@ export default function SimpleInput() {
         resetEmail();
     }
 
-    const nameClasses = `${classes['form-control']} ${nameInvalid ? classes['form-control--error'] : ''}`;
-    const emailClasses = `${classes['form-control']} ${emailInvalid ? classes['form-control--error'] : ''}`;
+    const nameClasses = `${classes['form-control']} ${nameHasError ? classes['form-control--error'] : ''}`;
+    const emailClasses = `${classes['form-control']} ${emailHasError ? classes['form-control--error'] : ''}`;
 
     return (
         <form onSubmit={handleSubmit} className={classes.form}>
             <div className={nameClasses}>
                 <label htmlFor="name">Name</label>
                 <input value={name} onChange={handleNameChange} onBlur={handleNameBlur} type="text" id="name"/>
-                {nameInvalid && <p className={classes.error}>Name must not be empty.</p>}
+                {nameHasError && <p className={classes.error}>Name must not be empty.</p>}
             </div>
             <div className={emailClasses}>
                 <label htmlFor="email">Email</label>
                 <input value={email} onChange={handleEmailChange} onBlur={handleEmailBlur} type="text" id="email"/>
-                {emailInvalid && <p className={classes.error}>Email is not valid.</p>}
+                {emailHasError && <p className={classes.error}>Email is not valid.</p>}
             </div>
             <div className={classes['form-action']}>
-                <Button disabled={formInvalid}>Submit</Button>
+                <Button disabled={!formValid}>Submit</Button>
             </div>
         </form>
     );
