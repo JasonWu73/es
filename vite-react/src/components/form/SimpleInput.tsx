@@ -12,8 +12,12 @@ export default function SimpleInput() {
         console.log('nameInvalid: ', nameInvalid);
     }, [nameInvalid]);
 
-    function handleNameChange(event: ChangeEvent<HTMLInputElement>) {
+    function handleNameBlur() {
         setNameTouched(true);
+        setNameInvalid(name.length === 0);
+    }
+
+    function handleNameChange(event: ChangeEvent<HTMLInputElement>) {
         const enteredName = event.target.value;
         setName(enteredName);
         setNameInvalid(enteredName.trim().length === 0);
@@ -43,7 +47,7 @@ export default function SimpleInput() {
         <form onSubmit={handleSubmit} className={classes.form}>
             <div className={nameClasses}>
                 <label htmlFor="name">Name</label>
-                <input ref={nameRef} value={name} onChange={handleNameChange} type="text" id="name"/>
+                <input ref={nameRef} value={name} onChange={handleNameChange} onBlur={handleNameBlur} type="text" id="name"/>
                 {nameInvalid && nameTouched && <p className={classes.error}>Name is empty.</p>}
             </div>
             <div className={classes['form-action']}>
