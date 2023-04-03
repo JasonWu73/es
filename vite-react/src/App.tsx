@@ -1,10 +1,21 @@
 import './App.scss';
-import SimpleInput from "./components/form/SimpleInput";
+import PostList from "./components/posts/PostList";
+import {useEffect, useState} from "react";
+import axios from "axios";
 
 export default function App() {
+    const [posts, setPosts] = useState([]);
+
+    useEffect(() => {
+        axios({
+            method: 'get',
+            url: 'https://jsonplaceholder.typicode.com/posts'
+        }).then(({data}) => setPosts(data));
+    }, []);
+
     return (
         <div className="app">
-            <SimpleInput/>
+            <PostList posts={posts}/>
         </div>
     );
 };
