@@ -7,10 +7,16 @@ export default function App() {
     const [posts, setPosts] = useState([]);
 
     useEffect(() => {
-        axios({
-            method: 'get',
-            url: 'https://jsonplaceholder.typicode.com/posts'
-        }).then(({data}) => setPosts(data));
+        // noinspection JSIgnoredPromiseFromCall
+        getPosts();
+
+        async function getPosts() {
+            const {data: posts} = await axios({
+                method: 'get',
+                url: 'https://jsonplaceholder.typicode.com/posts'
+            });
+            setPosts(posts);
+        }
     }, []);
 
     return (
