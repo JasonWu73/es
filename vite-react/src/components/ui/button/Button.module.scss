@@ -1,9 +1,11 @@
+$purple: purple;
+
 .btn {
   padding: 1rem;
   cursor: pointer;
-  background: purple;
+  background: $purple;
   color: white;
-  border: 0.1rem solid purple;
+  border: 0.1rem solid $purple;
   border-radius: 0.6rem;
 
   &:hover {
