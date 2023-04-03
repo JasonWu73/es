@@ -7,6 +7,13 @@
   .form-control {
     flex: 80%;
 
+    &--error {
+
+      input {
+        border: 0.1rem solid red;
+      }
+    }
+
     label {
       width: 20%;
 
@@ -25,4 +32,8 @@
     flex: 20%;
     display: flex;
   }
+}
+
+.error {
+  color: red;
 }
