@@ -1,0 +1,28 @@
+.form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+
+  .form-control {
+    flex: 80%;
+
+    label {
+      width: 20%;
+
+      &::after {
+        content: ": ";
+      }
+    }
+
+    input {
+      width: 80%;
+      padding: 1rem;
+    }
+  }
+
+  .form-action {
+    flex: 20%;
+    display: flex;
+  }
+}
