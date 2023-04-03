@@ -1,4 +1,4 @@
-import Button from '../ui/Button';
+import Button from '../ui/button/Button';
 import classes from './SimpleInput.module.scss';
 import {FormEvent} from "react";
 import {useInput} from "../../hooks/use-input";

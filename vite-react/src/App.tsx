@@ -3,6 +3,8 @@ import PostList from "./components/posts/PostList";
 import {useEffect, useState} from "react";
 import {Post} from "./model/post";
 import {useHttp} from "./hooks/use-http";
+import Card from './components/ui/card/Card';
+import Button from "./components/ui/button/Button";
 
 export default function App() {
     const {loading, error, sendRequest} = useHttp();
@@ -18,9 +20,12 @@ export default function App() {
 
     return (
         <div className="app">
-            {loading && <p>Loading...</p>}
-            {!loading && error && <p>{error}</p>}
-            {!loading && !error && <PostList posts={posts}/>}
+            <Button>My Button</Button>
+            <Card>
+                {loading && <p>Loading...</p>}
+                {!loading && error && <p>{error}</p>}
+                {!loading && !error && <PostList posts={posts}/>}
+            </Card>
         </div>
     );
 };

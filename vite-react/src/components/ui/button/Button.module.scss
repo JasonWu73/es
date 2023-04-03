@@ -1,0 +1,12 @@
+.btn {
+  padding: 1rem;
+  cursor: pointer;
+  background: purple;
+  color: white;
+  border: 0.1rem solid purple;
+  border-radius: 0.6rem;
+
+  &:hover {
+    background-color: #8d038d;
+  }
+}
