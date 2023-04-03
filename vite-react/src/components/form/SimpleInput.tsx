@@ -7,6 +7,7 @@ export default function SimpleInput() {
     const [nameTouched, setNameTouched] = useState(false);
     const nameInvalid = name.trim().length === 0;
     const nameInputInvalid = nameInvalid && nameTouched;
+    const formInvalid = nameInvalid;
 
     function handleNameBlur() {
         setNameTouched(true);
@@ -34,10 +35,10 @@ export default function SimpleInput() {
             <div className={nameClasses}>
                 <label htmlFor="name">Name</label>
                 <input value={name} onChange={handleNameChange} onBlur={handleNameBlur} type="text" id="name"/>
-                {nameInputInvalid && <p className={classes.error}>Name is empty.</p>}
+                {nameInputInvalid && <p className={classes.error}>Name must not be empty.</p>}
             </div>
             <div className={classes['form-action']}>
-                <Button>Submit</Button>
+                <Button disabled={formInvalid}>Submit</Button>
             </div>
         </form>
     );
