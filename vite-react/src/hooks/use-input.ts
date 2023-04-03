@@ -58,9 +58,9 @@ export function useInput(validate: (value: string) => boolean) {
         });
     }, []);
 
-    function reset() {
+    const reset = useCallback(() => {
         dispatch({type: 'reset'});
-    }
+    }, []);
 
     return {
         value: state.value,
