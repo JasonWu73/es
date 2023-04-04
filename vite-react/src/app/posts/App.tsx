@@ -1,15 +1,13 @@
+import './App.scss';
 import {useHttp} from '../../hooks/use-http';
 import React, {useEffect, useState} from 'react';
 import {Post} from './post.model';
-import Button from '../../components/button/Button';
-import SimpleInput from './features/form/SimpleInput';
 import Card from '../../components/card/Card';
 import PostsList from './features/posts-list/PostsList';
 
-export default function PostsApp() {
+export default function App() {
   const {loading, error, sendRequest} = useHttp();
   const [posts, setPosts] = useState<Post[]>([]);
-  const [showInput, setShowInput] = useState(true);
 
   useEffect(() => {
     // noinspection JSIgnoredPromiseFromCall
@@ -19,14 +17,8 @@ export default function PostsApp() {
     }, setPosts);
   }, []);
 
-  function handleClick() {
-    setShowInput(prevShowInput => !prevShowInput);
-  }
-
   return (
     <div className="app">
-      <Button onClick={handleClick}>Toggle Simple Input Form</Button>
-      {showInput && <SimpleInput/>}
       <Card>
         {loading && <p>Loading...</p>}
         {!loading && error && <p>{error}</p>}
