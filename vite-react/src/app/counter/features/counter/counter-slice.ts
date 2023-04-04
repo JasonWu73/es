@@ -9,7 +9,7 @@ export const counterSlice = createSlice({
   name: 'counter',
   initialState: {
     value: 0
-  } as CounterState,
+  } as CounterState, // Workaround: cast state instead of declaring variable type
   reducers: {
     increment: (state) => {
       // Redux Toolkit allows us to write "mutating" logic in reducers. It
