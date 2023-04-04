@@ -4,7 +4,7 @@ import {Post} from './post.model';
 import Button from '../../components/button/Button';
 import SimpleInput from './features/form/SimpleInput';
 import Card from '../../components/card/Card';
-import PostsList from './features/PostsList';
+import PostsList from './features/posts-list/PostsList';
 
 export default function PostsApp() {
   const {loading, error, sendRequest} = useHttp();

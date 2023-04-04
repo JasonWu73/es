@@ -1,5 +1,5 @@
 import classes from './PostsList.module.scss';
-import {Post} from "../post.model";
+import {Post} from "../../post.model";
 
 interface Props {
   posts: Post[];
