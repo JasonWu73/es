@@ -1,7 +1,7 @@
-import Button from '../ui/button/Button';
+import Button from '../../../../components/button/Button';
 import classes from './SimpleInput.module.scss';
 import {FormEvent} from "react";
-import {useInput} from "../../hooks/use-input";
+import {useInput} from "../../../../hooks/use-input";
 
 export default function SimpleInput() {
   const {

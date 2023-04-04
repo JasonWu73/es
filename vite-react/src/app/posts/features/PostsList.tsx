@@ -1,11 +1,11 @@
-import classes from './PostList.module.scss';
-import {Post} from "../../model/post";
+import classes from './PostsList.module.scss';
+import {Post} from "../post.model";
 
 interface Props {
   posts: Post[];
 }
 
-export default function PostList({posts}: Props) {
+export default function PostsList({posts}: Props) {
   const items = posts.map(post => <li key={post.id}>{post.id}. {post.title}</li>);
   return (
     <ul className={classes.posts}>
