@@ -19,10 +19,9 @@ export default defineConfig({
 function getPagesInput() {
   const pagesInput = {};
   (pages as string[]).forEach(page => {
-    const changedDir = dirname(page).replace(/\//g, '_'); // 获取目录名, 并将 `/` 替换为 `_`
+    const dirName = dirname(page).replace(/\//g, '_'); // 获取目录名, 并将 `/` 替换为 `_`
     const filename = parse(page).name; // Get the file name without extension
-    pagesInput[`${changedDir}_${filename}`] = page;
+    pagesInput[`${dirName}_${filename}`] = page;
   });
-  console.log(pagesInput);
   return pagesInput;
 }
