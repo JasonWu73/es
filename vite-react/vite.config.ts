@@ -1,6 +1,12 @@
 import {defineConfig} from 'vite';
 import react from '@vitejs/plugin-react';
-import {resolve} from 'path';
+import {resolve, dirname} from 'path';
+import pages from './pages';
+
+const pagesInput = {};
+(pages as string[]).forEach(page => {
+  pagesInput[dirname(page).replace(/\//g, '_')] = page;
+});
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -9,8 +15,7 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: resolve(__dirname, 'index.html'),
-        counter: resolve(__dirname, 'counter/index.html'),
-        posts: resolve(__dirname, 'posts/index.html')
+        ...pagesInput
       },
     },
   }
