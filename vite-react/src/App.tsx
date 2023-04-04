@@ -26,7 +26,7 @@ export default function App() {
 
   return (
     <div className="app">
-      <Button onClick={handleClick}>My Button</Button>
+      <Button onClick={handleClick}>Toggle Simple Input Form</Button>
       {showInput && <SimpleInput/>}
       <Card>
         {loading && <p>Loading...</p>}

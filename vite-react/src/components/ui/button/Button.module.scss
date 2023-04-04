@@ -11,4 +11,11 @@ $purple: purple;
   &:hover {
     background-color: #8d038d;
   }
+
+  &:disabled {
+    cursor: not-allowed;
+    border: 0.1rem solid #999;
+    background-color: #ccc;
+    color: #666;
+  }
 }

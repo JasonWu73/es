@@ -37,17 +37,14 @@ export default function SimpleInput() {
     resetEmail();
   }
 
-  const nameClasses = `${classes['form-control']} ${nameHasError ? classes['form-control--error'] : ''}`;
-  const emailClasses = `${classes['form-control']} ${emailHasError ? classes['form-control--error'] : ''}`;
-
   return (
     <form onSubmit={handleSubmit} className={classes.form}>
-      <div className={nameClasses}>
+      <div className={getClasses(nameHasError)}>
         <label htmlFor="name">Name</label>
         <input value={name} onChange={handleNameChange} onBlur={handleNameBlur} type="text" id="name"/>
         {nameHasError && <p className={classes.error}>Name must not be empty.</p>}
       </div>
-      <div className={emailClasses}>
+      <div className={getClasses(emailHasError)}>
         <label htmlFor="email">Email</label>
         <input value={email} onChange={handleEmailChange} onBlur={handleEmailBlur} type="text" id="email"/>
         {emailHasError && <p className={classes.error}>Email is not valid.</p>}
@@ -57,4 +54,8 @@ export default function SimpleInput() {
       </div>
     </form>
   );
+}
+
+function getClasses(hasError: boolean) {
+  return `${classes['form-control']} ${hasError ? classes['form-control--error'] : ''}`;
 }
