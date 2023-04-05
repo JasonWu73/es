@@ -12,9 +12,10 @@ export const counterSlice = createSlice({
     value: 0
   } as CounterState, // Workaround: cast state instead of declaring variable type
   // Rules of Reducers:
-  // They should only calculate the new state value based on the state and action arguments
-  // They are not allowed to modify the existing state
-  // They must not do any asynchronous logic or other "side effects"
+  // Should only calculate a new state value based on the `state` and `action` arguments
+  // Must make immutable updates by copying the existing state
+  // Cannot contain any asynchronous logic or other "side effects"
+  // Redux Toolkit's `createSlice` API uses Immer to allow "mutating" immutable updates
   reducers: {// Action type value: the key name of each reducer function is used as the second part
     increment: (state) => {
       // Redux Toolkit allows us to write "mutating" logic in reducers. It
@@ -45,6 +46,7 @@ export default counterSlice.reducer;
 // console.log(counterSlice.actions.increment()); // {type: 'counter/increment', payload: undefined}
 export const {increment, decrement, incrementByAmount} = counterSlice.actions;
 
+// Async logic is typically written in special functions called "thunks"
 // The function below is called a thunk and allows us to perform async logic. It
 // can be dispatched like a regular action: `dispatch(incrementAsync(10))`. This
 // will call the thunk with the `dispatch` function as the first argument. Async
@@ -52,6 +54,7 @@ export const {increment, decrement, incrementByAmount} = counterSlice.actions;
 // The outside "thunk creator" function
 export function incrementAsync(amount: number) {
   // The inside "thunk function"
+  // Thunks receive `dispatch` and `getState` as arguments
   return async (dispatch: AppDispatch, getState: () => RootState) => {
     await wait(1);
     dispatch(incrementByAmount(amount));
