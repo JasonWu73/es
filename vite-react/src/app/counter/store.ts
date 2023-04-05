@@ -11,5 +11,5 @@ export default store;
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>;
-// Inferred type: {counter: PostsState}
+// Inferred type: {counter: CounterState}
 export type AppDispatch = typeof store.dispatch;

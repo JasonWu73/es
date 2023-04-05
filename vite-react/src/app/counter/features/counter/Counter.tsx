@@ -1,6 +1,6 @@
 import classes from './Counter.module.scss';
 import {useAppDispatch, useAppSelector} from '../../store-hooks';
-import {decrement, increment} from './counter-slice';
+import {decrement, increment, incrementAsync} from './counter-slice';
 import Button from '../../../../components/button/Button';
 
 export default function Counter() {
@@ -9,6 +9,11 @@ export default function Counter() {
   const dispatch = useAppDispatch();
   return (
     <div className={classes.counter}>
+      <Button
+        onClick={() => dispatch(incrementAsync(100))}
+      >
+        Increment Async 100
+      </Button>
       <Button
         onClick={() => dispatch(increment())}
       >
