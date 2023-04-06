@@ -1,4 +1,4 @@
-import Nav from '../../../shared/components/nav/Nav';
+import Nav, {NavRoute} from '../../../shared/components/nav/Nav';
 import {Route, Routes} from 'react-router-dom';
 import Home from './home/Home';
 import SimpleInput from './form/SimpleInput';
@@ -12,17 +12,19 @@ import NewPost from './posts/NewPost';
 const ROUTES = [
   {
     to: "/",
-    name: "Home"
+    name: "Home",
+    // replace: true
   },
   {
     to: "/posts",
-    name: "Posts"
+    name: "Posts",
+    // end: true
   },
   {
     to: "/simple-input",
     name: "Simple Input Form"
   }
-];
+] as NavRoute[];
 
 export default function Root() {
   return (

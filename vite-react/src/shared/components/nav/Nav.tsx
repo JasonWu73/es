@@ -1,14 +1,15 @@
 import classes from './Nav.module.scss';
 import {NavLink} from 'react-router-dom';
 
-interface Route {
+export interface NavRoute {
   to: string;
   name: string;
   replace?: boolean;
+  end?: boolean;
 }
 
 interface Props {
-  routes: Route[]
+  routes: NavRoute[]
 }
 
 export default function Nav({routes}: Props) {
@@ -21,6 +22,7 @@ export default function Nav({routes}: Props) {
             to={route.to}
             name={route.name}
             replace={route.replace}
+            end={route.end}
           />)
         }
       </ul>
@@ -28,7 +30,7 @@ export default function Nav({routes}: Props) {
   );
 }
 
-function NavItem({to, name, replace = false}: Route) {
+function NavItem({to, name, replace = false, end = false}: NavRoute) {
   return (
     <li>
       {/* `Link` 属性:
@@ -40,6 +42,7 @@ function NavItem({to, name, replace = false}: Route) {
         to={to}
         className={({isActive}) => isActive ? classes.active : ''}
         replace={replace}
+        end={end}
       >
         {({isActive}) => {
           return isActive ? `Active ${name}` : `${name}`;

@@ -1,4 +1,4 @@
-import Nav from "../shared/components/nav/Nav";
+import Nav, {NavRoute} from "../shared/components/nav/Nav";
 import {Route, Routes} from "react-router-dom";
 import Hello from "./hello/Hello";
 import Home from "./home/Home";
@@ -13,7 +13,7 @@ const ROUTES = [
     to: "/hello",
     name: "Hello"
   }
-];
+] as NavRoute[];
 
 export default function Root() {
   return (

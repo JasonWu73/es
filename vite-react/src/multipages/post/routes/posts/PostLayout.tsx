@@ -1,6 +1,6 @@
 import {Outlet} from 'react-router-dom';
 import Card from '../../../../shared/components/card/Card';
-import Nav from '../../../../shared/components/nav/Nav';
+import Nav, {NavRoute} from '../../../../shared/components/nav/Nav';
 import {PostOutletContext} from './post.model';
 
 const ROUTES = [
@@ -16,7 +16,7 @@ const ROUTES = [
     to: "/posts/new",
     name: "New Post"
   }
-];
+] as NavRoute[];
 
 export default function PostLayout() {
   return (
