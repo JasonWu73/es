@@ -1,5 +1,5 @@
-import Button from '../../../../shared/components/button/Button';
 import classes from './SimpleInput.module.scss';
+import Button from '../../../../shared/components/button/Button';
 import {FormEvent} from "react";
 import {useInput} from "../../../../shared/hooks/use-input";
 import Card from '../../../../shared/components/card/Card';
