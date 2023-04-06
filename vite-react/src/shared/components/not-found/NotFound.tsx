@@ -5,6 +5,17 @@ import Card from '../card/Card';
 const COUNTDOWN_SECONDS = 5;
 
 export default function NotFound() {
+  const {countdown} = useRedirect();
+  const countdownMessage = `${countdown} second${countdown > 1 ? 's' : ''}`;
+  return (
+    <Card>
+      <h2>Sorry! Not Found Page :(</h2>
+      <h3>🛩️: You will return to the homepage in {countdownMessage}.</h3>
+    </Card>
+  );
+}
+
+function useRedirect() {
   const navigate = useNavigate();
   const [countdown, setCountdown] = useState(COUNTDOWN_SECONDS);
 
@@ -23,12 +34,5 @@ export default function NotFound() {
     };
   }, []);
 
-  const countdownMessage = `${countdown} second${countdown > 1 ? 's' : ''}`;
-
-  return (
-    <Card>
-      <h2>Sorry! Not Found Page :(</h2>
-      <h3>🛩️: You will return to the homepage in {countdownMessage}.</h3>
-    </Card>
-  );
+  return {countdown};
 }

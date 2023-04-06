@@ -8,17 +8,7 @@ interface Props {
 }
 
 export default function PostList() {
-  const {loading, error, sendRequest} = useHttp();
-  const [posts, setPosts] = useState<Post[]>([]);
-
-  useEffect(() => {
-    // noinspection JSIgnoredPromiseFromCall
-    sendRequest({
-      method: 'get',
-      url: 'https://jsonplaceholder.typicode.com/posts'
-    }, setPosts);
-  }, []);
-
+  const {posts, loading, error} = usePosts();
   return (
     <>
       {loading && <p>Loading...</p>}
@@ -26,6 +16,21 @@ export default function PostList() {
       {!loading && !error && <Posts posts={posts}/>}
     </>
   );
+}
+
+function usePosts() {
+  const [posts, setPosts] = useState<Post[]>([]);
+  const {loading, error, sendRequest} = useHttp();
+
+  useEffect(() => {
+    // noinspection JSIgnoredPromiseFromCall
+    sendRequest({
+      method: 'get',
+      url: 'https://jsonplaceholder.typicode.com/posts'
+    }, setPosts);
+  }, [sendRequest]);
+
+  return {posts, loading, error, sendRequest};
 }
 
 function Posts({posts}: Props) {
