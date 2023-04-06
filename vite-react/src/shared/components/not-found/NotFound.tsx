@@ -14,7 +14,7 @@ export default function NotFound() {
     }, 1000);
 
     setTimeout(() => {
-      navigate("/");
+      navigate('/', {state: {error: 'Error Not Found'}});
       // navigate(-1); // Is equivalent to hitting the back button
     }, COUNTDOWN_SECONDS * 1000);
 
