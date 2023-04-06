@@ -33,6 +33,7 @@ function MyNavigator() {
       <ul>
         {/* `Link` 属性:
           `replace`: 仅替换当前 URL, 使替换前的 URL 不加入 history, 即回退浏览历史时会退两级. 常用于登录页
+          `state`: 路由间传递数据, 且不影响 URL
         */}
         <li className={navClasses.active}><Link to="/">Home</Link></li>
         <li><Link to="/posts">Posts</Link></li>
