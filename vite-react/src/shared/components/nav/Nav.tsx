@@ -37,7 +37,7 @@ function NavItem({to, name, state, replace = false, end = false}: NavRoute) {
     <li>
       {/* `Link` 属性:
         `replace`: 仅替换当前 URL, 使替换前的 URL 不加入 history, 即回退浏览历史时会退两级. 常用于登录页
-        `state`: 路由间传递数据, 且不影响 URL, 这和 `useSearchParams` 不同
+        `state`: 向目标路由传递数据, 且不影响 URL
       */}
       {/* A <NavLink> is a special kind of <Link> that knows whether it is "active" or "pending" */}
       <NavLink
