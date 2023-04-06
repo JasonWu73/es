@@ -48,7 +48,7 @@ function NavItem({to, name, state, replace = false, end = false}: NavRoute) {
         end={end}
       >
         {({isActive}) => {
-          return isActive ? `Active ${name}` : `${name}`;
+          return isActive ? `=== ${name} ===` : `${name}`;
         }}
       </NavLink>
     </li>
