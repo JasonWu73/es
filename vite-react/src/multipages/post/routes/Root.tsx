@@ -20,9 +20,16 @@ export default function Root() {
       </Nav>
       <Routes>
         <Route path="/" element={<Home/>}/>
+        <Route path="/posts">
+          <Route index element={<PostList/>}/>
+          <Route path=":id" element={<Post/>}/>
+          <Route path="new" element={<NewPost/>}/>
+        </Route>
+        {/*
         <Route path="/posts" element={<PostList/>}/>
         <Route path="/posts/:id" element={<Post/>}/>
         <Route path="/posts/new" element={<NewPost/>}/>
+        */}
         <Route path="/simple-input" element={<SimpleInput/>}/>
         <Route path="*" element={<NotFound/>}/>
       </Routes>
