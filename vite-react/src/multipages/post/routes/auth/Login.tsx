@@ -1,12 +1,13 @@
 import {useLocation, useNavigate} from 'react-router-dom';
 import {useAuth} from './AuthProvider';
-import {FormEvent} from 'react';
+import {FormEvent, useState} from 'react';
 import Button from '../../../../shared/components/button/Button';
 import Card from '../../../../shared/components/card/Card';
 
 export default function Login() {
   const navigate = useNavigate();
   const location = useLocation();
+  const [waiting, setWaiting] = useState(false);
   const {login} = useAuth();
   const from = location.state?.from?.pathname || '/';
 
@@ -15,7 +16,14 @@ export default function Login() {
     const formData = new FormData(event.currentTarget);
     const username = formData.get("username") as string;
 
+    if (!username || waiting) {
+      return;
+    }
+
+    console.log('login...');
+    setWaiting(true);
     login(username, () => {
+      setWaiting(false);
       // Send them back to the page they tried to visit when they were
       // redirected to the login page. Use { replace: true } so we don't create
       // another entry in the history stack for the login page.  This means that
@@ -43,7 +51,7 @@ export default function Login() {
           }}
         />
         </label>{" "}
-        <Button>Login</Button>
+        <Button>Login{waiting ? '...' : ''}</Button>
       </form>
     </Card>
   );

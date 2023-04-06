@@ -2,21 +2,36 @@ import classes from './AuthStatus.module.scss';
 import {useAuth} from './AuthProvider';
 import {useNavigate} from 'react-router-dom';
 import Button from '../../../../shared/components/button/Button';
+import {useState} from 'react';
 
 export default function AuthStatus() {
   const auth = useAuth();
   const navigate = useNavigate();
+  const [waiting, setWaiting] = useState(false);
 
   if (!auth.username) {
-    return <p>You are not logged in.</p>
+    return <p className={classes.warn}>You are not logged in.</p>
+  }
+
+  function handleLogoutClick() {
+    if (waiting) {
+      return;
+    }
+
+    console.log('logout...');
+    setWaiting(true);
+    auth.logout(() => {
+      setWaiting(false);
+      navigate('/');
+    });
   }
 
   return (
-    <div className={classes.auth}>
+    <p className={classes.auth}>
       Welcome {auth.username}!{' '}
-      <Button onClick={() => auth.logout(() => navigate('/'))}>
-        Logout
+      <Button onClick={handleLogoutClick}>
+        Logout{waiting ? '...' : ''}
       </Button>
-    </div>
+    </p>
   );
 }

@@ -1,6 +1,16 @@
-.auth {
-  background-color: lightseagreen;
+%message-shared {
   color: white;
-  padding: 1rem;
   border-radius: 0.8rem;
+}
+
+.auth {
+  @extend %message-shared;
+  background-color: lightseagreen;
+  padding: 0.8rem;
+}
+
+.warn {
+  @extend %message-shared;
+  background-color: #FF8400;
+  padding: 1.2rem;
 }
