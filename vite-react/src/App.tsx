@@ -1,12 +1,11 @@
 import './App.scss';
-import Card from './components/card/Card';
+import Root from './routes/Root';
 
 export default function App() {
   return (
     <div className="app">
-      <Card>
-        <h2>Vite + React + TS</h2>
-      </Card>
+      <h1>Vite + React + TS</h1>
+      <Root/>
     </div>
   );
 };

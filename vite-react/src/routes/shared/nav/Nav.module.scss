@@ -1,0 +1,38 @@
+.nav {
+  margin-bottom: 2rem;
+
+  ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+
+    li {
+      border-bottom: 0.1rem solid #ccc;
+      padding: 0.4rem;
+
+      &.active {
+        border-bottom-color: orangered;
+
+        a:visited {
+          color: orangered;
+        }
+      }
+
+      a {
+        text-decoration: none;
+
+        &:link,
+        &:visited,
+        &:active {
+          color: purple;
+        }
+
+        &:hover {
+          color: #cc0acc;
+        }
+      }
+    }
+  }
+}

@@ -1,6 +1,6 @@
 const pages = [
   'counter/index.html',
-  'post/index.html'
+  'posts/index.html'
 ];
 
 export default pages;
