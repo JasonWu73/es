@@ -56,7 +56,14 @@ function SplitRoutes() {
       <Route path="/posts/*" element={<PostRoutes/>}/>
       <Route path="/simple-input" element={<SimpleInput/>}/>
       <Route path="*" element={<NotFound/>}/>
-      <Route path="/redirect-home-by-navigate-component" element={<Navigate to="/"/>}/>
+      <Route path="/redirect-home-by-navigate-component"
+             element={
+               <Navigate
+                 to="/"
+                 state={{hi: "I'm from state of `Navigate`"}}
+               />
+             }
+      />
     </Routes>
   );
 }
