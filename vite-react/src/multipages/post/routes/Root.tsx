@@ -7,6 +7,7 @@ import SimpleInput from './form/SimpleInput';
 import Post from './posts/Post';
 import NewPost from './posts/NewPost';
 import NotFound from '../../../shared/components/not-found/NotFound';
+import PostLayout from './posts/PostLayout';
 
 export default function Root() {
   return (
@@ -20,16 +21,12 @@ export default function Root() {
       </Nav>
       <Routes>
         <Route path="/" element={<Home/>}/>
-        <Route path="/posts">
+        {/* 若无需 URL 关联, 仅将 `PostLayout` 作为共同组件使用, 则可省略 `path` */}
+        <Route path="/posts" element={<PostLayout/>}>
           <Route index element={<PostList/>}/>
           <Route path=":id" element={<Post/>}/>
           <Route path="new" element={<NewPost/>}/>
         </Route>
-        {/*
-        <Route path="/posts" element={<PostList/>}/>
-        <Route path="/posts/:id" element={<Post/>}/>
-        <Route path="/posts/new" element={<NewPost/>}/>
-        */}
         <Route path="/simple-input" element={<SimpleInput/>}/>
         <Route path="*" element={<NotFound/>}/>
       </Routes>

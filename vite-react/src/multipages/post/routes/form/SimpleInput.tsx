@@ -2,6 +2,7 @@ import Button from '../../../../shared/components/button/Button';
 import classes from './SimpleInput.module.scss';
 import {FormEvent} from "react";
 import {useInput} from "../../../../shared/hooks/use-input";
+import Card from '../../../../shared/components/card/Card';
 
 export default function SimpleInput() {
   const {
@@ -38,21 +39,23 @@ export default function SimpleInput() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className={classes.form}>
-      <div className={getClasses(nameHasError)}>
-        <label htmlFor="name">Name</label>
-        <input value={name} onChange={handleNameChange} onBlur={handleNameBlur} type="text" id="name"/>
-        {nameHasError && <p className={classes.error}>Name must not be empty.</p>}
-      </div>
-      <div className={getClasses(emailHasError)}>
-        <label htmlFor="email">Email</label>
-        <input value={email} onChange={handleEmailChange} onBlur={handleEmailBlur} type="text" id="email"/>
-        {emailHasError && <p className={classes.error}>Email is not valid.</p>}
-      </div>
-      <div className={classes['form-action']}>
-        <Button disabled={!formValid}>Submit</Button>
-      </div>
-    </form>
+    <Card>
+      <form onSubmit={handleSubmit} className={classes.form}>
+        <div className={getClasses(nameHasError)}>
+          <label htmlFor="name">Name</label>
+          <input value={name} onChange={handleNameChange} onBlur={handleNameBlur} type="text" id="name"/>
+          {nameHasError && <p className={classes.error}>Name must not be empty.</p>}
+        </div>
+        <div className={getClasses(emailHasError)}>
+          <label htmlFor="email">Email</label>
+          <input value={email} onChange={handleEmailChange} onBlur={handleEmailBlur} type="text" id="email"/>
+          {emailHasError && <p className={classes.error}>Email is not valid.</p>}
+        </div>
+        <div className={classes['form-action']}>
+          <Button disabled={!formValid}>Submit</Button>
+        </div>
+      </form>
+    </Card>
   );
 }
 

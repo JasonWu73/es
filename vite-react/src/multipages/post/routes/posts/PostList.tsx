@@ -1,9 +1,7 @@
 import classes from './PostList.module.scss';
-import {Post} from "../../post.model";
+import {Post} from "./post.model";
 import {useHttp} from '../../../../shared/hooks/use-http';
 import {useEffect, useState} from 'react';
-import Card from '../../../../shared/components/card/Card';
-import {Link} from 'react-router-dom';
 
 interface Props {
   posts: Post[];
@@ -22,17 +20,11 @@ export default function PostList() {
   }, []);
 
   return (
-    <Card>
-      <h2>Post List</h2>
-      <ul style={{listStyle: 'none'}}>
-        <li><Link to="/posts/1">Post 1</Link></li>
-        <li><Link to="/posts/2">Post 2</Link></li>
-        <li><Link to="/posts/new">New Post</Link></li>
-      </ul>
+    <>
       {loading && <p>Loading...</p>}
       {!loading && error && <p>{error}</p>}
       {!loading && !error && <Posts posts={posts}/>}
-    </Card>
+    </>
   );
 }
 

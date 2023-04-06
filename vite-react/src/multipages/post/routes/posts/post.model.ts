@@ -4,3 +4,7 @@ export interface Post {
   body: string;
   userId: number;
 }
+
+export interface PostOutletContext {
+  hello: string;
+}
