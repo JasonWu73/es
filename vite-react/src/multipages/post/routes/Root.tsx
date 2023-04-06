@@ -5,6 +5,10 @@ import Home from './home/Home';
 import SimpleInput from './form/SimpleInput';
 import NotFound from '../../../shared/components/not-found/NotFound';
 import PostRoutes from './posts/PostRoutes';
+import PostLayout from './posts/PostLayout';
+import PostList from './posts/PostList';
+import Post from './posts/Post';
+import NewPost from './posts/NewPost';
 
 export default function Root() {
   return (
@@ -17,6 +21,45 @@ export default function Root() {
         </ul>
       </Nav>
       {/* Routes 可以有多个, 比如用于渲染不同效果的导航栏 */}
+      <ExtraRoutes/>
+      {/* <EntireRoutes/> */}
+      <SplitRoutes/>
+    </>
+  );
+}
+
+function SplitRoutes() {
+  return (
+    <Routes>
+      <Route path="/" element={<Home/>}/>
+      {/* 提取 Routes 为组件, 注意此时 `path` 需要为 `/posts/*`, 而非 `/posts` */}
+      <Route path="/posts/*" element={<PostRoutes/>}/>
+      <Route path="/simple-input" element={<SimpleInput/>}/>
+      <Route path="*" element={<NotFound/>}/>
+    </Routes>
+  );
+}
+
+function EntireRoutes() {
+  return (
+    <Routes>
+      <Route path="/" element={<Home/>}/>
+      {/* 若无需 URL 关联, 仅将 `PostLayout` 作为共同组件使用, 则可省略 `path` */}
+      {/* <Route element={<PostLayout/>}> */}
+      <Route path="/posts" element={<PostLayout/>}>
+        <Route index element={<PostList/>}/>
+        <Route path=":id" element={<Post/>}/>
+        <Route path="new" element={<NewPost/>}/>
+      </Route>
+      <Route path="/simple-input" element={<SimpleInput/>}/>
+      <Route path="*" element={<NotFound/>}/>
+    </Routes>
+  );
+}
+
+function ExtraRoutes() {
+  return (
+    <>
       {/* 还可通过 `location` 静态指定一个额外组件, 此时则可不必写全所有 `Route` */}
       {/* <Routes location="/posts"> */}
       <Routes>
@@ -28,22 +71,6 @@ export default function Root() {
         </Route>
         <Route path="/simple-input" element={<ExtraComponent message="Simple Input Form"/>}/>
         <Route path="*" element={<ExtraComponent message="404 Page Not Found"/>}/>
-      </Routes>
-      <Routes>
-        <Route path="/" element={<Home/>}/>
-        {/* 提取 Routes 为组件, 注意此时 `path` 需要为 `/posts/*`, 而非 `/posts` */}
-        <Route path="/posts/*" element={<PostRoutes/>}/>
-        {/* 若无需 URL 关联, 仅将 `PostLayout` 作为共同组件使用, 则可省略 `path` */}
-        {/* <Route element={<PostLayout/>}> */}
-        {/*
-        <Route path="/posts" element={<PostLayout/>}>
-          <Route index element={<PostList/>}/>
-          <Route path=":id" element={<Post/>}/>
-          <Route path="new" element={<NewPost/>}/>
-        </Route>
-        */}
-        <Route path="/simple-input" element={<SimpleInput/>}/>
-        <Route path="*" element={<NotFound/>}/>
       </Routes>
     </>
   );
