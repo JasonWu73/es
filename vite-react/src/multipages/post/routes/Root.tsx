@@ -1,6 +1,5 @@
 import Nav from '../../../shared/components/nav/Nav';
-import navClasses from '../../../shared/components/nav/Nav.module.scss';
-import {Link, Route, Routes} from 'react-router-dom';
+import {Route, Routes} from 'react-router-dom';
 import Home from './home/Home';
 import SimpleInput from './form/SimpleInput';
 import NotFound from '../../../shared/components/not-found/NotFound';
@@ -10,10 +9,25 @@ import PostList from './posts/PostList';
 import Post from './posts/Post';
 import NewPost from './posts/NewPost';
 
+const ROUTES = [
+  {
+    to: "/",
+    name: "Home"
+  },
+  {
+    to: "/posts",
+    name: "Posts"
+  },
+  {
+    to: "/simple-input",
+    name: "Simple Input Form"
+  }
+];
+
 export default function Root() {
   return (
     <>
-      <MyNavigator/>
+      <Nav routes={ROUTES}/>
 
       {/* Routes 可以有多个, 比如用于渲染不同效果的导航栏 */}
       <ExtraRoutes/>
@@ -24,22 +38,6 @@ export default function Root() {
       {/* 拆分定义 Routes */}
       <SplitRoutes/>
     </>
-  );
-}
-
-function MyNavigator() {
-  return (
-    <Nav>
-      <ul>
-        {/* `Link` 属性:
-          `replace`: 仅替换当前 URL, 使替换前的 URL 不加入 history, 即回退浏览历史时会退两级. 常用于登录页
-          `state`: 路由间传递数据, 且不影响 URL
-        */}
-        <li className={navClasses.active}><Link to="/">Home</Link></li>
-        <li><Link to="/posts">Posts</Link></li>
-        <li><Link to="/simple-input">Simple Input Form</Link></li>
-      </ul>
-    </Nav>
   );
 }
 

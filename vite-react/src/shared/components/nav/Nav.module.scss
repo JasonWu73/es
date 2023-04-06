@@ -12,14 +12,6 @@
       border-bottom: 0.1rem solid #ccc;
       padding: 0.4rem;
 
-      &.active {
-        border-bottom-color: orangered;
-
-        a:visited {
-          color: orangered;
-        }
-      }
-
       a {
         text-decoration: none;
 
@@ -31,6 +23,11 @@
 
         &:hover {
           color: #cc0acc;
+        }
+
+        &.active {
+          color: orangered;
+          font-weight: bolder;
         }
       }
     }
