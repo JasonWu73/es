@@ -27,6 +27,7 @@ export default function PostList() {
       <ul style={{listStyle: 'none'}}>
         <li><Link to="/posts/1">Post 1</Link></li>
         <li><Link to="/posts/2">Post 2</Link></li>
+        <li><Link to="/posts/new">New Post</Link></li>
       </ul>
       {loading && <p>Loading...</p>}
       {!loading && error && <p>{error}</p>}

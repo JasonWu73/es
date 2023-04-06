@@ -3,6 +3,7 @@ import navClasses from "../shared/components/nav/Nav.module.scss";
 import {Link, Route, Routes} from "react-router-dom";
 import Hello from "./hello/Hello";
 import Home from "./home/Home";
+import NotFound from '../shared/components/not-found/NotFound';
 
 export default function Root() {
   return (
@@ -16,6 +17,7 @@ export default function Root() {
       <Routes>
         <Route path="/" element={<Home/>}/>
         <Route path="/hello" element={<Hello/>}/>
+        <Route path="*" element={<NotFound/>}/>
       </Routes>
     </>
   );

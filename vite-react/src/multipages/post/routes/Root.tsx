@@ -5,6 +5,8 @@ import Home from './home/Home';
 import PostList from './posts/PostList';
 import SimpleInput from './form/SimpleInput';
 import Post from './posts/Post';
+import NewPost from './posts/NewPost';
+import NotFound from '../../../shared/components/not-found/NotFound';
 
 export default function Root() {
   return (
@@ -20,7 +22,9 @@ export default function Root() {
         <Route path="/" element={<Home/>}/>
         <Route path="/posts" element={<PostList/>}/>
         <Route path="/posts/:id" element={<Post/>}/>
+        <Route path="/posts/new" element={<NewPost/>}/>
         <Route path="/simple-input" element={<SimpleInput/>}/>
+        <Route path="*" element={<NotFound/>}/>
       </Routes>
     </>
   );
