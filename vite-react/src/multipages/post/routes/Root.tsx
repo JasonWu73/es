@@ -1,5 +1,5 @@
 import Nav, {NavRoute} from '../../../shared/components/nav/Nav';
-import {Route, Routes} from 'react-router-dom';
+import {Navigate, Route, Routes} from 'react-router-dom';
 import Home from './home/Home';
 import SimpleInput from './form/SimpleInput';
 import NotFound from '../../../shared/components/not-found/NotFound';
@@ -23,6 +23,10 @@ const ROUTES = [
   {
     to: "/simple-input",
     name: "Simple Input Form"
+  },
+  {
+    to: "/redirect-home-by-navigate-component",
+    name: "Redirect to Home"
   }
 ] as NavRoute[];
 
@@ -51,6 +55,7 @@ function SplitRoutes() {
       <Route path="/posts/*" element={<PostRoutes/>}/>
       <Route path="/simple-input" element={<SimpleInput/>}/>
       <Route path="*" element={<NotFound/>}/>
+      <Route path="/redirect-home-by-navigate-component" element={<Navigate to="/"/>}/>
     </Routes>
   );
 }
@@ -68,6 +73,7 @@ function EntireRoutes() {
       </Route>
       <Route path="/simple-input" element={<SimpleInput/>}/>
       <Route path="*" element={<NotFound/>}/>
+      <Route path="/redirect-home-by-navigate-component" element={<Navigate to="/"/>}/>
     </Routes>
   );
 }
