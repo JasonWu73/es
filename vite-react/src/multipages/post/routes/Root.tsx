@@ -1,4 +1,5 @@
 import Nav from '../../../shared/components/nav/Nav';
+import navClasses from '../../../shared/components/nav/Nav.module.scss';
 import {Link, Route, Routes} from 'react-router-dom';
 import Home from './home/Home';
 import PostList from './posts/PostList';
@@ -10,7 +11,7 @@ export default function Root() {
     <>
       <Nav>
         <ul>
-          <li className="active"><Link to="/">Home</Link></li>
+          <li className={navClasses.active}><Link to="/">Home</Link></li>
           <li><Link to="/posts">Posts</Link></li>
           <li><Link to="/simple-input">Simple Input Form</Link></li>
         </ul>
