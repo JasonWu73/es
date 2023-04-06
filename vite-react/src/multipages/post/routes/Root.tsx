@@ -13,18 +13,32 @@ import NewPost from './posts/NewPost';
 export default function Root() {
   return (
     <>
-      <Nav>
-        <ul>
-          <li className={navClasses.active}><Link to="/">Home</Link></li>
-          <li><Link to="/posts">Posts</Link></li>
-          <li><Link to="/simple-input">Simple Input Form</Link></li>
-        </ul>
-      </Nav>
+      <MyNavigator/>
+
       {/* Routes 可以有多个, 比如用于渲染不同效果的导航栏 */}
       <ExtraRoutes/>
+
+      {/* 一次定义全部 Routes */}
       {/* <EntireRoutes/> */}
+
+      {/* 拆分定义 Routes */}
       <SplitRoutes/>
     </>
+  );
+}
+
+function MyNavigator() {
+  return (
+    <Nav>
+      <ul>
+        {/* `Link` 属性:
+          `replace`: 仅替换当前 URL, 使替换前的 URL 不加入 history, 即回退浏览历史时会退两级. 常用于登录页
+        */}
+        <li className={navClasses.active}><Link to="/">Home</Link></li>
+        <li><Link to="/posts">Posts</Link></li>
+        <li><Link to="/simple-input">Simple Input Form</Link></li>
+      </ul>
+    </Nav>
   );
 }
 
