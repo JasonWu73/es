@@ -4,21 +4,4 @@
   src: url("../../shared/assets/fonts/JetBrainsMono-Regular.woff2") format("woff2");
 }
 
-*,
-*::before,
-*::after {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-html {
-  /* 定义 root 字体为 10px, 以便后续 rem 计算 */
-  /* 10 / 16 (浏览器默认) = 0.625 */
-  font-size: 62.5%;
-}
-
-body {
-  font-size: 1.6rem; // 重新设置为浏览器的默认字体大小
-  font-family: "JetBrains Mono Web", sans-serif;
-}
+@import '../../shared/sass/base/reset';

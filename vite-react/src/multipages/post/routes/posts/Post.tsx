@@ -8,7 +8,7 @@ export default function Post() {
   return (
     <div className={classes.post}>
       <h2>{id} - Post</h2>
-      <p>Data from outlet context: {hello}</p>
+      <p>Data from <code>Outlet</code> context: {hello}</p>
     </div>
   );
 }

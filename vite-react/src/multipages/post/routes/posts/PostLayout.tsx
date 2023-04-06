@@ -59,7 +59,7 @@ export default function PostLayout() {
       {/* `Outlet` 类似 `props.children` + `context` */}
       <Outlet context={
         {
-          hello: "React Router"
+          hello: "I'm from context from `outlet` Component."
         } as PostOutletContext
       }/>
     </Card>

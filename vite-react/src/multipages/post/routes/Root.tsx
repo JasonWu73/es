@@ -1,5 +1,5 @@
 import Nav, {NavRoute} from '../../../shared/components/nav/Nav';
-import {Navigate, Route, Routes} from 'react-router-dom';
+import {Navigate, Route, Routes, useLocation} from 'react-router-dom';
 import Home from './home/Home';
 import SimpleInput from './form/SimpleInput';
 import NotFound from '../../../shared/components/not-found/NotFound';
@@ -13,6 +13,7 @@ const ROUTES = [
   {
     to: "/",
     name: "Home",
+    state: {hi: "I'm from state of `Link` / `NavLink`"},
     // replace: true
   },
   {
@@ -31,6 +32,9 @@ const ROUTES = [
 ] as NavRoute[];
 
 export default function Root() {
+  const location = useLocation();
+  console.log('useLocation: ', location);
+
   return (
     <>
       <Nav routes={ROUTES}/>
