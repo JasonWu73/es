@@ -41,7 +41,9 @@ function NavItem({to, name, replace = false}: Route) {
         className={({isActive}) => isActive ? classes.active : ''}
         replace={replace}
       >
-        {name}
+        {({isActive}) => {
+          return isActive ? `Active ${name}` : `${name}`;
+        }}
       </NavLink>
     </li>
   );
