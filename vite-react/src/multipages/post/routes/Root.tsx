@@ -3,14 +3,13 @@ import {Navigate, Outlet, Route, Routes} from 'react-router-dom';
 import Home from './home/Home';
 import SimpleInput from './form/SimpleInput';
 import NotFound from '../../../shared/components/not-found/NotFound';
-import PostRoutes from './posts/PostRoutes';
 import PostLayout from './posts/PostLayout';
 import PostList from './posts/PostList';
 import Post from './posts/Post';
 import NewPost from './posts/NewPost';
 import AuthStatus from './auth/AuthStatus';
 import Login from './auth/Login';
-import RequireAuth from './auth/RequireAuth';
+import AuthPostRoutes from './posts/AuthPostRoutes';
 
 const ROUTES = [
   {
@@ -71,14 +70,7 @@ function SplitRoutes() {
         <Route path="/" element={<Home/>}/>
         <Route path="/login" element={<Login/>}/>
         {/* 提取 Routes 为组件, 注意此时 `path` 需要为 `/posts/*`, 而非 `/posts` */}
-        <Route
-          path="/posts/*"
-          element={
-            <RequireAuth>
-              <PostRoutes/>
-            </RequireAuth>
-          }
-        />
+        <Route path="/posts/*" element={<AuthPostRoutes/>}/>
         <Route path="/simple-input" element={<SimpleInput/>}/>
         <Route path="*" element={<NotFound/>}/>
         <Route
