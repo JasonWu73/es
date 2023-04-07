@@ -6,6 +6,13 @@ import Copyright from '../shared/components/copyright/Copyright';
 export default function AdminLayout() {
   const {token: {colorBgContainer}} = theme.useToken();
 
+  const contentStyles = {
+    padding: '2.4rem',
+    margin: 0,
+    minHeight: '28rem',
+    background: colorBgContainer
+  };
+
   return (
     <Layout>
       <HeaderLayout/>
@@ -16,16 +23,7 @@ export default function AdminLayout() {
         <Layout style={{padding: '0 2.4rem 2.4rem'}}>
           <Breadcrumbs/>
 
-          <Layout.Content
-            style={
-              {
-                padding: '2.4rem',
-                margin: 0,
-                minHeight: '28rem',
-                background: colorBgContainer
-              }
-            }
-          >
+          <Layout.Content style={contentStyles}>
             <Outlet/>
           </Layout.Content>
 
@@ -44,7 +42,7 @@ function usePathSnippets() {
 function Breadcrumbs() {
   const pathSnippets = usePathSnippets();
 
-  const items = pathSnippets.map((path, index) => {
+  const extraBreadcrumbItems = pathSnippets.map((path, index) => {
     const url = `/${pathSnippets.slice(0, index + 1).join('/')}`;
     const title = sidebarMenuRoutes.find(menu => menu.url === url)?.title ?? path;
 
@@ -54,25 +52,23 @@ function Breadcrumbs() {
     };
   });
 
+  const breadcrumbItems = [
+    {
+      key: '/',
+      title: <Link to="/">首页</Link>
+    },
+  ].concat(extraBreadcrumbItems);
+
   return (
     <Breadcrumb
-      items={
-        [
-          {
-            key: '/',
-            title: <Link to="/">首页</Link>
-
-          },
-          ...items
-        ]
-      }
+      items={breadcrumbItems}
       style={{margin: '1.6rem 0'}}
     />
   );
 }
 
 function SidebarMenus() {
-  const menus = sidebarMenuRoutes.map(route => {
+  const menuItems = sidebarMenuRoutes.map(route => {
     return {
       key: route.url,
       icon: route.icon,
@@ -82,7 +78,7 @@ function SidebarMenus() {
 
   const pathSnippets = usePathSnippets();
 
-  const selectedKeys = menus
+  const selectedKeys = menuItems
     .filter(menu => pathSnippets.find(path => `/${path}` === menu.key))
     .map(menu => menu.key);
 
@@ -95,7 +91,7 @@ function SidebarMenus() {
           height: '100%',
           borderRight: 0,
         }}
-        items={menus}
+        items={menuItems}
       />
     </Layout.Sider>
   );

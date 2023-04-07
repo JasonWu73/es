@@ -41,6 +41,7 @@ export default function Root() {
           <Route path="/" element={<Home/>}/>
           <Route path="/counter" element={<Counter/>}/>
           <Route path="/hello" element={<Hello/>}/>
+          <Route path="/hello/:id" element={<Hello/>}/>
         </Route>
       </Routes>
     </>
