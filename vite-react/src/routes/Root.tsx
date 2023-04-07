@@ -8,14 +8,23 @@ import {CalculatorOutlined, EditOutlined} from '@ant-design/icons';
 
 export const sidebarMenuRoutes = [
   {
-    title: '计数器',
+    title: '状态管理',
     url: '/counter',
-    icon: <CalculatorOutlined/>
+    icon: <CalculatorOutlined/>,
   },
   {
     title: '文章列表',
-    url: '/hello',
-    icon: <EditOutlined/>
+    icon: <EditOutlined/>,
+    children: [
+      {
+        title: '我的文章',
+        url: '/my-posts'
+      },
+      {
+        title: '所有文章',
+        url: '/posts'
+      }
+    ]
   }
 ];
 
@@ -40,8 +49,8 @@ export default function Root() {
         <Route element={<AdminLayout/>}>
           <Route path="/" element={<Home/>}/>
           <Route path="/counter" element={<Counter/>}/>
-          <Route path="/hello" element={<Hello/>}/>
-          <Route path="/hello/:id" element={<Hello/>}/>
+          <Route path="/my-posts" element={<Hello/>}/>
+          <Route path="/posts" element={<Hello/>}/>
         </Route>
       </Routes>
     </>

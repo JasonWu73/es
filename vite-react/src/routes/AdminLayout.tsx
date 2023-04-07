@@ -2,6 +2,7 @@ import {Breadcrumb, Layout, Menu, theme, Typography} from 'antd';
 import {Link, Outlet, useLocation} from 'react-router-dom';
 import {PAGES, sidebarMenuRoutes} from './Root';
 import Copyright from '../shared/components/copyright/Copyright';
+import {ReactNode, useMemo} from 'react';
 
 export default function AdminLayout() {
   const {token: {colorBgContainer}} = theme.useToken();
@@ -37,30 +38,27 @@ export default function AdminLayout() {
   );
 }
 
-function usePathSnippets() {
-  const location = useLocation();
-  return location.pathname.split('/').filter((p) => p);
-}
-
 function Breadcrumbs() {
-  const pathSnippets = usePathSnippets();
+  const pathSnippetInfos = usePathSnippetInfos();
 
-  const extraBreadcrumbItems = pathSnippets.map((path, index) => {
-    const url = `/${pathSnippets.slice(0, index + 1).join('/')}`;
-    const title = sidebarMenuRoutes.find(menu => menu.url === url)?.title ?? path;
+  const breadcrumbItems = useMemo(
+    () => {
+      const extraBreadcrumbItems = pathSnippetInfos.map(({url, title}) => {
+        return {
+          key: url,
+          title: <Link to={url}>{title}</Link>,
+        };
+      });
 
-    return {
-      key: url,
-      title: <Link to={url}>{title}</Link>,
-    };
-  });
-
-  const breadcrumbItems = [
-    {
-      key: '/',
-      title: <Link to="/">首页</Link>
+      return [
+        {
+          key: '/',
+          title: <Link to="/">首页</Link>
+        },
+      ].concat(extraBreadcrumbItems);
     },
-  ].concat(extraBreadcrumbItems);
+    [pathSnippetInfos]
+  );
 
   return (
     <Breadcrumb
@@ -72,31 +70,116 @@ function Breadcrumbs() {
 
 function SidebarMenus() {
   const menuItems = sidebarMenuRoutes.map(route => {
+    if (route.url) {
+      return {
+        key: route.url,
+        icon: route.icon,
+        label: <Link to={route.url}>{route.title}</Link>
+      };
+    }
+
+    const children = route.children?.map(child => {
+      return {
+        key: child.url,
+        label: <Link to={child.url}>{child.title}</Link>
+      };
+    });
+
+    if (children) {
+      return {
+        key: route.title,
+        icon: route.icon,
+        label: route.title,
+        children
+      };
+    }
+
     return {
-      key: route.url,
+      key: route.title,
       icon: route.icon,
-      label: <Link to={route.url}>{route.title}</Link>
+      label: route.title
     };
   });
 
-  const pathSnippets = usePathSnippets();
+  const pathSnippetInfos = usePathSnippetInfos();
 
-  const selectedKeys = menuItems
-    .filter(menu => pathSnippets.find(path => `/${path}` === menu.key))
-    .map(menu => menu.key);
+  const selectedKeys = useMemo(
+    () => {
+      return getSelectedKeys(sidebarMenuRoutes);
+
+      function getSelectedKeys(items: {
+        title: string,
+        url?: string,
+        icon?: ReactNode,
+        children?: { title: string, url: string }[]
+      }[]) {
+        const keys = [] as string[];
+
+        for (const item of items) {
+          if (item.url && pathSnippetInfos.find(({url}) => url === item.url)) {
+            keys.push(item.url);
+          } else if (!item.url && item.children) {
+            const childKeys = getSelectedKeys(item.children);
+            if (childKeys) {
+              keys.push(item.title, ...childKeys);
+            }
+          }
+        }
+
+        return keys;
+      }
+    },
+    [pathSnippetInfos]
+  );
 
   return (
     <Layout.Sider>
       <Menu
-        selectedKeys={selectedKeys}
         mode="inline"
-        style={{
-          height: '100%',
-          borderRight: 0,
-        }}
+        style={{height: '100%', borderRight: 0}}
         items={menuItems}
+        selectedKeys={selectedKeys}
+        defaultOpenKeys={selectedKeys}
       />
     </Layout.Sider>
+  );
+}
+
+function usePathSnippetInfos() {
+  const {pathname} = useLocation();
+
+  return useMemo(
+    () => {
+      const pathSnippets = pathname.split('/').filter((p) => p);
+
+      return pathSnippets.map((path, index) => {
+        const url = `/${pathSnippets.slice(0, index + 1).join('/')}`;
+        const title = getTitle(sidebarMenuRoutes, url) ?? path;
+
+        return {url, title}
+      });
+
+      function getTitle(
+        items: {
+          title: string,
+          url?: string,
+          icon?: ReactNode,
+          children?: { title: string, url: string }[]
+        }[],
+        urlToSearch: string
+      ): string | null {
+        for (const item of items) {
+          if (item.url && item.url === urlToSearch) {
+            return item.title;
+          } else if (!item.url && item.children) {
+            return getTitle(item.children, urlToSearch);
+          }
+        }
+
+        return null;
+      }
+    },
+    [pathname]
   );
 }
 
