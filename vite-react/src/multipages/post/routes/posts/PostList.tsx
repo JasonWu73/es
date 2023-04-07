@@ -2,13 +2,17 @@ import classes from './PostList.module.scss';
 import {Post} from "./post.model";
 import {useHttp} from '../../../../shared/hooks/use-http';
 import {useEffect, useState} from 'react';
+import {usePageTitle} from '../../../../shared/hooks/use-page-title';
 
 interface Props {
   posts: Post[];
 }
 
 export default function PostList() {
+  usePageTitle('Post List');
+
   const {posts, loading, error} = usePosts();
+
   return (
     <>
       {loading && <p>Loading...</p>}

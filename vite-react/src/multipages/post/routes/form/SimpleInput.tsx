@@ -3,8 +3,11 @@ import Button from '../../../../shared/components/button/Button';
 import {FormEvent} from "react";
 import {useInput} from "../../../../shared/hooks/use-input";
 import Card from '../../../../shared/components/card/Card';
+import {usePageTitle} from '../../../../shared/hooks/use-page-title';
 
 export default function SimpleInput() {
+  usePageTitle('Simple Input Form');
+
   const {
     value: name,
     valid: nameValid,
