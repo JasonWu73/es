@@ -1,4 +1,4 @@
-import Nav, {NavRoute} from '../../../shared/components/nav/Nav';
+import Nav, {NavRoute} from '../components/nav/Nav';
 import {Navigate, Outlet, Route, Routes} from 'react-router-dom';
 import Home from './home/Home';
 import SimpleInput from './form/SimpleInput';

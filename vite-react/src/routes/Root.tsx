@@ -1,4 +1,4 @@
-import Nav, {NavRoute} from "../shared/components/nav/Nav";
+import Nav, {NavRoute} from "../multipages/post/components/nav/Nav";
 import {Route, Routes} from "react-router-dom";
 import Counter from "./counter/Counter";
 import NotFound from '../shared/components/not-found/NotFound';
@@ -7,7 +7,7 @@ import Hello from "./hello/Hello";
 const ROUTES = [
   {
     to: "/",
-    name: "Home"
+    name: "Counter"
   },
   {
     to: "/hello",
