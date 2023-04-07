@@ -16,7 +16,7 @@ export default function Home() {
 
 function MultiplePages() {
   return (
-    <Card style={{maxWidth: '60rem', margin: '2rem auto'}}>
+    <Card style={{maxWidth: '60rem', margin: '1rem auto'}}>
       <Divider orientation="left">多页面链接</Divider>
       <List
         itemLayout="horizontal"

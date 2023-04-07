@@ -21,7 +21,7 @@ export default function AdminLayout() {
     <Layout>
       <HeaderLayout/>
 
-      <Layout>
+      <Layout style={{minHeight: 'calc(100vh - 64px)'}}>
         {!isHomeLocation && <SidebarMenus/>}
 
         <Layout style={{padding: '0 2.4rem 2.4rem'}}>
