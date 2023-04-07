@@ -1,7 +1,7 @@
 import {defineConfig} from 'vite';
 import react from '@vitejs/plugin-react';
 import {resolve, dirname, parse} from 'path';
-import pages from './pages';
+import {pages} from './pages';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -18,10 +18,14 @@ export default defineConfig({
 
 function getPagesInput() {
   const pagesInput = {};
+
   (pages as string[]).forEach(page => {
     const dirName = dirname(page).replace(/\//g, '_'); // 获取目录名, 并将 `/` 替换为 `_`
     const filename = parse(page).name; // Get the file name without extension
     pagesInput[`${dirName}_${filename}`] = page;
   });
+
+  console.log('pages: ', pagesInput);
+
   return pagesInput;
 }

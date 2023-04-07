@@ -1,5 +1,6 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {AppDispatch, RootState} from '../../store';
+import {wait} from '../../../../shared/utils/promisify';
 
 // Define a type for the slice state
 interface CounterState {
@@ -40,7 +41,7 @@ export const counterSlice = createSlice({
 //   counterSlice.actions.increment()
 // );
 // console.log(newState); // {value: 11}
-export default counterSlice.reducer;
+export const counterReducer = counterSlice.reducer;
 
 // Action creators are generated for each case reducer function
 // console.log(counterSlice.actions.increment()); // {type: 'counter/increment', payload: undefined}
@@ -60,8 +61,4 @@ export function incrementAsync(amount: number) {
     dispatch(incrementByAmount(amount));
     console.log(getState()); // {counter: {value: 100}}
   };
-}
-
-function wait(seconds: number) {
-  return new Promise(resolve => setTimeout(resolve, seconds * 1000));
 }

@@ -1,8 +1,8 @@
 import Nav, {NavRoute} from "../shared/components/nav/Nav";
 import {Route, Routes} from "react-router-dom";
-import Hello from "./hello/Hello";
-import Home from "./home/Home";
+import Counter from "./counter/Counter";
 import NotFound from '../shared/components/not-found/NotFound';
+import Hello from "./hello/Hello";
 
 const ROUTES = [
   {
@@ -20,9 +20,9 @@ export default function Root() {
     <>
       <Nav routes={ROUTES}/>
       <Routes>
-        <Route path="/" element={<Home/>}/>
-        <Route path="/hello" element={<Hello/>}/>
+        <Route path="/" element={<Counter/>}/>
         <Route path="*" element={<NotFound/>}/>
+        <Route path="/hello" element={<Hello/>}/>
       </Routes>
     </>
   );
