@@ -2,10 +2,23 @@ import classes from './Counter.module.scss';
 import {usePageTitle} from '../../shared/hooks/use-page-title';
 import reduxLogo from '../../shared/assets/img/redux-logo.svg';
 import {ReactNode, useState} from 'react';
-import {Button, InputNumber, Layout, Space, Typography} from 'antd';
+import {Button, Card, Divider, InputNumber, Layout, List, Space, Typography} from 'antd';
 import {useAppDispatch, useAppSelector} from '../../multipages/counter/store-hooks';
 import {decrement, increment, incrementAsync, incrementByAmount} from './counter-slice';
 import Copyright from '../../shared/components/copyright/Copyright';
+
+const PAGES = [
+  {
+    title: 'React Redux',
+    url: 'counter/index.html',
+    description: '单独测试 React Redux'
+  },
+  {
+    title: 'React Router',
+    url: 'post/index.html',
+    description: '单独测试 React Router'
+  }
+];
 
 export default function Counter() {
   usePageTitle('Redux Counter');
@@ -22,7 +35,7 @@ export default function Counter() {
   return (
     <HomeLayout>
       <Space direction="vertical">
-        <Space size={'middle'}>
+        <Space>
           <Button type="default" shape="circle" size="large" onClick={() => dispatch(increment())}>+</Button>
           <Typography.Text style={{fontSize: '4.8rem'}}>{counter.value}</Typography.Text>
           <Button type="default" shape="circle" size="large" onClick={() => dispatch(decrement())}>-</Button>
@@ -46,6 +59,28 @@ export default function Counter() {
   );
 }
 
+function MultiplePages() {
+  return (
+    <>
+      <Card style={{maxWidth: '60rem', margin: '2rem auto'}}>
+        <Divider orientation="left">多页面链接</Divider>
+        <List
+          itemLayout="horizontal"
+          dataSource={PAGES}
+          renderItem={(item, index) => (
+            <List.Item>
+              <List.Item.Meta
+                title={<a href={item.url}>{index + 1} - {item.title}</a>}
+                description={item.description}
+              />
+            </List.Item>
+          )}
+        />
+      </Card>
+    </>
+  );
+}
+
 function HomeLayout({children}: { children: ReactNode }) {
   return (
     <Layout style={{minHeight: '100vh'}}>
@@ -54,11 +89,12 @@ function HomeLayout({children}: { children: ReactNode }) {
       </Layout.Header>
 
       <Layout.Content>
+        <MultiplePages/>
+
         <div className={classes.counter}>
           <div className={classes.counter__header}>
             <img src={reduxLogo} className={classes.logo} alt="Redux logo"/>
             {children}
-
           </div>
         </div>
       </Layout.Content>
