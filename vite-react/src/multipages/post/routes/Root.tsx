@@ -9,7 +9,8 @@ import Post from './posts/Post';
 import NewPost from './posts/NewPost';
 import AuthStatus from './auth/AuthStatus';
 import Login from './auth/Login';
-import AuthPostRoutes from './posts/AuthPostRoutes';
+import RequireAuth from './auth/RequireAuth';
+import PostRoutes from './posts/PostRoutes';
 
 const ROUTES = [
   {
@@ -70,7 +71,7 @@ function SplitRoutes() {
         <Route path="/" element={<Home/>}/>
         <Route path="/login" element={<Login/>}/>
         {/* 提取 Routes 为组件, 注意此时 `path` 需要为 `/posts/*`, 而非 `/posts` */}
-        <Route path="/posts/*" element={<AuthPostRoutes/>}/>
+        <Route path="/posts/*" element={<RequireAuth><PostRoutes/></RequireAuth>}/>
         <Route path="/simple-input" element={<SimpleInput/>}/>
         <Route path="*" element={<NotFound/>}/>
         <Route
