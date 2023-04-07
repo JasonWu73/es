@@ -7,6 +7,7 @@ export default function Counter() {
   // The `state` arg is correctly typed as `RootState` already
   const counter = useAppSelector(state => state.counter);
   const dispatch = useAppDispatch();
+
   return (
     <div className={classes.counter}>
       <Button
