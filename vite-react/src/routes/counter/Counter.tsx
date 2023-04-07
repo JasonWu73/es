@@ -1,10 +1,11 @@
 import classes from './Counter.module.scss';
 import {usePageTitle} from '../../shared/hooks/use-page-title';
 import reduxLogo from '../../shared/assets/img/redux-logo.svg';
-import {ChangeEvent, ReactNode, useState} from 'react';
-import {Button, InputNumber, Space, Typography} from 'antd';
+import {ReactNode, useState} from 'react';
+import {Button, InputNumber, Layout, Space, Typography} from 'antd';
 import {useAppDispatch, useAppSelector} from '../../multipages/counter/store-hooks';
 import {decrement, increment, incrementAsync, incrementByAmount} from './counter-slice';
+import Copyright from '../../shared/components/copyright/Copyright';
 
 export default function Counter() {
   usePageTitle('Redux Counter');
@@ -19,7 +20,7 @@ export default function Counter() {
   }
 
   return (
-    <Container>
+    <MyLayout>
       <Space direction="vertical">
         <Space size={'middle'}>
           <Button type="default" shape="circle" size="large" onClick={() => dispatch(increment())}>+</Button>
@@ -41,17 +42,30 @@ export default function Counter() {
           </Button>
         </Space>
       </Space>
-    </Container>
+    </MyLayout>
   );
 }
 
-function Container({children}: { children: ReactNode }) {
+function MyLayout({children}: { children: ReactNode }) {
   return (
-    <div className={classes.counter}>
-      <div className={classes.counter__header}>
-        <img src={reduxLogo} className={classes.logo} alt="Redux logo"/>
-        {children}
-      </div>
-    </div>
+    <Layout style={{minHeight: '100vh'}}>
+      <Layout.Header style={{display: 'flex', alignItems: 'center'}}>
+        <Typography.Title level={2} style={{color: 'white', marginBottom: 0}}>多页面应用 Demo</Typography.Title>
+      </Layout.Header>
+
+      <Layout.Content>
+        <div className={classes.counter}>
+          <div className={classes.counter__header}>
+            <img src={reduxLogo} className={classes.logo} alt="Redux logo"/>
+            {children}
+
+          </div>
+        </div>
+      </Layout.Content>
+
+      <Layout.Footer style={{textAlign: 'center'}}>
+        <Copyright/>
+      </Layout.Footer>
+    </Layout>
   );
 }
