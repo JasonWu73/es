@@ -3,16 +3,22 @@ import {useAuth} from './AuthProvider';
 import {FormEvent, useState} from 'react';
 import Button from '../../../../shared/components/button/Button';
 import Card from '../../../../shared/components/card/Card';
+import {usePageTitle} from '../../../../shared/hooks/use-page-title';
 
 export default function Login() {
+  usePageTitle('Login');
+
+  const [waiting, setWaiting] = useState(false);
+
   const navigate = useNavigate();
   const location = useLocation();
-  const [waiting, setWaiting] = useState(false);
   const {login} = useAuth();
+
   const from = location.state?.from?.pathname || '/';
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+
     const formData = new FormData(event.currentTarget);
     const username = formData.get("username") as string;
 
@@ -21,7 +27,9 @@ export default function Login() {
     }
 
     console.log('login...');
+
     setWaiting(true);
+
     login(username, () => {
       setWaiting(false);
       // Send them back to the page they tried to visit when they were

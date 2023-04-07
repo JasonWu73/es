@@ -1,11 +1,15 @@
 import Card from '../../../../shared/components/card/Card';
 import {useLocation} from 'react-router-dom';
+import {usePageTitle} from '../../../../shared/hooks/use-page-title';
 
 export default function Home() {
+  usePageTitle('Home');
+
   const location = useLocation();
-  console.log("useLocation: ", location);
+
   const hi = location.state?.hi ?? '';
   const error = location.state?.error ?? '';
+
   return (
     <Card>
       <h2>Home Page</h2>
