@@ -8,6 +8,7 @@ const root = createRoot(document.getElementById('root') as HTMLElement);
 
 root.render(
   <StrictMode>
+    {/* 多页面程序必须使用 HashRouter */}
     <HashRouter>
       <App/>
     </HashRouter>
