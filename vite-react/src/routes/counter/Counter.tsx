@@ -6,6 +6,7 @@ import {Button, Card, Divider, InputNumber, Layout, List, Space, Typography} fro
 import {useAppDispatch, useAppSelector} from '../../multipages/counter/store-hooks';
 import {decrement, increment, incrementAsync, incrementByAmount} from './counter-slice';
 import Copyright from '../../shared/components/copyright/Copyright';
+import {Link} from 'react-router-dom';
 
 const PAGES = [
   {
@@ -85,7 +86,9 @@ function HomeLayout({children}: { children: ReactNode }) {
   return (
     <Layout style={{minHeight: '100vh'}}>
       <Layout.Header style={{display: 'flex', alignItems: 'center'}}>
-        <Typography.Title level={2} style={{color: 'white', marginBottom: 0}}>多页面应用 Demo</Typography.Title>
+        <Link to="/">
+          <Typography.Title level={2} style={{color: 'white', marginBottom: 0}}>多页面应用 Demo</Typography.Title>
+        </Link>
       </Layout.Header>
 
       <Layout.Content>
