@@ -8,7 +8,7 @@ import {usePageTitle} from '../../../../shared/hooks/use-page-title';
 export default function Login() {
   usePageTitle('Login');
 
-  const [waiting, setWaiting] = useState(false);
+  const [pending, setPending] = useState(false);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -22,16 +22,16 @@ export default function Login() {
     const formData = new FormData(event.currentTarget);
     const username = formData.get("username") as string;
 
-    if (!username || waiting) {
+    if (!username || pending) {
       return;
     }
 
     console.log('login...');
 
-    setWaiting(true);
+    setPending(true);
 
     login(username, () => {
-      setWaiting(false);
+      setPending(false);
       // Send them back to the page they tried to visit when they were
       // redirected to the login page. Use { replace: true } so we don't create
       // another entry in the history stack for the login page.  This means that
@@ -59,7 +59,7 @@ export default function Login() {
           }}
         />
         </label>{" "}
-        <Button>Login{waiting ? '...' : ''}</Button>
+        <Button>Login{pending ? '...' : ''}</Button>
       </form>
     </Card>
   );

@@ -7,21 +7,21 @@ import {useState} from 'react';
 export default function AuthStatus() {
   const auth = useAuth();
   const navigate = useNavigate();
-  const [waiting, setWaiting] = useState(false);
+  const [pending, setPending] = useState(false);
 
   if (!auth.username) {
     return <p className={classes.warn}>You are not logged in.</p>
   }
 
   function handleLogoutClick() {
-    if (waiting) {
+    if (pending) {
       return;
     }
 
     console.log('logout...');
-    setWaiting(true);
+    setPending(true);
     auth.logout(() => {
-      setWaiting(false);
+      setPending(false);
       navigate('/');
     });
   }
@@ -30,7 +30,7 @@ export default function AuthStatus() {
     <p className={classes.auth}>
       Welcome {auth.username}!{' '}
       <Button onClick={handleLogoutClick}>
-        Logout{waiting ? '...' : ''}
+        Logout{pending ? '...' : ''}
       </Button>
     </p>
   );
