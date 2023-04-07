@@ -1,8 +1,11 @@
-import {Breadcrumb, Layout, Menu, theme, Typography} from 'antd';
+import {Breadcrumb, Button, Layout, Menu, theme, Typography} from 'antd';
 import {Link, Outlet, useLocation} from 'react-router-dom';
 import {PAGES, sidebarMenuRoutes} from './Root';
 import Copyright from '../shared/components/copyright/Copyright';
-import {ReactNode, useMemo} from 'react';
+import {ReactNode, useMemo, useState} from 'react';
+import {PoweroffOutlined, UserOutlined} from '@ant-design/icons';
+import {useAppDispatch, useAppSelector} from '../store-hooks';
+import {logout} from './auth/auth-slice';
 
 export default function AdminLayout() {
   const {token: {colorBgContainer}} = theme.useToken();
@@ -203,7 +206,40 @@ function HeaderLayout() {
       </Link>
 
       <Menu theme="dark" mode="horizontal" selectable={false} items={menuItems}/>
+      <LogoutButton/>
     </Layout.Header>
+  );
+}
+
+function LogoutButton() {
+  const [loading, setLoading] = useState(false);
+
+  const {username} = useAppSelector(state => state.auth);
+  const dispatch = useAppDispatch();
+
+  function handleLogout() {
+    setLoading(true);
+    dispatch(logout(() => setLoading(false)));
+  }
+
+  if (!username) {
+    return <></>;
+  }
+
+  return (
+    <div style={{marginLeft: 'auto', order: 2, display: 'flex', alignItems: 'center', gap: '1rem'}}>
+      <Typography.Text strong style={{color: 'white', fontSize: '1.6rem'}}>
+        <UserOutlined/> {username}
+      </Typography.Text>
+      <Button
+        type="primary"
+        icon={<PoweroffOutlined/>}
+        loading={loading}
+        onClick={handleLogout}
+      >
+        注销
+      </Button>
+    </div>
   );
 }
 

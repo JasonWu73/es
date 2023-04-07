@@ -1,14 +1,13 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {AppDispatch, RootState} from '../../store';
 import {wait} from '../../shared/utils/promisify';
-import {userInfo} from 'os';
 
 interface AuthState {
   userId: number;
   username: string;
 }
 
-export const counterSlice = createSlice({
+export const authSlice = createSlice({
   name: 'auth',
   initialState: {
     userId: null!,
@@ -27,9 +26,9 @@ export const counterSlice = createSlice({
   }
 });
 
-export const authReducer = counterSlice.reducer;
+export const authReducer = authSlice.reducer;
 
-export const {setAuth, clearAuth} = counterSlice.actions;
+export const {setAuth, clearAuth} = authSlice.actions;
 
 export function login(auth: AuthState) {
   return async (dispatch: AppDispatch, getState: () => RootState) => {
@@ -39,11 +38,12 @@ export function login(auth: AuthState) {
   };
 }
 
-export function logout() {
+export function logout(callback: VoidFunction) {
   return async (dispatch: AppDispatch, getState: () => RootState) => {
     await wait(1);
     clearLocalStorage();
     dispatch(clearAuth());
+    callback();
   };
 }
 
