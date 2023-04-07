@@ -6,8 +6,6 @@ import Copyright from '../shared/components/copyright/Copyright';
 export default function AdminLayout() {
   const {token: {colorBgContainer}} = theme.useToken();
 
-  const breadcrumbItems = [{title: 'Home'}, {title: 'List'}, {title: 'App'}];
-
   return (
     <Layout>
       <HeaderLayout/>
@@ -16,7 +14,7 @@ export default function AdminLayout() {
         <SidebarMenus/>
 
         <Layout style={{padding: '0 2.4rem 2.4rem'}}>
-          <Breadcrumb items={breadcrumbItems} style={{margin: '1.6rem 0'}}/>
+          <Breadcrumbs/>
 
           <Layout.Content
             style={
@@ -38,6 +36,41 @@ export default function AdminLayout() {
   );
 }
 
+function usePathSnippets() {
+  const location = useLocation();
+  return location.pathname.split('/').filter((p) => p);
+}
+
+function Breadcrumbs() {
+  const pathSnippets = usePathSnippets();
+
+  const items = pathSnippets.map((path, index) => {
+    const url = `/${pathSnippets.slice(0, index + 1).join('/')}`;
+    const title = sidebarMenuRoutes.find(menu => menu.url === url)?.title ?? path;
+
+    return {
+      key: url,
+      title: <Link to={url}>{title}</Link>,
+    };
+  });
+
+  return (
+    <Breadcrumb
+      items={
+        [
+          {
+            key: '/',
+            title: <Link to="/">首页</Link>
+
+          },
+          ...items
+        ]
+      }
+      style={{margin: '1.6rem 0'}}
+    />
+  );
+}
+
 function SidebarMenus() {
   const menus = sidebarMenuRoutes.map(route => {
     return {
@@ -47,8 +80,7 @@ function SidebarMenus() {
     };
   });
 
-  const location = useLocation();
-  const pathSnippets = location.pathname.split('/').filter((p) => p);
+  const pathSnippets = usePathSnippets();
 
   const selectedKeys = menus
     .filter(menu => pathSnippets.find(path => `/${path}` === menu.key))
