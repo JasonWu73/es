@@ -13,15 +13,18 @@ export default function AdminLayout() {
     background: colorBgContainer
   };
 
+  const location = useLocation();
+  const isHomeLocation = location.pathname === '/';
+
   return (
     <Layout>
       <HeaderLayout/>
 
       <Layout>
-        <SidebarMenus/>
+        {!isHomeLocation && <SidebarMenus/>}
 
         <Layout style={{padding: '0 2.4rem 2.4rem'}}>
-          <Breadcrumbs/>
+          {!isHomeLocation && <Breadcrumbs/>}
 
           <Layout.Content style={contentStyles}>
             <Outlet/>
