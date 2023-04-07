@@ -184,7 +184,7 @@ function usePathSnippetInfos() {
 }
 
 function HeaderLayout() {
-  const items = PAGES.map(page => {
+  const menuItems = PAGES.map(page => {
     return {
       key: page.url,
       label: (
@@ -193,6 +193,8 @@ function HeaderLayout() {
     };
   });
 
+  menuItems.unshift({key: '/counter', label: <Link to="/counter">计数器 (受保护页)</Link>});
+
   return (
     <Layout.Header style={{display: 'flex', alignItems: 'center', gap: '1rem'}}>
       <Link to="/" style={{display: 'flex', alignItems: 'center'}}>
@@ -200,7 +202,7 @@ function HeaderLayout() {
         <Typography.Title level={2} style={{color: 'white', marginBottom: 0}}>多页面应用 Demo</Typography.Title>
       </Link>
 
-      <Menu theme="dark" mode="horizontal" items={items}/>
+      <Menu theme="dark" mode="horizontal" selectable={false} items={menuItems}/>
     </Layout.Header>
   );
 }
