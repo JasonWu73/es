@@ -20,7 +20,7 @@ export default function Counter() {
   }
 
   return (
-    <MyLayout>
+    <HomeLayout>
       <Space direction="vertical">
         <Space size={'middle'}>
           <Button type="default" shape="circle" size="large" onClick={() => dispatch(increment())}>+</Button>
@@ -42,11 +42,11 @@ export default function Counter() {
           </Button>
         </Space>
       </Space>
-    </MyLayout>
+    </HomeLayout>
   );
 }
 
-function MyLayout({children}: { children: ReactNode }) {
+function HomeLayout({children}: { children: ReactNode }) {
   return (
     <Layout style={{minHeight: '100vh'}}>
       <Layout.Header style={{display: 'flex', alignItems: 'center'}}>
