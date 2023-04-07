@@ -8,7 +8,7 @@ import {CalculatorOutlined, EditOutlined} from '@ant-design/icons';
 
 export const sidebarMenuRoutes = [
   {
-    title: '状态管理',
+    title: '计数器',
     url: '/counter',
     icon: <CalculatorOutlined/>,
   },
