@@ -1,4 +1,4 @@
-import {Link, Route, Routes} from 'react-router-dom';
+import {Route, Routes} from 'react-router-dom';
 import NotFound from '../shared/components/not-found/NotFound';
 import Home from './home/Home';
 import Counter from './counter/Counter';

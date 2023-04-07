@@ -1,8 +1,10 @@
+import classes from './Counter.module.scss';
 import {usePageTitle} from '../../shared/hooks/use-page-title';
 import {useState} from 'react';
 import {Button, InputNumber, Space, Typography} from 'antd';
 import {useAppDispatch, useAppSelector} from '../../multipages/counter/store-hooks';
 import {decrement, increment, incrementAsync, incrementByAmount} from './counter-slice';
+import reduxLogo from '../../shared/assets/img/redux-logo.svg';
 
 export default function Counter() {
   usePageTitle('计数器');
@@ -17,26 +19,31 @@ export default function Counter() {
   }
 
   return (
-    <Space direction="vertical">
-      <Space>
-        <Button type="default" shape="circle" size="large" onClick={() => dispatch(increment())}>+</Button>
-        <Typography.Text style={{fontSize: '4.8rem'}}>{counter.value}</Typography.Text>
-        <Button type="default" shape="circle" size="large" onClick={() => dispatch(decrement())}>-</Button>
-      </Space>
+    <div className={classes.counter}>
+      <div className={classes.counter__header}>
+        <img src={reduxLogo} className={classes.logo} alt="Redux logo"/>
+        <Space direction="vertical">
+          <Space>
+            <Button type="default" shape="circle" size="large" onClick={() => dispatch(increment())}>+</Button>
+            <Typography.Text style={{fontSize: '4.8rem'}}>{counter.value}</Typography.Text>
+            <Button type="default" shape="circle" size="large" onClick={() => dispatch(decrement())}>-</Button>
+          </Space>
 
-      <Space>
-        <InputNumber size="large" defaultValue={incrementAmount} onChange={handleIncrementAmountChange}/>
-        <Button
-          type="default"
-          size="large"
-          onClick={() => dispatch(incrementByAmount(incrementAmount))}
-        >
-          增量添加
-        </Button>
-        <Button type="default" size="large" onClick={() => dispatch(incrementAsync(incrementAmount))}>
-          <Typography.Text type="danger" style={{fontSize: 'inherit'}}>异步</Typography.Text>增量添加
-        </Button>
-      </Space>
-    </Space>
+          <Space>
+            <InputNumber size="large" defaultValue={incrementAmount} onChange={handleIncrementAmountChange}/>
+            <Button
+              type="default"
+              size="large"
+              onClick={() => dispatch(incrementByAmount(incrementAmount))}
+            >
+              增量添加
+            </Button>
+            <Button type="default" size="large" onClick={() => dispatch(incrementAsync(incrementAmount))}>
+              <Typography.Text type="danger" style={{fontSize: 'inherit'}}>异步</Typography.Text>增量添加
+            </Button>
+          </Space>
+        </Space>
+      </div>
+    </div>
   );
 }
