@@ -105,6 +105,7 @@ function SidebarMenus() {
   });
 
   const pathSnippetInfos = usePathSnippetInfos();
+  const pathEnd = pathSnippetInfos.at(pathSnippetInfos.length - 1);
 
   const selectedKeys = useMemo(
     () => {
@@ -119,7 +120,7 @@ function SidebarMenus() {
         const keys = [] as string[];
 
         for (const item of items) {
-          if (item.url && pathSnippetInfos.find(({url}) => url === item.url)) {
+          if (item.url && pathEnd?.url === item.url) {
             keys.push(item.url);
           } else if (!item.url && item.children) {
             const childKeys = getSelectedKeys(item.children);

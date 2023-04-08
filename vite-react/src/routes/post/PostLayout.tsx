@@ -1,12 +1,12 @@
 import Card from '../../shared/components/card/Card';
 import {usePageTitle} from '../../shared/hooks/use-page-title';
 
-export default function Hello() {
-  usePageTitle('Hello');
+export default function PostList() {
+  usePageTitle('文章列表');
 
   return (
     <Card>
-      <h2>Hello Page</h2>
+      <h2>文章列表</h2>
     </Card>
   );
 }
