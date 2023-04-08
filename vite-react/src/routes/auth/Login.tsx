@@ -1,9 +1,13 @@
 import classes from './Login.module.scss';
 import {usePageTitle} from '../../shared/hooks/use-page-title';
-import {Button, Form, Input, Layout, Typography} from 'antd';
+import {Alert, Button, Form, Input, Layout, Typography} from 'antd';
 import {FooterLayout} from '../AdminLayout';
 import bg from '../../shared/assets/img/ant-design-pro-background.svg';
 import {LockOutlined, UserOutlined} from '@ant-design/icons';
+import {useAppDispatch} from '../../store-hooks';
+import {wait} from '../../shared/utils/promisify';
+import {useState} from 'react';
+import {login} from './auth-slice';
 
 export default function Login() {
   usePageTitle('登录');
@@ -34,14 +38,30 @@ export default function Login() {
   );
 }
 
+const USERNAME = 'admin';
+const PASSWORD = '123';
+
 function LoginForm() {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
-  function handleFinish() {
-    console.log('login data');
-  }
+  const dispatch = useAppDispatch();
 
-  function handleFinishFailed() {
-    console.log('login failed');
+  async function handleFinish(values: { username: string, password: string }) {
+    setLoading(true);
+    setError('');
+
+    await wait(1);
+    setLoading(false);
+
+    const {username, password} = values;
+
+    if (username === USERNAME && password === PASSWORD) {
+      dispatch(login({userId: 1, username}));
+      return;
+    }
+
+    setError('用户名或密码错误');
   }
 
   return (
@@ -49,25 +69,31 @@ function LoginForm() {
       name="login"
       className={classes.form}
       onFinish={handleFinish}
-      onFinishFailed={handleFinishFailed}
       autoComplete="off"
     >
+      {
+        error &&
+        <Form.Item>
+          <Alert type="error" message={error} showIcon/>
+        </Form.Item>
+      }
+
       <Form.Item
         name="username"
         rules={[{required: true, message: '请输入用户名！'}]}
       >
-        <Input size="large" prefix={<UserOutlined/>} placeholder="用户名：admin"/>
+        <Input size="large" prefix={<UserOutlined/>} placeholder={`用户名：${USERNAME}`}/>
       </Form.Item>
 
       <Form.Item
         name="password"
         rules={[{required: true, message: '请输入密码！'}]}
       >
-        <Input.Password size="large" prefix={<LockOutlined/>} placeholder="密码：123"/>
+        <Input.Password size="large" prefix={<LockOutlined/>} placeholder={`密码：${PASSWORD}`}/>
       </Form.Item>
 
       <Form.Item>
-        <Button type="primary" htmlType="submit" size="large" style={{width: '100%'}}>
+        <Button type="primary" loading={loading} htmlType="submit" size="large" style={{width: '100%'}}>
           登 录
         </Button>
       </Form.Item>
