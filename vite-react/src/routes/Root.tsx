@@ -6,6 +6,7 @@ import AdminLayout from './AdminLayout';
 import {CalculatorOutlined, EditOutlined} from '@ant-design/icons';
 import Login from './auth/Login';
 import PostRoutes from './post/PostRoutes';
+import RequireAuth from './auth/RequireAuth';
 
 export const sidebarMenuRoutes = [
   {
@@ -58,9 +59,8 @@ export default function Root() {
         <Route path="/login" element={<Login/>}/>
         <Route element={<AdminLayout/>}>
           <Route path="/" element={<Home/>}/>
-          <Route path="/counter" element={<Counter/>}/>
-          {/* <Route path="/posts/*" element={<RequireAuth><PostRoutes/></RequireAuth>}/> */}
-          <Route path="/posts/*" element={<PostRoutes/>}/>
+          <Route path="/counter" element={<RequireAuth><Counter/></RequireAuth>}/>
+          <Route path="/posts/*" element={<RequireAuth><PostRoutes/></RequireAuth>}/>
         </Route>
       </Routes>
     </>

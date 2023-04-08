@@ -8,15 +8,6 @@ import {useAppDispatch, useAppSelector} from '../store-hooks';
 import {logout} from './auth/auth-slice';
 
 export default function AdminLayout() {
-  const {token: {colorBgContainer}} = theme.useToken();
-
-  const contentStyles = {
-    padding: '2.4rem',
-    margin: 0,
-    minHeight: '28rem',
-    background: colorBgContainer
-  };
-
   const location = useLocation();
   const isHomeLocation = location.pathname === '/';
 
@@ -30,14 +21,40 @@ export default function AdminLayout() {
         <Layout style={{padding: '0 2.4rem 2.4rem'}}>
           {!isHomeLocation && <Breadcrumbs/>}
 
-          <Layout.Content style={contentStyles}>
+          <ContentLayout>
             <Outlet/>
-          </Layout.Content>
+          </ContentLayout>
 
           <FooterLayout/>
         </Layout>
       </Layout>
     </Layout>
+  );
+}
+
+export function FooterLayout() {
+  return (
+    <Layout.Footer style={{textAlign: 'center'}}>
+      <Copyright/>
+    </Layout.Footer>
+  );
+}
+
+function ContentLayout({children}: { children: ReactNode }) {
+  const {token: {colorBgContainer}} = theme.useToken();
+
+  const contentStyles = {
+    padding: '2.4rem',
+    margin: 0,
+    minHeight: '28rem',
+    background: colorBgContainer
+  };
+
+
+  return (
+    <Layout.Content style={contentStyles}>
+      {children}
+    </Layout.Content>
   );
 }
 
@@ -241,13 +258,5 @@ function LogoutButton() {
         注销
       </Button>
     </div>
-  );
-}
-
-function FooterLayout() {
-  return (
-    <Layout.Footer style={{textAlign: 'center'}}>
-      <Copyright/>
-    </Layout.Footer>
   );
 }
