@@ -1,7 +1,7 @@
 import classes from './Post.module.scss';
+import {usePageTitle} from '../../../../shared/hooks/use-page-title';
 import {useOutletContext, useParams} from 'react-router-dom';
 import {PostOutletContext} from './post.model';
-import {usePageTitle} from '../../../../shared/hooks/use-page-title';
 
 export default function Post() {
   const {id} = useParams();
