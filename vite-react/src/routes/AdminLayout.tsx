@@ -124,7 +124,7 @@ function SidebarMenus() {
             keys.push(item.url);
           } else if (!item.url && item.children) {
             const childKeys = getSelectedKeys(item.children);
-            if (childKeys) {
+            if (childKeys.length > 0) {
               keys.push(item.title, ...childKeys);
             }
           }
