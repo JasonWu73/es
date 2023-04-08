@@ -1,6 +1,5 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {AppDispatch, RootState} from '../../store';
-import {wait} from '../../shared/utils/promisify';
+import {AppDispatch} from '../../store';
 
 interface AuthState {
   userId: number;
@@ -31,16 +30,14 @@ export const authReducer = authSlice.reducer;
 export const {setAuth, clearAuth} = authSlice.actions;
 
 export function login(auth: AuthState) {
-  return async (dispatch: AppDispatch, getState: () => RootState) => {
-    await wait(1);
+  return async (dispatch: AppDispatch) => {
     setLocalStorage(auth);
     dispatch(setAuth(auth));
   };
 }
 
 export function logout(callback: VoidFunction) {
-  return async (dispatch: AppDispatch, getState: () => RootState) => {
-    await wait(1);
+  return async (dispatch: AppDispatch) => {
     clearLocalStorage();
     dispatch(clearAuth());
     callback();

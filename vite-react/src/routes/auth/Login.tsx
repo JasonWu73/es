@@ -8,6 +8,7 @@ import {useAppDispatch} from '../../store-hooks';
 import {wait} from '../../shared/utils/promisify';
 import {useState} from 'react';
 import {login} from './auth-slice';
+import {useLocation, useNavigate} from 'react-router-dom';
 
 export default function Login() {
   usePageTitle('登录');
@@ -47,6 +48,11 @@ function LoginForm() {
 
   const dispatch = useAppDispatch();
 
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const from = location.state?.from?.pathname || '/';
+
   async function handleFinish(values: { username: string, password: string }) {
     setLoading(true);
     setError('');
@@ -58,7 +64,8 @@ function LoginForm() {
 
     if (username === USERNAME && password === PASSWORD) {
       dispatch(login({userId: 1, username}));
-      return;
+
+      navigate(from, {replace: true});
     }
 
     setError('用户名或密码错误');
