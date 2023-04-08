@@ -66,6 +66,7 @@ function LoginForm() {
       dispatch(login({userId: 1, username}));
 
       navigate(from, {replace: true});
+      return;
     }
 
     setError('用户名或密码错误');

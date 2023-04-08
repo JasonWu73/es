@@ -2,11 +2,11 @@ import Card from '../../shared/components/card/Card';
 import {usePageTitle} from '../../shared/hooks/use-page-title';
 
 export default function PostList() {
-  usePageTitle('文章列表');
+  usePageTitle('所有文章');
 
   return (
     <Card>
-      <h2>文章列表</h2>
+      <h2>所有文章</h2>
     </Card>
   );
 }

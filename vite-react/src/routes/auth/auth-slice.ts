@@ -47,11 +47,15 @@ export function logout(callback: VoidFunction) {
 const KEY_USER_ID = 'user_id';
 const KEY_USERNAME = 'username';
 
-export function reLoginFromCache() {
-  setAuth({
-    userId: +localStorage.getItem(KEY_USER_ID)!,
-    username: localStorage.getItem(KEY_USERNAME)!
-  });
+export function reLoginFromCache(callback: VoidFunction) {
+  return async (dispatch: AppDispatch) => {
+    const userId = +localStorage.getItem(KEY_USER_ID)!;
+    const username = localStorage.getItem(KEY_USERNAME)!;
+    if (!userId || !username) return;
+
+    dispatch(setAuth({userId, username}));
+    callback();
+  };
 }
 
 function setLocalStorage({userId, username}: AuthState) {
