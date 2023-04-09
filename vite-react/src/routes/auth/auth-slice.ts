@@ -2,15 +2,15 @@ import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {AppDispatch} from '../../store';
 
 interface AuthState {
-  userId: number;
-  username: string;
+  userId: number | null;
+  username: string | null;
 }
 
 export const authSlice = createSlice({
   name: 'auth',
   initialState: {
-    userId: null!,
-    username: null!
+    userId: null,
+    username: null
   } as AuthState,
   reducers: {
     setAuth: (state, action: PayloadAction<AuthState>) => {
@@ -18,8 +18,8 @@ export const authSlice = createSlice({
       state.username = action.payload.username;
     },
     clearAuth: (state) => {
-      state.userId = null!;
-      state.username = null!;
+      state.userId = null;
+      state.username = null;
     }
   }
 });
@@ -48,18 +48,18 @@ const KEY_USERNAME = 'username';
 
 export function reLoginFromCache(callback: VoidFunction) {
   return async (dispatch: AppDispatch) => {
-    const userId = +localStorage.getItem(KEY_USER_ID)!;
-    const username = localStorage.getItem(KEY_USERNAME)!;
+    const userId = localStorage.getItem(KEY_USER_ID);
+    const username = localStorage.getItem(KEY_USERNAME);
     if (!userId || !username) return;
 
-    dispatch(setAuth({userId, username}));
+    dispatch(setAuth({userId: +userId, username}));
     callback();
   };
 }
 
 function setLocalStorage({userId, username}: AuthState) {
-  localStorage.setItem(KEY_USER_ID, userId.toString());
-  localStorage.setItem(KEY_USERNAME, username);
+  localStorage.setItem(KEY_USER_ID, userId!.toString());
+  localStorage.setItem(KEY_USERNAME, username!);
 }
 
 function clearLocalStorage() {
