@@ -39,9 +39,6 @@ export default function Login() {
   );
 }
 
-const USERNAME = 'admin';
-const PASSWORD = '123';
-
 function LoginForm() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -62,10 +59,18 @@ function LoginForm() {
 
     const {username, password} = values;
 
-    if (username === USERNAME && password === PASSWORD) {
+    if (
+      (username === 'admin' || username === 'user') &&
+      password === '123'
+    ) {
       const expiresInSeconds = 1800;
       const currentTimestampSeconds = Math.floor(new Date().getTime() / 1000);
       const expiredAt = currentTimestampSeconds + expiresInSeconds;
+
+      const authorities = username === 'admin' ?
+        ['counter', 'post'] :
+        ['post_view']
+      const nickname = username === 'admin' ? '测试管理员' : '测试用户';
 
       dispatch(login({
         userId: 1,
@@ -73,8 +78,8 @@ function LoginForm() {
         expiredAt,
         accessToken: '111.111',
         refreshToken: '222.222',
-        authorities: [],
-        nickname: '测试账号'
+        authorities,
+        nickname
       }));
 
       navigate(from, {replace: true});
@@ -102,14 +107,14 @@ function LoginForm() {
         name="username"
         rules={[{required: true, message: '请输入用户名！'}]}
       >
-        <Input size="large" prefix={<UserOutlined/>} placeholder={`用户名：${USERNAME}`}/>
+        <Input size="large" prefix={<UserOutlined/>} placeholder={'用户名：admin 或 user'}/>
       </Form.Item>
 
       <Form.Item
         name="password"
         rules={[{required: true, message: '请输入密码！'}]}
       >
-        <Input.Password size="large" prefix={<LockOutlined/>} placeholder={`密码：${PASSWORD}`}/>
+        <Input.Password size="large" prefix={<LockOutlined/>} placeholder={'密码：123'}/>
       </Form.Item>
 
       <Form.Item>

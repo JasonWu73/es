@@ -7,36 +7,51 @@ import {CalculatorOutlined, EditOutlined} from '@ant-design/icons';
 import Login from './auth/Login';
 import PostRoutes from './post/PostRoutes';
 import RequireAuth from './auth/RequireAuth';
+import {ReactNode} from 'react';
 
-export const sidebarMenuRoutes = [
+export interface MenuItem {
+  title: string;
+  url: string;
+  icon?: ReactNode;
+  authority: string;
+  children?: MenuItem[];
+}
+
+export const MENUS = [
   {
     title: '计数器',
     url: '/counter',
     icon: <CalculatorOutlined/>,
+    authority: 'counter'
   },
   {
     title: '文章列表',
     icon: <EditOutlined/>,
+    authority: 'post',
     children: [
       {
         title: '所有文章',
-        url: '/posts'
+        url: '/posts',
+        authority: 'post_view',
       },
       {
         title: '文章一',
-        url: '/posts/1'
+        url: '/posts/1',
+        authority: 'post_view',
       },
       {
         title: '文章二',
-        url: '/posts/2'
+        url: '/posts/2',
+        authority: 'post_view',
       },
       {
         title: '新增文章',
-        url: '/posts/new'
+        url: '/posts/new',
+        authority: 'post_add',
       }
     ]
   }
-];
+] as MenuItem[];
 
 export const PAGES = [
   {

@@ -1,6 +1,6 @@
 import {Breadcrumb, Button, Layout, Menu, theme, Typography} from 'antd';
 import {Link, Outlet, useLocation} from 'react-router-dom';
-import {PAGES, sidebarMenuRoutes} from './Root';
+import {MenuItem, MENUS, PAGES} from './Root';
 import Copyright from '../shared/components/copyright/Copyright';
 import {ReactNode, useMemo, useState} from 'react';
 import {PoweroffOutlined, UserOutlined} from '@ant-design/icons';
@@ -8,18 +8,21 @@ import {useAppDispatch, useAppSelector} from '../store-hooks';
 import {logout} from './auth/auth-slice';
 
 export default function AdminLayout() {
-  const location = useLocation();
-  const isHomeLocation = location.pathname === '/';
+  const {pathname} = useLocation();
+  const isHomeLocation = pathname === '/';
+
+  const menus = useAuthorizedMenus();
+  const paths = usePathSnippets(menus);
 
   return (
     <Layout>
       <HeaderLayout/>
 
       <Layout style={{minHeight: 'calc(100vh - 64px)'}}>
-        {!isHomeLocation && <SidebarMenus/>}
+        {!isHomeLocation && <SidebarMenus menus={menus} paths={paths}/>}
 
         <Layout style={{padding: '0 2.4rem 2.4rem'}}>
-          {!isHomeLocation && <Breadcrumbs/>}
+          {!isHomeLocation && <Breadcrumbs paths={paths}/>}
 
           <ContentLayout>
             <Outlet/>
@@ -50,7 +53,6 @@ function ContentLayout({children}: { children: ReactNode }) {
     background: colorBgContainer
   };
 
-
   return (
     <Layout.Content style={contentStyles}>
       {children}
@@ -58,12 +60,12 @@ function ContentLayout({children}: { children: ReactNode }) {
   );
 }
 
-function Breadcrumbs() {
-  const pathSnippetInfos = usePathSnippetInfos();
-
+function Breadcrumbs({paths}: {
+  paths: { url: string, title: string }[]
+}) {
   const breadcrumbItems = useMemo(
     () => {
-      const extraBreadcrumbItems = pathSnippetInfos.map(({url, title}) => {
+      const extraBreadcrumbItems = paths.map(({url, title}) => {
         return {
           key: url,
           title: <Link to={url}>{title}</Link>,
@@ -77,7 +79,7 @@ function Breadcrumbs() {
         },
       ].concat(extraBreadcrumbItems);
     },
-    [pathSnippetInfos]
+    [paths]
   );
 
   return (
@@ -88,70 +90,13 @@ function Breadcrumbs() {
   );
 }
 
-function SidebarMenus() {
-  const menuItems = sidebarMenuRoutes.map(route => {
-    if (route.url) {
-      return {
-        key: route.url,
-        icon: route.icon,
-        label: <Link to={route.url}>{route.title}</Link>
-      };
-    }
-
-    const children = route.children?.map(child => {
-      return {
-        key: child.url,
-        label: <Link to={child.url}>{child.title}</Link>
-      };
-    });
-
-    if (children) {
-      return {
-        key: route.title,
-        icon: route.icon,
-        label: route.title,
-        children
-      };
-    }
-
-    return {
-      key: route.title,
-      icon: route.icon,
-      label: route.title
-    };
-  });
-
-  const pathSnippetInfos = usePathSnippetInfos();
-  const pathEnd = pathSnippetInfos.at(pathSnippetInfos.length - 1);
-
-  const selectedKeys = useMemo(
-    () => {
-      return getSelectedKeys(sidebarMenuRoutes);
-
-      function getSelectedKeys(items: {
-        title: string,
-        url?: string,
-        icon?: ReactNode,
-        children?: { title: string, url: string }[]
-      }[]) {
-        const keys = [] as string[];
-
-        for (const item of items) {
-          if (item.url && pathEnd?.url === item.url) {
-            keys.push(item.url);
-          } else if (!item.url && item.children) {
-            const childKeys = getSelectedKeys(item.children);
-            if (childKeys.length > 0) {
-              keys.push(item.title, ...childKeys);
-            }
-          }
-        }
-
-        return keys;
-      }
-    },
-    [pathSnippetInfos]
-  );
+function SidebarMenus({menus, paths}: {
+  menus: MenuItem[],
+  paths: { url: string, title: string }[]
+}) {
+  const menuItems = useMenus(menus);
+  const selectedKeys = useMenuSelectedKeys(menus, paths);
+  console.log(selectedKeys)
 
   return (
     <Layout.Sider>
@@ -159,48 +104,10 @@ function SidebarMenus() {
         mode="inline"
         style={{height: '100%', borderRight: 0}}
         items={menuItems}
-        selectedKeys={selectedKeys}
         defaultOpenKeys={selectedKeys}
+        selectedKeys={selectedKeys}
       />
     </Layout.Sider>
-  );
-}
-
-function usePathSnippetInfos() {
-  const {pathname} = useLocation();
-
-  return useMemo(
-    () => {
-      const pathSnippets = pathname.split('/').filter((p) => p);
-
-      return pathSnippets.map((path, index) => {
-        const url = `/${pathSnippets.slice(0, index + 1).join('/')}`;
-        const title = getTitle(sidebarMenuRoutes, url) ?? path;
-
-        return {url, title}
-      });
-
-      function getTitle(
-        items: {
-          title: string,
-          url?: string,
-          icon?: ReactNode,
-          children?: { title: string, url: string }[]
-        }[],
-        urlToSearch: string
-      ): string | null {
-        for (const item of items) {
-          if (item.url && item.url === urlToSearch) {
-            return item.title;
-          } else if (!item.url && item.children) {
-            return getTitle(item.children, urlToSearch);
-          }
-        }
-
-        return null;
-      }
-    },
-    [pathname]
   );
 }
 
@@ -258,5 +165,126 @@ function LogoutButton() {
         注销
       </Button>
     </div>
+  );
+}
+
+function usePathSnippets(menus: MenuItem[]) {
+  const {pathname} = useLocation();
+
+  return useMemo(
+    () => {
+      const pathSnippets = pathname.split('/').filter((p) => p);
+
+      return pathSnippets.map((path, index) => {
+        const url = `/${pathSnippets.slice(0, index + 1).join('/')}`;
+        const title = getTitle(menus, url) ?? path;
+
+        return {url, title}
+      });
+
+      function getTitle(
+        items: {
+          title: string,
+          url?: string,
+          icon?: ReactNode,
+          children?: { title: string, url: string }[]
+        }[],
+        urlToSearch: string
+      ): string | null {
+        for (const item of items) {
+          if (item.url && item.url === urlToSearch) {
+            return item.title;
+          } else if (!item.url && item.children) {
+            return getTitle(item.children, urlToSearch);
+          }
+        }
+
+        return null;
+      }
+    },
+    [pathname, menus]
+  );
+}
+
+function useAuthorizedMenus() {
+  const authorities = useAppSelector(state => state.auth.authorities);
+
+  return useMemo(
+    () => {
+      return MENUS.filter(menu =>
+        authorities.find(authority => authority === menu.authority)
+      );
+    },
+    [authorities]
+  );
+}
+
+function useMenus(menus: MenuItem[]) {
+  return useMemo(
+    () => {
+      return menus.map(route => {
+        if (route.url) {
+          return {
+            key: route.url,
+            icon: route.icon,
+            label: <Link to={route.url}>{route.title}</Link>
+          };
+        }
+
+        const children = route.children?.map(child => {
+          return {
+            key: child.url,
+            label: <Link to={child.url}>{child.title}</Link>
+          };
+        });
+
+        if (children) {
+          return {
+            key: route.title,
+            icon: route.icon,
+            label: route.title,
+            children
+          };
+        }
+
+        return {
+          key: route.title,
+          icon: route.icon,
+          label: route.title
+        };
+      })
+    },
+    [menus]
+  );
+}
+
+function useMenuSelectedKeys(
+  menus: MenuItem[],
+  paths: { url: string, title: string }[]
+) {
+  const pathEnd = paths.at(paths.length - 1);
+
+  return useMemo(
+    () => {
+      return getSelectedKeys(menus);
+
+      function getSelectedKeys(items: MenuItem[]) {
+        const keys = [] as string[];
+
+        for (const item of items) {
+          if (item.url && pathEnd?.url === item.url) {
+            keys.push(item.url);
+          } else if (!item.url && item.children) {
+            const childKeys = getSelectedKeys(item.children);
+            if (childKeys.length > 0) {
+              keys.push(item.title, ...childKeys);
+            }
+          }
+        }
+
+        return keys;
+      }
+    },
+    [menus, pathEnd]
   );
 }
