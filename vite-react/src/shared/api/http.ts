@@ -5,11 +5,11 @@ import {login, logout} from '../../routes/auth/auth-slice';
 import {internalApiBaseUrl} from './config';
 import {isAuthApi, updateAccessToken} from './auth';
 
-export const myAxios = axios.create({
+export const apiAxios = axios.create({
   timeout: 10_000
 });
 
-myAxios.interceptors.request.use(
+apiAxios.interceptors.request.use(
   config => {
     NProgress.start();
     return config;
@@ -20,7 +20,7 @@ myAxios.interceptors.request.use(
   }
 );
 
-myAxios.interceptors.request.use(
+apiAxios.interceptors.request.use(
   config => {
     const {accessToken, refreshToken, expiredAt} = store.getState().auth;
     if (accessToken) {
@@ -54,7 +54,7 @@ myAxios.interceptors.request.use(
   }
 );
 
-myAxios.interceptors.response.use(
+apiAxios.interceptors.response.use(
   response => {
     NProgress.done();
     return response;

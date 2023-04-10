@@ -1,5 +1,5 @@
 import {useCallback, useState} from "react";
-import {myAxios} from '../api/http';
+import {apiAxios} from '../api/http';
 import {AxiosError} from 'axios';
 
 interface Request {
@@ -21,7 +21,7 @@ export function useHttp() {
       setError('');
 
       try {
-        const response = await myAxios({method, url, data});
+        const response = await apiAxios({method, url, data});
         applyData(response.data);
       } catch (error) {
         setError((error as AxiosError).message);
