@@ -28,13 +28,14 @@ function useRedirect() {
       setCountdown(prevCountdown => prevCountdown - 1);
     }, 1000);
 
-    setTimeout(() => {
-      navigate('/', {state: {error: 'Error Not Found'}});
-      // navigate(-1); // Is equivalent to hitting the back button
+    const timeout = setTimeout(() => {
+      // navigate('/', {state: {error: 'Error Not Found'}});
+      navigate(-1); // Is equivalent to hitting the back button
     }, COUNTDOWN_SECONDS * 1000);
 
     return () => {
       clearInterval(interval);
+      clearTimeout(timeout);
     };
   }, []);
 

@@ -1,6 +1,6 @@
 import {Breadcrumb, Button, Layout, Menu, theme, Typography} from 'antd';
 import {Link, Outlet, useLocation} from 'react-router-dom';
-import {MenuItem, MENUS, PAGES} from './Root';
+import {MenuItem, PAGES, useAuthorizedMenus} from './Root';
 import Copyright from '../shared/components/copyright/Copyright';
 import {ReactNode, useMemo, useState} from 'react';
 import {PoweroffOutlined, UserOutlined} from '@ant-design/icons';
@@ -96,7 +96,6 @@ function SidebarMenus({menus, paths}: {
 }) {
   const menuItems = useMenus(menus);
   const selectedKeys = useMenuSelectedKeys(menus, paths);
-  console.log(selectedKeys)
 
   return (
     <Layout.Sider>
@@ -206,19 +205,6 @@ function usePathSnippets(menus: MenuItem[]) {
   );
 }
 
-function useAuthorizedMenus() {
-  const authorities = useAppSelector(state => state.auth.authorities);
-
-  return useMemo(
-    () => {
-      return MENUS.filter(menu =>
-        authorities.find(authority => authority === menu.authority)
-      );
-    },
-    [authorities]
-  );
-}
-
 function useMenus(menus: MenuItem[]) {
   return useMemo(
     () => {
@@ -274,8 +260,12 @@ function useMenuSelectedKeys(
         for (const item of items) {
           if (item.url && pathEnd?.url === item.url) {
             keys.push(item.url);
-          } else if (!item.url && item.children) {
+            continue;
+          }
+
+          if (!item.url && item.children) {
             const childKeys = getSelectedKeys(item.children);
+
             if (childKeys.length > 0) {
               keys.push(item.title, ...childKeys);
             }

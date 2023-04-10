@@ -25,11 +25,11 @@ function useReLogin() {
     () => {
       dispatch(reLoginFromCache(() => {
         if (location.pathname === '/login') {
-          navigate('/');
+          navigate('/', {replace: true});
           return;
         }
 
-        navigate(location.pathname);
+        navigate(location.pathname, {replace: true});
       }));
     },
     []

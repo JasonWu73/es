@@ -7,7 +7,8 @@ import {CalculatorOutlined, EditOutlined} from '@ant-design/icons';
 import Login from './auth/Login';
 import PostRoutes from './post/PostRoutes';
 import RequireAuth from './auth/RequireAuth';
-import {ReactNode} from 'react';
+import {ReactNode, useMemo} from 'react';
+import {useAppSelector} from '../store-hooks';
 
 export interface MenuItem {
   title: string;
@@ -17,7 +18,7 @@ export interface MenuItem {
   children?: MenuItem[];
 }
 
-export const MENUS = [
+const MENUS = [
   {
     title: '计数器',
     url: '/counter',
@@ -79,5 +80,85 @@ export default function Root() {
         </Route>
       </Routes>
     </>
+  );
+}
+
+export function useAuthorizedMenus() {
+  const authorities = useAppSelector(state => state.auth.authorities);
+
+  return useMemo(
+    () => {
+      return getMenus(MENUS);
+
+      function getMenus(items: MenuItem[]) {
+        const menus = [] as MenuItem[];
+
+        for (const item of items) {
+          if (authorities.find(auth => auth === item.authority)) {
+            menus.push(item);
+            continue;
+          }
+
+          if (!item.url && item.children) {
+            const childMenus = getMenus(item.children);
+
+            if (childMenus.length > 0) {
+              menus.push(...childMenus);
+            }
+          }
+        }
+
+        return menus;
+      }
+    },
+    [authorities]
+  );
+}
+
+export function useAuthorizedUrls() {
+  const authorities = useAppSelector(state => state.auth.authorities);
+
+  return useMemo(
+    () => {
+      return getUrls(MENUS);
+
+      function getUrls(items: MenuItem[]) {
+        const urls = [] as string[];
+
+        for (const item of items) {
+          if (authorities.find(auth => auth === item.authority)) {
+            if (item.url) {
+              urls.push(item.url);
+            }
+
+            if (item.children) {
+              const childUrls = getChildUrls(item.children);
+              urls.push(...childUrls);
+            }
+          }
+        }
+
+        return urls;
+      }
+
+      function getChildUrls(items: MenuItem[]) {
+        const urls = [] as string[];
+
+        for (const item of items) {
+          urls.push(item.url);
+
+          if (item.children) {
+            const childUrls = getChildUrls(item.children);
+
+            if (childUrls.length > 0) {
+              urls.push(...childUrls);
+            }
+          }
+        }
+
+        return urls;
+      }
+    },
+    [authorities]
   );
 }

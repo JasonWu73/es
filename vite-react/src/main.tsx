@@ -15,6 +15,7 @@ import NProgress from 'nprogress';
 import 'nprogress/nprogress.css';
 
 import './index.scss';
+import {StrictMode} from 'react';
 
 dayjs.locale('zh-cn');
 
@@ -23,11 +24,13 @@ NProgress.configure({showSpinner: false});
 const root = createRoot(document.getElementById('root') as HTMLElement);
 
 root.render(
-  <Provider store={store}>
-    <BrowserRouter>
-      <ConfigProvider locale={zhCN}>
-        <App/>
-      </ConfigProvider>
-    </BrowserRouter>
-  </Provider>
+  <StrictMode>
+    <Provider store={store}>
+      <BrowserRouter>
+        <ConfigProvider locale={zhCN}>
+          <App/>
+        </ConfigProvider>
+      </BrowserRouter>
+    </Provider>
+  </StrictMode>
 );
