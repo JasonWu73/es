@@ -103,7 +103,9 @@ export function useAuthorizedMenus() {
             const childMenus = getMenus(item.children);
 
             if (childMenus.length > 0) {
-              menus.push(...childMenus);
+              const newParent = {...item, children: childMenus};
+
+              menus.push(newParent);
             }
           }
         }
