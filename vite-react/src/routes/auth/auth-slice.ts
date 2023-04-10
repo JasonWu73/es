@@ -36,6 +36,11 @@ export function login(auth: AuthState) {
   return async (dispatch: AppDispatch) => {
     setLocalStorage(auth);
     dispatch(setAuth(auth));
+
+    setupAutoLogout(auth.expiresInSeconds!, () => {
+      clearLocalStorage();
+      dispatch(clearAuth());
+    });
   };
 }
 
@@ -63,6 +68,12 @@ export function reLoginFromCache(callback: VoidFunction) {
       username,
       expiresInSeconds: +expiresInSeconds
     }));
+
+    setupAutoLogout(+expiresInSeconds, () => {
+      clearLocalStorage();
+      dispatch(clearAuth());
+    });
+
     callback();
   };
 }
@@ -77,4 +88,14 @@ function clearLocalStorage() {
   localStorage.removeItem(KEY_USER_ID);
   localStorage.removeItem(KEY_USERNAME);
   localStorage.removeItem(KEY_EXPIRES_IN);
+}
+
+let loginTimeout: number;
+
+function setupAutoLogout(expiresInSeconds: number, logout: VoidFunction) {
+  if (loginTimeout) {
+    clearTimeout(loginTimeout);
+  }
+
+  loginTimeout = window.setTimeout(logout, expiresInSeconds * 1000);
 }
