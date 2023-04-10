@@ -66,7 +66,16 @@ function LoginForm() {
       const expiresInSeconds = 30;
       const currentTimestampSeconds = Math.floor(new Date().getTime() / 1000);
       const expiredAt = currentTimestampSeconds + expiresInSeconds;
-      dispatch(login({userId: 1, username, expiredAt}));
+
+      dispatch(login({
+        userId: 1,
+        username,
+        expiredAt,
+        accessToken: '111.111',
+        refreshToken: '222.222',
+        authorities: [],
+        nickname: '测试账号'
+      }));
 
       navigate(from, {replace: true});
       return;

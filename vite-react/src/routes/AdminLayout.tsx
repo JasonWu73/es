@@ -232,7 +232,7 @@ function HeaderLayout() {
 function LogoutButton() {
   const [loading, setLoading] = useState(false);
 
-  const {username} = useAppSelector(state => state.auth);
+  const {username, nickname} = useAppSelector(state => state.auth);
   const dispatch = useAppDispatch();
 
   function handleLogout() {
@@ -247,7 +247,7 @@ function LogoutButton() {
   return (
     <div style={{marginLeft: 'auto', order: 2, display: 'flex', alignItems: 'center', gap: '1rem'}}>
       <Typography.Text strong style={{color: 'white', fontSize: '1.6rem'}}>
-        <UserOutlined/> {username}
+        <UserOutlined/> {nickname}
       </Typography.Text>
       <Button
         type="primary"
