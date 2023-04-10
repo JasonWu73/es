@@ -63,7 +63,7 @@ function LoginForm() {
     const {username, password} = values;
 
     if (username === USERNAME && password === PASSWORD) {
-      dispatch(login({userId: 1, username}));
+      dispatch(login({userId: 1, username, expiresInSeconds: 1800}));
 
       navigate(from, {replace: true});
       return;
