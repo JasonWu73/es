@@ -12,9 +12,14 @@ import zhCN from 'antd/locale/zh_CN';
 import 'antd/dist/reset.css';
 import {ConfigProvider} from 'antd';
 
+import NProgress from 'nprogress';
+import 'nprogress/nprogress.css';
+
 import './index.scss';
 
 dayjs.locale('zh-cn');
+
+NProgress.configure({showSpinner: false});
 
 const root = createRoot(document.getElementById('root') as HTMLElement);
 
