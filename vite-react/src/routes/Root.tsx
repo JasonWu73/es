@@ -94,7 +94,7 @@ export function useAuthorizedMenus() {
         const menus = [] as MenuItem[];
 
         for (const item of items) {
-          if (authorities.find(auth => auth === item.authority)) {
+          if (authorities.indexOf(item.authority) !== -1) {
             menus.push(item);
             continue;
           }
@@ -128,7 +128,7 @@ export function useAuthorizedUrls() {
         const urls = [] as string[];
 
         for (const item of items) {
-          if (authorities.find(auth => auth === item.authority)) {
+          if (authorities.indexOf(item.authority) !== -1) {
             if (item.url) {
               urls.push(item.url);
             }

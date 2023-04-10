@@ -13,7 +13,7 @@ export default function RequireAuth({children}: { children: ReactNode }) {
     return <Navigate to="/login" state={{from: location}} replace/>;
   }
 
-  const authPassed = urls.find(url => url === location.pathname);
+  const authPassed = urls.indexOf(location.pathname) !== -1;
 
   if (!authPassed) {
     return <NotFound/>

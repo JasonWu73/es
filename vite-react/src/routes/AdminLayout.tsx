@@ -2,7 +2,7 @@ import {Breadcrumb, Button, Layout, Menu, theme, Typography} from 'antd';
 import {Link, Outlet, useLocation} from 'react-router-dom';
 import {MenuItem, PAGES, useAuthorizedMenus} from './Root';
 import Copyright from '../shared/components/copyright/Copyright';
-import {ReactNode, useMemo, useState} from 'react';
+import {ReactNode, useEffect, useMemo, useState} from 'react';
 import {PoweroffOutlined, UserOutlined} from '@ant-design/icons';
 import {useAppDispatch, useAppSelector} from '../store-hooks';
 import {logout} from './auth/auth-slice';
@@ -97,14 +97,34 @@ function SidebarMenus({menus, paths}: {
   const menuItems = useMenus(menus);
   const selectedKeys = useMenuSelectedKeys(menus, paths);
 
+  const [openKeys, setOpenKeys] = useState(selectedKeys);
+
+  useEffect(
+    () => {
+      setOpenKeys(prevKeys => {
+        if (prevKeys.length === 0) {
+          return [...selectedKeys];
+        }
+
+        return prevKeys;
+      });
+    },
+    [selectedKeys]
+  );
+
+  function handleOpenChange(keys: string[]) {
+    setOpenKeys([...keys]);
+  }
+
   return (
     <Layout.Sider>
       <Menu
         mode="inline"
         style={{height: '100%', borderRight: 0}}
         items={menuItems}
-        defaultOpenKeys={selectedKeys}
         selectedKeys={selectedKeys}
+        openKeys={openKeys}
+        onOpenChange={handleOpenChange}
       />
     </Layout.Sider>
   );
