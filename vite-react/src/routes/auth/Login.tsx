@@ -63,7 +63,10 @@ function LoginForm() {
     const {username, password} = values;
 
     if (username === USERNAME && password === PASSWORD) {
-      dispatch(login({userId: 1, username, expiresInSeconds: 60}));
+      const expiresInSeconds = 30;
+      const currentTimestampSeconds = Math.floor(new Date().getTime() / 1000);
+      const expiredAt = currentTimestampSeconds + expiresInSeconds;
+      dispatch(login({userId: 1, username, expiredAt}));
 
       navigate(from, {replace: true});
       return;

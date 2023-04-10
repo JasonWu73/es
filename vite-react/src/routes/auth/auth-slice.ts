@@ -4,7 +4,7 @@ import {AppDispatch} from '../../store';
 interface AuthState {
   userId: number | null;
   username: string | null;
-  expiresInSeconds: number | null;
+  expiredAt: number | null;
 }
 
 export const authSlice = createSlice({
@@ -12,18 +12,18 @@ export const authSlice = createSlice({
   initialState: {
     userId: null,
     username: null,
-    expiresInSeconds: null
+    expiredAt: null
   } as AuthState,
   reducers: {
     setAuth: (state, action: PayloadAction<AuthState>) => {
       state.userId = action.payload.userId;
       state.username = action.payload.username;
-      state.expiresInSeconds = action.payload.expiresInSeconds;
+      state.expiredAt = action.payload.expiredAt;
     },
     clearAuth: (state) => {
       state.userId = null;
       state.username = null;
-      state.expiresInSeconds = null;
+      state.expiredAt = null;
     }
   }
 });
@@ -37,7 +37,7 @@ export function login(auth: AuthState) {
     setLocalStorage(auth);
     dispatch(setAuth(auth));
 
-    setupAutoLogout(auth.expiresInSeconds!, () => {
+    setupAutoLogout(auth.expiredAt!, () => {
       clearLocalStorage();
       dispatch(clearAuth());
     });
@@ -54,22 +54,22 @@ export function logout(callback: VoidFunction) {
 
 const KEY_USER_ID = 'vite_react_user_id';
 const KEY_USERNAME = 'vite_react_username';
-const KEY_EXPIRES_IN = 'vite_react_expires_in';
+const KEY_EXPIRED_AT = 'vite_react_expired_at';
 
 export function reLoginFromCache(callback: VoidFunction) {
   return async (dispatch: AppDispatch) => {
     const userId = localStorage.getItem(KEY_USER_ID);
     const username = localStorage.getItem(KEY_USERNAME);
-    const expiresInSeconds = localStorage.getItem(KEY_EXPIRES_IN);
-    if (!userId || !username || !expiresInSeconds) return;
+    const expiredAt = localStorage.getItem(KEY_EXPIRED_AT);
+    if (!userId || !username || !expiredAt) return;
 
     dispatch(setAuth({
       userId: +userId,
       username,
-      expiresInSeconds: +expiresInSeconds
+      expiredAt: +expiredAt
     }));
 
-    setupAutoLogout(+expiresInSeconds, () => {
+    setupAutoLogout(+expiredAt, () => {
       clearLocalStorage();
       dispatch(clearAuth());
     });
@@ -78,24 +78,26 @@ export function reLoginFromCache(callback: VoidFunction) {
   };
 }
 
-function setLocalStorage({userId, username, expiresInSeconds}: AuthState) {
+function setLocalStorage({userId, username, expiredAt}: AuthState) {
   localStorage.setItem(KEY_USER_ID, userId + '');
   localStorage.setItem(KEY_USERNAME, username!);
-  localStorage.setItem(KEY_EXPIRES_IN, expiresInSeconds + '');
+  localStorage.setItem(KEY_EXPIRED_AT, expiredAt + '');
 }
 
 function clearLocalStorage() {
   localStorage.removeItem(KEY_USER_ID);
   localStorage.removeItem(KEY_USERNAME);
-  localStorage.removeItem(KEY_EXPIRES_IN);
+  localStorage.removeItem(KEY_EXPIRED_AT);
 }
 
 let loginTimeout: number;
 
-function setupAutoLogout(expiresInSeconds: number, logout: VoidFunction) {
+function setupAutoLogout(expiredAt: number, logout: VoidFunction) {
   if (loginTimeout) {
     clearTimeout(loginTimeout);
   }
 
-  loginTimeout = window.setTimeout(logout, expiresInSeconds * 1000);
+  const currentTimestamp = Math.floor(new Date().getTime());
+  const countdownMilliseconds = expiredAt * 1000 - currentTimestamp;
+  loginTimeout = window.setTimeout(logout, countdownMilliseconds);
 }
