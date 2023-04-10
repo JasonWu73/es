@@ -29,8 +29,7 @@ function useRedirect() {
     }, 1000);
 
     const timeout = setTimeout(() => {
-      // navigate('/', {state: {error: 'Error Not Found'}});
-      navigate(-1); // Is equivalent to hitting the back button
+      navigate('/', {state: {error: 'Error Not Found'}, replace: true});
     }, COUNTDOWN_SECONDS * 1000);
 
     return () => {

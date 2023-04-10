@@ -133,6 +133,17 @@ export function useAuthorizedUrls() {
 
             if (item.children) {
               const childUrls = getChildUrls(item.children);
+
+              if (childUrls.length > 0) {
+                urls.push(...childUrls);
+              }
+            }
+          }
+
+          if (item.children) {
+            const childUrls = getUrls(item.children);
+
+            if (childUrls.length > 0) {
               urls.push(...childUrls);
             }
           }
