@@ -1,7 +1,9 @@
 import axios, {AxiosError, InternalAxiosRequestConfig} from 'axios';
 import NProgress from 'nprogress';
 import store from '../../store';
-import {logout} from '../../routes/auth/auth-slice';
+import {login, logout} from '../../routes/auth/auth-slice';
+import {internalApiBaseUrl} from './config';
+import {isAuthApi, updateAccessToken} from './auth';
 
 export const myAxios = axios.create({
   timeout: 10_000
@@ -18,12 +20,30 @@ myAxios.interceptors.request.use(
   }
 );
 
-// @ts-ignore
-const internalApiBaseUrl = window?._CONFIG?.baseUrl || window.location.origin;
-// const internalApiBaseUrl = 'https://jsonplaceholder.typicode.com';
-
 myAxios.interceptors.request.use(
   config => {
+    const {accessToken, refreshToken, expiredAt} = store.getState().auth;
+    if (accessToken) {
+      config.headers['Authorization'] = `Bearer ${accessToken}`;
+    }
+
+    if (!isAuthApi(config.url!) && refreshToken) {
+      const currentTimestampSeconds = Math.floor(new Date().getTime() / 1000);
+      const countdownSeconds = expiredAt - currentTimestampSeconds;
+      const thresholdSeconds = 300;
+
+      if (countdownSeconds <= thresholdSeconds) {
+        axios(updateAccessToken(refreshToken))
+          .then(response => {
+            store.dispatch(login(response.data));
+          })
+          .catch(() => {
+            store.dispatch(logout(() => {
+            }));
+          })
+      }
+    }
+
     return config;
   },
   error => {
@@ -48,7 +68,6 @@ myAxios.interceptors.response.use(
 
     if (isUnauthorizedError && isApiRequest) {
       store.dispatch(logout(() => {
-        console.log('Logout when 401 HTTP status code');
       }));
     }
 

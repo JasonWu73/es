@@ -1,4 +1,3 @@
-import {StrictMode} from 'react';
 import {createRoot} from 'react-dom/client';
 import App from './App';
 import {Provider} from 'react-redux';
@@ -24,13 +23,11 @@ NProgress.configure({showSpinner: false});
 const root = createRoot(document.getElementById('root') as HTMLElement);
 
 root.render(
-  <StrictMode>
-    <Provider store={store}>
-      <BrowserRouter>
-        <ConfigProvider locale={zhCN}>
-          <App/>
-        </ConfigProvider>
-      </BrowserRouter>
-    </Provider>
-  </StrictMode>
+  <Provider store={store}>
+    <BrowserRouter>
+      <ConfigProvider locale={zhCN}>
+        <App/>
+      </ConfigProvider>
+    </BrowserRouter>
+  </Provider>
 );

@@ -1,5 +1,5 @@
 import {useCallback, useState} from "react";
-import {myAxios} from '../utils/http';
+import {myAxios} from '../api/http';
 import {AxiosError} from 'axios';
 
 interface Request {

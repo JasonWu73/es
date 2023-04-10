@@ -63,7 +63,7 @@ function LoginForm() {
     const {username, password} = values;
 
     if (username === USERNAME && password === PASSWORD) {
-      const expiresInSeconds = 30;
+      const expiresInSeconds = 1800;
       const currentTimestampSeconds = Math.floor(new Date().getTime() / 1000);
       const expiredAt = currentTimestampSeconds + expiresInSeconds;
 

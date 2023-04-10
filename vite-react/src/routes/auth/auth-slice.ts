@@ -102,7 +102,7 @@ function setupAutoLogout(expiredAt: number, logout: VoidFunction) {
     clearTimeout(loginTimeout);
   }
 
-  const currentTimestamp = Math.floor(new Date().getTime());
+  const currentTimestamp = new Date().getTime();
   const countdownMilliseconds = expiredAt * 1000 - currentTimestamp;
   loginTimeout = window.setTimeout(logout, countdownMilliseconds);
 }
