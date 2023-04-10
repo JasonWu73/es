@@ -3,10 +3,6 @@ import NProgress from 'nprogress';
 import store from '../../store';
 import {logout} from '../../routes/auth/auth-slice';
 
-// @ts-ignore
-const innerApiBaseUrl = window?._CONFIG?.baseUrl || window.location.origin;
-// const innerApiBaseUrl = 'https://jsonplaceholder.typicode.com';
-
 export const myAxios = axios.create({
   timeout: 10_000
 });
@@ -22,6 +18,10 @@ myAxios.interceptors.request.use(
   }
 );
 
+// @ts-ignore
+const internalApiBaseUrl = window?._CONFIG?.baseUrl || window.location.origin;
+// const internalApiBaseUrl = 'https://jsonplaceholder.typicode.com';
+
 myAxios.interceptors.request.use(
   config => {
     return config;
@@ -30,7 +30,7 @@ myAxios.interceptors.request.use(
     return Promise.reject(error);
   },
   {
-    runWhen: onGetCallInnerApi // `runWhen` 仅对请求拦截器生效
+    runWhen: onGetCallInternalApi // `runWhen` 仅对请求拦截器生效
   }
 );
 
@@ -44,7 +44,7 @@ myAxios.interceptors.response.use(
 
     const axiosError = error as AxiosError;
     const isUnauthorizedError = axiosError.response!.status === 401;
-    const isApiRequest = axiosError.request.responseURL.startsWith(innerApiBaseUrl);
+    const isApiRequest = axiosError.request.responseURL.startsWith(internalApiBaseUrl);
 
     if (isUnauthorizedError && isApiRequest) {
       store.dispatch(logout(() => {
@@ -56,6 +56,6 @@ myAxios.interceptors.response.use(
   }
 );
 
-function onGetCallInnerApi(config: InternalAxiosRequestConfig) {
-  return config.url!.startsWith(innerApiBaseUrl);
+function onGetCallInternalApi(config: InternalAxiosRequestConfig) {
+  return config.url!.startsWith(internalApiBaseUrl);
 }
