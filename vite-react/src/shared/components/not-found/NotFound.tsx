@@ -24,13 +24,19 @@ function useRedirect() {
   const [countdown, setCountdown] = useState(COUNTDOWN_SECONDS);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCountdown(prevCountdown => prevCountdown - 1);
-    }, 1000);
+    const interval = setInterval(
+      () => {
+        setCountdown(prevCountdown => prevCountdown - 1);
+      },
+      1000
+    );
 
-    const timeout = setTimeout(() => {
-      navigate('/', {state: {error: 'Error Not Found'}, replace: true});
-    }, COUNTDOWN_SECONDS * 1000);
+    const timeout = setTimeout(
+      () => {
+        navigate('/', {state: {error: 'Error Not Found'}, replace: true});
+      },
+      COUNTDOWN_SECONDS * 1000
+    );
 
     return () => {
       clearInterval(interval);
