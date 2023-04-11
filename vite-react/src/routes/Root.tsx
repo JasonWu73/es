@@ -3,9 +3,9 @@ import NotFound from '../shared/components/not-found/NotFound';
 import Home from './home/Home';
 import Counter from './counter/Counter';
 import AdminLayout from './AdminLayout';
-import {CalculatorOutlined} from '@ant-design/icons';
+import {CalculatorOutlined, EditOutlined} from '@ant-design/icons';
 import Login from './auth/Login';
-import PostRoutes, {POST_MENUS} from './post/PostRoutes';
+import PostRoutes from './post/PostRoutes';
 import RequireAuth from './auth/RequireAuth';
 import {ReactNode, useMemo} from 'react';
 import {useAppSelector} from '../store-hooks';
@@ -25,7 +25,33 @@ const MENUS: MenuItem[] = [
     icon: <CalculatorOutlined/>,
     authority: 'counter'
   },
-  POST_MENUS
+  {
+    title: '文章列表',
+    icon: <EditOutlined/>,
+    authority: 'post',
+    children: [
+      {
+        title: '所有文章',
+        url: '/posts',
+        authority: 'post_view',
+      },
+      {
+        title: '文章一',
+        url: '/posts/1',
+        authority: 'post_view',
+      },
+      {
+        title: '文章二',
+        url: '/posts/2',
+        authority: 'post_view',
+      },
+      {
+        title: '新增文章',
+        url: '/posts/new',
+        authority: 'post_add',
+      }
+    ]
+  }
 ];
 
 export const PAGES = [
@@ -42,23 +68,16 @@ export const PAGES = [
 ];
 
 export default function Root() {
-  const authorities = useAppSelector(state => state.auth.authorities);
-
   return (
-    <>
-      <Routes>
-        <Route path="*" element={<NotFound/>}/>
-        <Route path="/login" element={<Login/>}/>
-        <Route element={<AdminLayout/>}>
-          <Route path="/" element={<Home/>}/>
-          {
-            authorities.indexOf('counter') !== -1 &&
-            <Route path="/counter" element={<RequireAuth><Counter/></RequireAuth>}/>
-          }
-          <Route path="/posts/*" element={<RequireAuth><PostRoutes/></RequireAuth>}/>
-        </Route>
-      </Routes>
-    </>
+    <Routes>
+      <Route path="*" element={<NotFound/>}/>
+      <Route path="/login" element={<Login/>}/>
+      <Route element={<AdminLayout/>}>
+        <Route path="/" element={<Home/>}/>
+        <Route path="/counter" element={<RequireAuth><Counter/></RequireAuth>}/>
+        <Route path="/posts/*" element={<RequireAuth><PostRoutes/></RequireAuth>}/>
+      </Route>
+    </Routes>
   );
 }
 
