@@ -150,6 +150,7 @@ function HeaderLayout() {
       </Link>
 
       <Menu theme="dark" mode="horizontal" selectable={false} items={menuItems}/>
+
       <LogoutButton/>
     </Layout.Header>
   );
