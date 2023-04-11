@@ -1,8 +1,45 @@
-import classes from './PostList.module.scss';
 import {usePageTitle} from '../../shared/hooks/use-page-title';
 import {useEffect, useState} from 'react';
 import {useHttp} from '../../shared/hooks/use-http';
-import {Post} from './post.model';
+import {Alert, Table} from 'antd';
+import {Link} from 'react-router-dom';
+
+interface Post {
+  id: number;
+  title: string;
+  body: string;
+  userId: number;
+}
+
+const columns = [
+  {
+    title: '文章 ID',
+    dataIndex: 'id',
+    key: 'id'
+  },
+  {
+    title: '标题',
+    dataIndex: 'title',
+    key: 'title'
+  },
+  {
+    title: '内容',
+    dataIndex: 'body',
+    key: 'body'
+  },
+  {
+    title: '用户 ID',
+    dataIndex: 'userId',
+    key: 'userId'
+  },
+  {
+    title: '操作',
+    key: 'action',
+    render: (_: any, post: Post) => {
+      return <Link to={`/posts/${post.id}`}>详情</Link>;
+    }
+  }
+];
 
 export default function PostList() {
   usePageTitle('所有文章');
@@ -11,9 +48,26 @@ export default function PostList() {
 
   return (
     <>
-      {loading && <p>Loading...</p>}
-      {!loading && error && <p>{error}</p>}
-      {!loading && !error && <Posts posts={posts}/>}
+      {
+        error &&
+        <Alert
+          type="error"
+          message="获取文章列表失败"
+          description={error}
+          showIcon
+          closable
+        />
+      }
+      {
+        !error &&
+        <Table
+          columns={columns}
+          rowKey="id"
+          dataSource={posts}
+          loading={loading}
+        />
+
+      }
     </>
   );
 }
@@ -22,22 +76,19 @@ function usePosts() {
   const [posts, setPosts] = useState<Post[]>([]);
   const {loading, error, sendRequest} = useHttp();
 
-  useEffect(() => {
-    // noinspection JSIgnoredPromiseFromCall
-    sendRequest({
-      method: 'get',
-      url: 'https://jsonplaceholder.typicode.com/posts'
-    }, setPosts);
-  }, [sendRequest]);
+  useEffect(
+    () => {
+      // noinspection JSIgnoredPromiseFromCall
+      sendRequest(
+        {
+          method: 'get',
+          url: `https://jsonplaceholder.typicode.com/posts${Math.random() > 0.5 ? '' : 'error'}`
+        },
+        setPosts
+      );
+    },
+    [sendRequest]
+  );
 
   return {posts, loading, error, sendRequest};
-}
-
-function Posts({posts}: { posts: Post[] }) {
-  const items = posts.map(post => <li key={post.id}>{post.id}. {post.title}</li>);
-  return (
-    <ul className={classes.posts}>
-      {items}
-    </ul>
-  );
 }
