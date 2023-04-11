@@ -214,7 +214,9 @@ function usePathSnippets(menus: MenuItem[]) {
         for (const item of items) {
           if (item.url && item.url === urlToSearch) {
             return item.title;
-          } else if (!item.url && item.children) {
+          }
+
+          if (!item.url && item.children) {
             return getTitle(item.children, urlToSearch);
           }
         }

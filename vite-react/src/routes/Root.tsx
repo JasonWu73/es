@@ -5,10 +5,25 @@ import Counter from './counter/Counter';
 import AdminLayout from './AdminLayout';
 import {CalculatorOutlined, EditOutlined} from '@ant-design/icons';
 import Login from './auth/Login';
-import PostRoutes from './post/PostRoutes';
 import RequireAuth from './auth/RequireAuth';
 import {ReactNode, useMemo} from 'react';
 import {useAppSelector} from '../store-hooks';
+import PostList from './post/PostList';
+import Post from './post/Post';
+import NewPost from './post/NewPost';
+
+export const PAGES = [
+  {
+    title: 'React Redux',
+    url: 'counter/index.html',
+    description: '单独测试 React Redux'
+  },
+  {
+    title: 'React Router',
+    url: 'post/index.html',
+    description: '单独测试 React Router'
+  }
+];
 
 export interface MenuItem {
   title: string;
@@ -54,28 +69,32 @@ const MENUS: MenuItem[] = [
   }
 ];
 
-export const PAGES = [
-  {
-    title: 'React Redux',
-    url: 'counter/index.html',
-    description: '单独测试 React Redux'
-  },
-  {
-    title: 'React Router',
-    url: 'post/index.html',
-    description: '单独测试 React Router'
-  }
-];
-
 export default function Root() {
   return (
     <Routes>
       <Route path="*" element={<NotFound/>}/>
       <Route path="/login" element={<Login/>}/>
+
       <Route element={<AdminLayout/>}>
         <Route path="/" element={<Home/>}/>
-        <Route path="/counter" element={<RequireAuth><Counter/></RequireAuth>}/>
-        <Route path="/posts/*" element={<RequireAuth><PostRoutes/></RequireAuth>}/>
+
+        <Route
+          path="/counter"
+          element={<RequireAuth authority="counter"><Counter/></RequireAuth>}
+        />
+
+        <Route
+          path="/posts"
+          element={<RequireAuth authority="post_view"><PostList/></RequireAuth>}
+        />
+        <Route
+          path="/posts/:id"
+          element={<RequireAuth authority="post_view"><Post/></RequireAuth>}
+        />
+        <Route
+          path="/posts/new"
+          element={<RequireAuth authority="post_add"><NewPost/></RequireAuth>}
+        />
       </Route>
     </Routes>
   );
