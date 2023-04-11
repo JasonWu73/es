@@ -59,34 +59,16 @@ function LoginForm() {
 
     const {username, password} = values;
 
-    if (
-      (username === 'admin' || username === 'user') &&
-      password === '123'
-    ) {
-      const expiresInSeconds = 1800;
-      const currentTimestampSeconds = Math.floor(new Date().getTime() / 1000);
-      const expiredAt = currentTimestampSeconds + expiresInSeconds;
+    const authData = getAuthData(username, password);
 
-      const authorities = username === 'admin' ?
-        ['counter', 'post'] :
-        ['post_view']
-      const nickname = username === 'admin' ? '测试管理员' : '测试用户';
-
-      dispatch(login({
-        userId: 1,
-        username,
-        expiredAt,
-        accessToken: '111.111',
-        refreshToken: '222.222',
-        authorities,
-        nickname
-      }));
-
-      navigate(from, {replace: true});
+    if (!authData) {
+      setError('用户名或密码错误');
       return;
     }
 
-    setError('用户名或密码错误');
+    dispatch(login(authData!));
+
+    navigate(from, {replace: true});
   }
 
   return (
@@ -124,4 +106,28 @@ function LoginForm() {
       </Form.Item>
     </Form>
   );
+}
+
+function getAuthData(username: string, password: string) {
+  const usernameInvalid = username !== 'admin' && username !== 'user';
+  const passwordInvalid = password !== '123';
+
+  if (usernameInvalid || passwordInvalid) return null;
+
+  const expiresInSeconds = 1800;
+  const currentTimestampSeconds = Math.floor(new Date().getTime() / 1000);
+  const expiredAt = currentTimestampSeconds + expiresInSeconds;
+
+  const authorities = username === 'admin' ? ['counter', 'post'] : ['post_view'];
+  const nickname = username === 'admin' ? '测试管理员' : '测试用户';
+
+  return {
+    userId: 1,
+    username,
+    expiredAt,
+    accessToken: '111.111',
+    refreshToken: '222.222',
+    authorities,
+    nickname
+  };
 }
