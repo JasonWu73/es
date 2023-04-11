@@ -1,6 +1,6 @@
 import axios, {AxiosError, InternalAxiosRequestConfig} from 'axios';
 import NProgress from 'nprogress';
-import store from '../../store';
+import {store} from '../../store';
 import {login, logout} from '../../routes/auth/auth-slice';
 import {internalApiBaseUrl} from './config';
 import {isAuthApi, updateAccessToken} from './auth';
