@@ -21,7 +21,7 @@ export default function Counter() {
   return (
     <div className={classes.counter}>
       <div className={classes.counter__header}>
-        <img src={reduxLogo} className={classes.logo} alt="Redux logo"/>
+        <img src={reduxLogo} className={classes.counter__header__logo} alt="Redux logo"/>
         <Space direction="vertical">
           <Space>
             <Button type="default" shape="circle" size="large" onClick={() => dispatch(increment())}>+</Button>
