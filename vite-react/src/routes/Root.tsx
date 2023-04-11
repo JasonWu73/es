@@ -80,20 +80,36 @@ export default function Root() {
 
         <Route
           path="/counter"
-          element={<RequireAuth authority="counter"><Counter/></RequireAuth>}
+          element={
+            <RequireAuth authority="counter">
+              <Counter/>
+            </RequireAuth>
+          }
         />
 
         <Route
           path="/posts"
-          element={<RequireAuth authority="post_view"><PostList/></RequireAuth>}
+          element={
+            <RequireAuth authority="post_view">
+              <PostList/>
+            </RequireAuth>
+          }
         />
         <Route
           path="/posts/:id"
-          element={<RequireAuth authority="post_view"><Post/></RequireAuth>}
+          element={
+            <RequireAuth authority="post_view">
+              <Post/>
+            </RequireAuth>
+          }
         />
         <Route
           path="/posts/new"
-          element={<RequireAuth authority="post_add"><NewPost/></RequireAuth>}
+          element={
+            <RequireAuth authority="post_add">
+              <NewPost/>
+            </RequireAuth>
+          }
         />
       </Route>
     </Routes>
