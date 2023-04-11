@@ -1,8 +1,10 @@
-.container {
-  margin-top: 6.4rem;
-  padding: 3.2rem 0 2.4rem;
+.login {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -20%);
 
-  .logo {
+  &__logo {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -11,10 +13,5 @@
     img {
       margin-right: 1rem;
     }
-  }
-
-  .form {
-    width: 32.8rem;
-    margin: 0 auto;
   }
 }

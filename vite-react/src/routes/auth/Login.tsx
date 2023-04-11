@@ -24,8 +24,8 @@ export default function Login() {
       }}
     >
       <Layout.Content>
-        <div className={classes.container}>
-          <div className={classes.logo}>
+        <div className={classes.login}>
+          <div className={classes.login__logo}>
             <img src="/vite.svg" alt="Vite logo"/>
             <Typography.Title level={2} style={{marginBottom: 0}}>登录表单</Typography.Title>
           </div>
@@ -74,7 +74,7 @@ function LoginForm() {
   return (
     <Form
       name="login"
-      className={classes.form}
+      style={{width: '32.8rem', margin: '0 auto'}}
       onFinish={handleFinish}
       autoComplete="off"
     >
@@ -101,7 +101,7 @@ function LoginForm() {
 
       <Form.Item>
         <Button type="primary" loading={loading} htmlType="submit" size="large" style={{width: '100%'}}>
-          登 录
+          登录
         </Button>
       </Form.Item>
     </Form>
