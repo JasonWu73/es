@@ -50,7 +50,10 @@ function LoginForm() {
 
   const from = location.state?.from?.pathname || '/';
 
-  async function handleFinish(values: { username: string, password: string }) {
+  async function handleFinish(values: {
+    username: string,
+    password: string
+  }) {
     setLoading(true);
     setError('');
 
