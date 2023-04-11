@@ -24,8 +24,7 @@ export default function Post() {
   );
 }
 
-function useCountdownTimer(countdownSeconds: number):
-  [number, Dispatch<SetStateAction<number>>] {
+function useCountdownTimer(countdownSeconds: number): [number, Dispatch<SetStateAction<number>>] {
   const [countdown, setCountdown] = useState(countdownSeconds);
 
   useEffect(() => {
