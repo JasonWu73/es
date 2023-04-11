@@ -1,7 +1,7 @@
 import axios, {AxiosError, InternalAxiosRequestConfig} from 'axios';
 import NProgress from 'nprogress';
 import {store} from '../../store';
-import {login, logout} from '../../routes/auth/auth-slice';
+import {getAuthFromCache, login, logout} from '../../routes/auth/auth-slice';
 import {internalApiBaseUrl} from './config';
 import {isAuthApi, updateAccessToken} from './auth';
 
@@ -12,6 +12,9 @@ export const apiAxios = axios.create({
 apiAxios.interceptors.request.use(
   config => {
     NProgress.start();
+
+    tryRefreshAccessToken(config);
+
     return config;
   },
   error => {
@@ -22,26 +25,10 @@ apiAxios.interceptors.request.use(
 
 apiAxios.interceptors.request.use(
   config => {
-    const {accessToken, refreshToken, expiredAt} = store.getState().auth;
+    const {accessToken} = store.getState().auth;
+
     if (accessToken) {
       config.headers['Authorization'] = `Bearer ${accessToken}`;
-    }
-
-    if (!isAuthApi(config.url!) && refreshToken) {
-      const currentTimestampSeconds = Math.floor(new Date().getTime() / 1000);
-      const countdownSeconds = expiredAt - currentTimestampSeconds;
-      const thresholdSeconds = 300;
-
-      if (countdownSeconds <= thresholdSeconds) {
-        axios(updateAccessToken(refreshToken))
-          .then(response => {
-            store.dispatch(login(response.data));
-          })
-          .catch(() => {
-            store.dispatch(logout(() => {
-            }));
-          })
-      }
     }
 
     return config;
@@ -67,8 +54,7 @@ apiAxios.interceptors.response.use(
     const isApiRequest = axiosError.request.responseURL.startsWith(internalApiBaseUrl);
 
     if (isUnauthorizedError && isApiRequest) {
-      store.dispatch(logout(() => {
-      }));
+      store.dispatch(logout());
     }
 
     return Promise.reject(error);
@@ -76,5 +62,33 @@ apiAxios.interceptors.response.use(
 );
 
 function onGetCallInternalApi(config: InternalAxiosRequestConfig) {
-  return config.url!.startsWith(internalApiBaseUrl);
+  return !!config.url && config.url.startsWith(internalApiBaseUrl);
+}
+
+function tryRefreshAccessToken(config: InternalAxiosRequestConfig) {
+  if (!config.url) return;
+
+  const authData = getAuthFromCache();
+
+  if (!isAuthApi(config.url) && !authData) {
+    store.dispatch(logout());
+    return;
+  }
+
+  if (!isAuthApi(config.url) && authData) {
+    const {refreshToken, expiredAt} = authData;
+    const currentTimestampSeconds = Math.floor(new Date().getTime() / 1000);
+    const countdownSeconds = expiredAt - currentTimestampSeconds;
+    const thresholdSeconds = 300;
+
+    if (countdownSeconds <= thresholdSeconds) {
+      axios(updateAccessToken(refreshToken))
+        .then(response => {
+          store.dispatch(login(response.data));
+        })
+        .catch(() => {
+          store.dispatch(logout());
+        })
+    }
+  }
 }

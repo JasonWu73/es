@@ -1,9 +1,10 @@
+import classes from './AdminLayout.module.scss';
 import {Breadcrumb, Button, Layout, Menu, theme, Typography} from 'antd';
-import {Link, Outlet, useLocation} from 'react-router-dom';
+import {Link, Outlet, useLocation, useNavigate} from 'react-router-dom';
 import {MenuItem, PAGES, useAuthorizedMenus} from './Root';
 import Copyright from '../shared/components/copyright/Copyright';
 import {ReactNode, useEffect, useMemo, useState} from 'react';
-import {PoweroffOutlined, UserOutlined} from '@ant-design/icons';
+import {LoginOutlined, PoweroffOutlined, UserOutlined} from '@ant-design/icons';
 import {useAppDispatch, useAppSelector} from '../store-hooks';
 import {logout} from './auth/auth-slice';
 
@@ -151,39 +152,46 @@ function HeaderLayout() {
 
       <Menu theme="dark" mode="horizontal" selectable={false} items={menuItems}/>
 
-      <LogoutButton/>
+      <AuthButton/>
     </Layout.Header>
   );
 }
 
-function LogoutButton() {
-  const [loading, setLoading] = useState(false);
-
+function AuthButton() {
   const {username, nickname} = useAppSelector(state => state.auth);
   const dispatch = useAppDispatch();
-
-  function handleLogout() {
-    setLoading(true);
-    dispatch(logout(() => setLoading(false)));
-  }
-
-  if (!username) {
-    return <></>;
-  }
+  const navigate = useNavigate();
 
   return (
-    <div style={{marginLeft: 'auto', order: 2, display: 'flex', alignItems: 'center', gap: '1rem'}}>
-      <Typography.Text strong style={{color: 'white', fontSize: '1.6rem'}}>
-        <UserOutlined/> {nickname}
-      </Typography.Text>
-      <Button
-        type="primary"
-        icon={<PoweroffOutlined/>}
-        loading={loading}
-        onClick={handleLogout}
-      >
-        注销
-      </Button>
+    <div className={classes.auth}>
+      {
+        username &&
+        <Typography.Text strong style={{color: 'white', fontSize: '1.6rem'}}>
+          <UserOutlined/> {nickname || username}
+        </Typography.Text>
+      }
+
+      {
+        username &&
+        <Button
+          type="primary"
+          icon={<PoweroffOutlined/>}
+          onClick={() => dispatch(logout())}
+        >
+          注销
+        </Button>
+      }
+
+      {
+        !username &&
+        <Button
+          type="primary"
+          icon={<LoginOutlined/>}
+          onClick={() => navigate('/login')}
+        >
+          登录
+        </Button>
+      }
     </div>
   );
 }
@@ -202,15 +210,7 @@ function usePathSnippets(menus: MenuItem[]) {
         return {url, title}
       });
 
-      function getTitle(
-        items: {
-          title: string,
-          url?: string,
-          icon?: ReactNode,
-          children?: { title: string, url: string }[]
-        }[],
-        urlToSearch: string
-      ): string | null {
+      function getTitle(items: MenuItem[], urlToSearch: string): string | null {
         for (const item of items) {
           if (item.url && item.url === urlToSearch) {
             return item.title;
@@ -241,7 +241,7 @@ function useMenus(menus: MenuItem[]) {
         const children = route.children?.map(child => {
           return {
             key: child.url,
-            label: <Link to={child.url}>{child.title}</Link>
+            label: <Link to={child.url!}>{child.title}</Link>
           };
         });
 
