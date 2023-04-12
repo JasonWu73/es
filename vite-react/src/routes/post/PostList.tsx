@@ -13,11 +13,9 @@ export default function PostList() {
 
   const {posts, loading, error, dispatch} = usePosts();
 
-  useErrorNotification(error);
-
   const {loading: deleteLoading, error: deleteError, sendRequest: sendDeleteRequest} = useHttp();
 
-  useErrorNotification(deleteError);
+  useErrorNotification(error, deleteError);
 
   function handleDeleteClick(postId: number) {
     void sendDeleteRequest(
