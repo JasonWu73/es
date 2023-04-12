@@ -3,7 +3,7 @@ import {useEffect, useState} from 'react';
 import {useHttp} from '../../shared/hooks/use-http';
 import {Alert, Popconfirm, Space, Table, Typography} from 'antd';
 import {Link} from 'react-router-dom';
-import {deletePost, initPosts, Post} from './post-slice';
+import {deletePost, replacePosts, Post} from './post-slice';
 import {useAppDispatch, useAppSelector} from '../../store-hooks';
 import Column from 'antd/es/table/Column';
 
@@ -95,7 +95,7 @@ function usePosts() {
 
   function applyPosts(posts: Post[]) {
     setPosts(posts);
-    dispatch(initPosts({posts}));
+    dispatch(replacePosts({posts}));
   }
 
   return {posts, loading, error, dispatch};

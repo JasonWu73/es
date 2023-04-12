@@ -17,7 +17,7 @@ export const postSlice = createSlice({
     posts: []
   } as PostState,
   reducers: {
-    initPosts: (state, action: PayloadAction<PostState>) => {
+    replacePosts: (state, action: PayloadAction<PostState>) => {
       state.posts = action.payload.posts;
     },
     addPost: (state, action: PayloadAction<Post>) => {
@@ -32,4 +32,4 @@ export const postSlice = createSlice({
 
 export const postReducer = postSlice.reducer;
 
-export const {initPosts, addPost, deletePost} = postSlice.actions;
+export const {replacePosts, addPost, deletePost} = postSlice.actions;
