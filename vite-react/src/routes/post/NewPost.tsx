@@ -27,7 +27,7 @@ export default function NewPost() {
     void sendRequest(
       {
         method: 'post',
-        url: `https://jsonplaceholder.typicode.com/posts${Math.random() > 0.5 ? '' : 'error'}`,
+        url: `https://jsonplaceholder.typicode.com/posts${Math.random() > 0.2 ? '' : 'error'}`,
         data: newPost
       },
       applyAddedPost

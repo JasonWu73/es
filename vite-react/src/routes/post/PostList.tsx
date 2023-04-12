@@ -43,10 +43,7 @@ export default function PostList() {
 
   return (
     <>
-      {
-        error &&
-        <Alert type="error" message={error} showIcon/>
-      }
+      {error && <Alert type="error" message={error} showIcon/>}
       {
         !error &&
         <Table
@@ -55,7 +52,6 @@ export default function PostList() {
           dataSource={posts}
           loading={loading}
         />
-
       }
     </>
   );
@@ -66,19 +62,20 @@ function usePosts() {
   const {loading, error, sendRequest} = useHttp();
   const {posts: cachedPosts} = useAppSelector(state => state.post);
 
-  if (cachedPosts.length > 0) {
-    return {posts: cachedPosts, loading, error, sendRequest};
-  }
-
   useEffect(
     () => {
+      if (cachedPosts.length > 0) {
+        setPosts(cachedPosts);
+        return;
+      }
+
       const controller = new AbortController();
 
       void sendRequest(
         {
           signal: controller.signal,
           method: 'get',
-          url: `https://jsonplaceholder.typicode.com/posts${Math.random() > 0.5 ? '' : 'error'}`
+          url: `https://jsonplaceholder.typicode.com/posts${Math.random() > 0.2 ? '' : 'error'}`
         },
         setPosts
       );
@@ -88,5 +85,5 @@ function usePosts() {
     []
   );
 
-  return {posts, loading, error, sendRequest};
+  return {posts, loading, error};
 }
