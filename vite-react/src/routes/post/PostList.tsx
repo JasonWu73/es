@@ -4,7 +4,7 @@ import {useHttp} from '../../shared/hooks/use-http';
 import {Alert, Table} from 'antd';
 import {Link} from 'react-router-dom';
 
-interface Post {
+export interface Post {
   id: number;
   title: string;
   body: string;
@@ -50,13 +50,7 @@ export default function PostList() {
     <>
       {
         error &&
-        <Alert
-          type="error"
-          message="获取文章列表失败"
-          description={error}
-          showIcon
-          closable
-        />
+        <Alert type="error" message={error} showIcon/>
       }
       {
         !error &&
@@ -80,7 +74,6 @@ function usePosts() {
     () => {
       const controller = new AbortController();
 
-      // noinspection JSIgnoredPromiseFromCall
       sendRequest(
         {
           signal: controller.signal,

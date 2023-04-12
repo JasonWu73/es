@@ -65,7 +65,7 @@ function LoginForm() {
     await wait(1);
     setLoading(false);
 
-    const authData = getAuthData(username, password);
+    const authData = getAuthData(username.trim(), password.trim());
 
     if (!authData) {
       setError('用户名或密码错误');
@@ -97,14 +97,14 @@ function LoginForm() {
 
       <Form.Item
         name="username"
-        rules={[{required: true, message: '用户名不能为空'}]}
+        rules={[{required: true, whitespace: true, message: '用户名不能为空'}]}
       >
         <Input size="large" prefix={<UserOutlined/>} placeholder={'用户名：admin 或 user'}/>
       </Form.Item>
 
       <Form.Item
         name="password"
-        rules={[{required: true, message: '密码不能为空'}]}
+        rules={[{required: true, whitespace: true, message: '密码不能为空'}]}
       >
         <Input.Password size="large" prefix={<LockOutlined/>} placeholder={'密码：123'}/>
       </Form.Item>
@@ -129,7 +129,7 @@ function getAuthData(username: string, password: string) {
   const expiredAt = currentTimestampSeconds + expiresInSeconds;
 
   const userId = username === 'admin' ? 1 : 2;
-  const authorities = username === 'admin' ? ['counter', 'post'] : ['post_view'];
+  const authorities = username === 'admin' ? ['counter', 'post'] : ['post_add'];
   const nickname = username === 'admin' ? '测试管理员' : '测试用户';
 
   return {

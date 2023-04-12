@@ -27,7 +27,6 @@ function usePosts() {
   const {loading, error, sendRequest} = useHttp();
 
   useEffect(() => {
-    // noinspection JSIgnoredPromiseFromCall
     sendRequest({
       method: 'get',
       url: 'https://jsonplaceholder.typicode.com/posts'
