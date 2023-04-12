@@ -65,7 +65,7 @@ function useRedirect() {
         clearTimeout(timeout);
       };
     },
-    []
+    [COUNTDOWN_SECONDS]
   );
 
   return {goToHome, countdown};

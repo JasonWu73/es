@@ -110,7 +110,7 @@ function SidebarMenus({menus, paths}: {
         return prevKeys;
       });
     },
-    [selectedKeys]
+    [JSON.stringify(selectedKeys)]
   );
 
   function handleOpenChange(keys: string[]) {
