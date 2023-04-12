@@ -1,3 +1,4 @@
+import {StrictMode} from 'react';
 import {createRoot} from 'react-dom/client';
 import App from './App';
 import {Provider} from 'react-redux';
@@ -15,7 +16,6 @@ import NProgress from 'nprogress';
 import 'nprogress/nprogress.css';
 
 import './index.scss';
-import {StrictMode} from 'react';
 
 dayjs.locale('zh-cn');
 
