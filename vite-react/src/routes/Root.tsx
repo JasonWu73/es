@@ -136,6 +136,6 @@ export function useAuthorizedMenus() {
         return menus;
       }
     },
-    [authorities]
+    [MENUS, authorities]
   );
 }
