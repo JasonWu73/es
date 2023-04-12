@@ -1,5 +1,5 @@
 import {usePageTitle} from '../../shared/hooks/use-page-title';
-import {useEffect, useState} from 'react';
+import {useEffect} from 'react';
 import {useHttp} from '../../shared/hooks/use-http';
 import {Popconfirm, Space, Table, Typography} from 'antd';
 import {Link} from 'react-router-dom';
@@ -67,17 +67,13 @@ export default function PostList() {
 }
 
 function usePosts() {
-  const [posts, setPosts] = useState<Post[]>([]);
   const {loading, error, sendRequest} = useHttp();
-  const {posts: cachedPosts} = useAppSelector(state => state.post);
+  const {posts} = useAppSelector(state => state.post);
   const dispatch = useAppDispatch();
 
   useEffect(
     () => {
-      if (cachedPosts.length > 0) {
-        setPosts(cachedPosts);
-        return;
-      }
+      if (posts.length > 0) return;
 
       const controller = new AbortController();
 
@@ -92,11 +88,10 @@ function usePosts() {
 
       return () => controller.abort();
     },
-    [JSON.stringify(cachedPosts)]
+    [JSON.stringify(posts)]
   );
 
   function applyPosts(posts: Post[]) {
-    setPosts(posts);
     dispatch(replacePosts({posts}));
   }
 
