@@ -84,9 +84,12 @@ function usePosts() {
         applyPosts
       );
 
-      return () => controller.abort();
+      return () => {
+        controller.abort();
+        applyPosts([]);
+      }
     },
-    [JSON.stringify(posts)]
+    []
   );
 
   function applyPosts(posts: Post[]) {
