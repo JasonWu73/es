@@ -3,7 +3,7 @@ import {useEffect} from 'react';
 import {useHttp} from '../../shared/hooks/use-http';
 import {Popconfirm, Space, Table, Typography} from 'antd';
 import {Link} from 'react-router-dom';
-import {deletePost, Post, replacePosts} from './post-slice';
+import {deletePost, getPosts, Post} from './post-slice';
 import {useAppDispatch, useAppSelector} from '../../store-hooks';
 import Column from 'antd/es/table/Column';
 import {useErrorNotification} from '../layout/use-layout';
@@ -11,7 +11,15 @@ import {useErrorNotification} from '../layout/use-layout';
 export default function PostList() {
   usePageTitle('所有文章');
 
-  const {posts, loading, error, dispatch} = usePosts();
+  const {loading, error, posts} = useAppSelector(state => state.post);
+  const dispatch = useAppDispatch();
+
+  useEffect(
+    () => {
+      dispatch(getPosts());
+    },
+    []
+  );
 
   const {loading: deleteLoading, error: deleteError, sendRequest: sendDeleteRequest} = useHttp();
 
@@ -62,39 +70,4 @@ export default function PostList() {
       {!error && tableContent}
     </>
   );
-}
-
-function usePosts() {
-  const {loading, error, sendRequest} = useHttp();
-  const {posts} = useAppSelector(state => state.post);
-  const dispatch = useAppDispatch();
-
-  useEffect(
-    () => {
-      if (posts.length > 0) return;
-
-      const controller = new AbortController();
-
-      void sendRequest(
-        {
-          signal: controller.signal,
-          method: 'get',
-          url: `https://jsonplaceholder.typicode.com/posts${Math.random() > 0.2 ? '' : 'error'}`
-        },
-        applyPosts
-      );
-
-      return () => {
-        controller.abort();
-        applyPosts([]);
-      }
-    },
-    []
-  );
-
-  function applyPosts(posts: Post[]) {
-    dispatch(replacePosts({posts}));
-  }
-
-  return {posts, loading, error, dispatch};
 }
