@@ -1,7 +1,7 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {AppDispatch} from '../../store';
 
-interface AuthState {
+export interface AuthState {
   userId: number;
   username: string;
   expiredAt: number;

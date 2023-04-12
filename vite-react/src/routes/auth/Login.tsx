@@ -7,7 +7,7 @@ import {LockOutlined, UserOutlined} from '@ant-design/icons';
 import {useAppDispatch} from '../../store-hooks';
 import {wait} from '../../shared/utils/promisify';
 import {useState} from 'react';
-import {login} from './auth-slice';
+import {AuthState, login} from './auth-slice';
 import {useLocation, useNavigate} from 'react-router-dom';
 
 export default function Login() {
@@ -50,17 +50,20 @@ function LoginForm() {
 
   const from = location.state?.from?.pathname || '/';
 
-  async function handleFinish(values: {
-    username: string,
-    password: string
-  }) {
+  async function handleFormFinish(
+    {
+      username,
+      password
+    }: {
+      username: string,
+      password: string
+    }
+  ) {
     setLoading(true);
     setError('');
 
     await wait(1);
     setLoading(false);
-
-    const {username, password} = values;
 
     const authData = getAuthData(username, password);
 
@@ -69,7 +72,11 @@ function LoginForm() {
       return;
     }
 
-    dispatch(login(authData!));
+    applyAuthData(authData);
+  }
+
+  function applyAuthData(authData: AuthState) {
+    dispatch(login(authData));
 
     navigate(from, {replace: true});
   }
@@ -78,7 +85,7 @@ function LoginForm() {
     <Form
       name="login"
       style={{width: '32.8rem', margin: '0 auto'}}
-      onFinish={handleFinish}
+      onFinish={handleFormFinish}
       autoComplete="off"
     >
       {
@@ -90,14 +97,14 @@ function LoginForm() {
 
       <Form.Item
         name="username"
-        rules={[{required: true, message: '请输入用户名！'}]}
+        rules={[{required: true, message: '用户名不能为空'}]}
       >
         <Input size="large" prefix={<UserOutlined/>} placeholder={'用户名：admin 或 user'}/>
       </Form.Item>
 
       <Form.Item
         name="password"
-        rules={[{required: true, message: '请输入密码！'}]}
+        rules={[{required: true, message: '密码不能为空'}]}
       >
         <Input.Password size="large" prefix={<LockOutlined/>} placeholder={'密码：123'}/>
       </Form.Item>
@@ -121,11 +128,12 @@ function getAuthData(username: string, password: string) {
   const currentTimestampSeconds = Math.floor(new Date().getTime() / 1000);
   const expiredAt = currentTimestampSeconds + expiresInSeconds;
 
+  const userId = username === 'admin' ? 1 : 2;
   const authorities = username === 'admin' ? ['counter', 'post'] : ['post_view'];
   const nickname = username === 'admin' ? '测试管理员' : '测试用户';
 
   return {
-    userId: 1,
+    userId,
     username,
     expiredAt,
     accessToken: '111.111',
