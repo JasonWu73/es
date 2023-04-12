@@ -93,7 +93,7 @@ function Breadcrumbs({paths}: {
         },
       ].concat(extraBreadcrumbItems);
     },
-    [paths]
+    [JSON.stringify(paths)]
   );
 
   return (
@@ -237,7 +237,7 @@ function usePathSnippets(menus: MenuItem[]) {
         return null;
       }
     },
-    [pathname, menus]
+    [pathname, JSON.stringify(menus)]
   );
 }
 
@@ -276,7 +276,7 @@ function useMenus(menus: MenuItem[]) {
         };
       })
     },
-    [menus]
+    [JSON.stringify(menus)]
   );
 }
 
@@ -311,6 +311,6 @@ function useMenuSelectedKeys(
         return keys;
       }
     },
-    [menus, pathEnd]
+    [JSON.stringify(menus), pathEnd]
   );
 }

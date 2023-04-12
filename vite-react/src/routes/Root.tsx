@@ -136,6 +136,6 @@ export function useAuthorizedMenus() {
         return menus;
       }
     },
-    [MENUS, authorities]
+    [JSON.stringify(authorities)]
   );
 }
