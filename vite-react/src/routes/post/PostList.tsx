@@ -57,7 +57,7 @@ export default function PostList() {
     <>
       {
         (error || deleteError) &&
-        <Alert type="error" message={error || deleteError} showIcon/>
+        <Alert type="error" message={error || deleteError} showIcon closable/>
       }
       {!error && tableContent}
     </>

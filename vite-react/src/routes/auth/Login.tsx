@@ -83,7 +83,7 @@ function LoginForm() {
       {
         error &&
         <Form.Item>
-          <Alert type="error" message={error} showIcon/>
+          <Alert type="error" message={error} showIcon closable/>
         </Form.Item>
       }
 

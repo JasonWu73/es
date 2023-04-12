@@ -53,7 +53,7 @@ export default function PostDetail() {
   return (
     <Space direction="vertical" size="large" style={{width: '100%'}}>
       {loading && skeletonContent}
-      {error && <Alert type="error" message={error} showIcon/>}
+      {error && <Alert type="error" message={error} showIcon closable/>}
       {!error && postContent}
     </Space>
   );

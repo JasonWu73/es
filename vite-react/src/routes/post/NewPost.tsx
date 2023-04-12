@@ -51,7 +51,7 @@ export default function NewPost() {
       {
         error &&
         <Form.Item wrapperCol={{span: 16, offset: 4}}>
-          <Alert type="error" message={error} showIcon/>
+          <Alert type="error" message={error} showIcon closable/>
         </Form.Item>
       }
 
