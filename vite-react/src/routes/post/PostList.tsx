@@ -15,7 +15,7 @@ export default function PostList() {
 
   useErrorNotification(error);
 
-  const {error: deleteError, sendRequest: sendDeleteRequest} = useHttp();
+  const {loading: deleteLoading, error: deleteError, sendRequest: sendDeleteRequest} = useHttp();
 
   useErrorNotification(deleteError);
 
@@ -30,7 +30,7 @@ export default function PostList() {
   }
 
   const tableContent = (
-    <Table rowKey="id" dataSource={posts} loading={loading}>
+    <Table rowKey="id" dataSource={posts} loading={loading || deleteLoading}>
       <Column title="文章 ID" dataIndex="id" key="id" width="5%"/>
       <Column title="标题" dataIndex="title" key="title" width="30%"/>
       <Column title="内容" dataIndex="body" key="body" width="50%"/>
