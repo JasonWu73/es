@@ -77,14 +77,14 @@ function usePost(postId: number) {
 
       const controller = new AbortController();
 
-      void sendRequest(
+      sendRequest(
         {
           signal: controller.signal,
           method: 'get',
           url: `https://jsonplaceholder.typicode.com/posts${Math.random() > 0.2 ? '' : 'error'}/${postId}`
         },
         setPost
-      );
+      ).then();
 
       return () => controller.abort();
     },

@@ -28,10 +28,10 @@ function usePosts() {
 
   useEffect(
     () => {
-      void sendRequest({
+      sendRequest({
         method: 'get',
         url: 'https://jsonplaceholder.typicode.com/posts'
-      }, setPosts);
+      }, setPosts).then();
     },
     []
   );

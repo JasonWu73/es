@@ -27,14 +27,14 @@ export default function NewPost() {
       id: 111
     };
 
-    void sendRequest(
+    sendRequest(
       {
         method: 'post',
         url: `https://jsonplaceholder.typicode.com/posts${Math.random() > 0.2 ? '' : 'error'}`,
         data: newPost
       },
       applyAddedPost
-    )
+    ).then();
   }
 
   function applyAddedPost(newPost: Post) {
