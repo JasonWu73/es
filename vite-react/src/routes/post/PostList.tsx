@@ -74,7 +74,7 @@ function usePosts() {
     () => {
       const controller = new AbortController();
 
-      sendRequest(
+      void sendRequest(
         {
           signal: controller.signal,
           method: 'get',

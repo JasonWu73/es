@@ -26,12 +26,15 @@ function usePosts() {
   const [posts, setPosts] = useState<Post[]>([]);
   const {loading, error, sendRequest} = useHttp();
 
-  useEffect(() => {
-    sendRequest({
-      method: 'get',
-      url: 'https://jsonplaceholder.typicode.com/posts'
-    }, setPosts);
-  }, [sendRequest]);
+  useEffect(
+    () => {
+      void sendRequest({
+        method: 'get',
+        url: 'https://jsonplaceholder.typicode.com/posts'
+      }, setPosts);
+    },
+    [sendRequest]
+  );
 
   return {posts, loading, error, sendRequest};
 }

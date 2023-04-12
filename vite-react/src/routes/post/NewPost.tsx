@@ -27,7 +27,7 @@ export default function NewPost() {
       userId
     };
 
-    sendRequest(
+    void sendRequest(
       {
         method: 'post',
         url: `https://jsonplaceholder.typicode.com/posts${Math.random() > 0.5 ? '' : 'error'}`,
