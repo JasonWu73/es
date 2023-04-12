@@ -88,7 +88,7 @@ function usePost(postId: number) {
 
       return () => controller.abort();
     },
-    [JSON.stringify(cachedPosts), postId]
+    []
   );
 
   return {post, loading, error};
