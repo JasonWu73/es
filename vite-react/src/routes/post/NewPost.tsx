@@ -2,8 +2,8 @@ import {usePageTitle} from '../../shared/hooks/use-page-title';
 import {Alert, Button, Form, Input} from 'antd';
 import {useHttp} from '../../shared/hooks/use-http';
 import TextArea from 'antd/es/input/TextArea';
-import {useAppSelector} from '../../store-hooks';
-import {Post} from './PostList';
+import {useAppDispatch, useAppSelector} from '../../store-hooks';
+import {addPost, Post} from './post-slice';
 
 export default function NewPost() {
   usePageTitle('新增文章');
@@ -11,20 +11,14 @@ export default function NewPost() {
   const {loading, error, sendRequest} = useHttp();
 
   const userId = useAppSelector(state => state.auth.userId);
+  const dispatch = useAppDispatch();
 
-  function handleFormFinish(
-    {
-      title,
-      body
-    }: {
-      title: string,
-      body: string
-    }
-  ) {
+  function handleFormFinish({title, body}: { title: string, body: string }) {
     const newPost = {
       title: title.trim(),
       body: body.trim(),
-      userId
+      userId,
+      id: 111
     };
 
     void sendRequest(
@@ -37,8 +31,8 @@ export default function NewPost() {
     )
   }
 
-  function applyAddedPost(post: Post) {
-    console.log(post);
+  function applyAddedPost(newPost: Post) {
+    dispatch(addPost(newPost));
   }
 
   return (

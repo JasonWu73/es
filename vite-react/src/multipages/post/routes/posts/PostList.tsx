@@ -33,7 +33,7 @@ function usePosts() {
         url: 'https://jsonplaceholder.typicode.com/posts'
       }, setPosts);
     },
-    [sendRequest]
+    []
   );
 
   return {posts, loading, error, sendRequest};

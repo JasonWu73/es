@@ -3,13 +3,7 @@ import {useEffect, useState} from 'react';
 import {useHttp} from '../../shared/hooks/use-http';
 import {Alert, Table} from 'antd';
 import {Link} from 'react-router-dom';
-
-export interface Post {
-  id: number;
-  title: string;
-  body: string;
-  userId: number;
-}
+import {Post} from './post-slice';
 
 const columns = [
   {
@@ -85,7 +79,7 @@ function usePosts() {
 
       return () => controller.abort();
     },
-    [sendRequest]
+    []
   );
 
   return {posts, loading, error, sendRequest};
