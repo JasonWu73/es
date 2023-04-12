@@ -1,69 +1,51 @@
 import {usePageTitle} from '../../shared/hooks/use-page-title';
 import {useEffect, useState} from 'react';
 import {useHttp} from '../../shared/hooks/use-http';
-import {Alert, Space, Table, Typography} from 'antd';
+import {Alert, Popconfirm, Space, Table, Typography} from 'antd';
 import {Link} from 'react-router-dom';
-import {initPosts, Post} from './post-slice';
+import {deletePost, initPosts, Post} from './post-slice';
 import {useAppDispatch, useAppSelector} from '../../store-hooks';
-import {ColumnsType} from 'antd/es/table';
-
-const columns: ColumnsType<Post> = [
-  {
-    title: '文章 ID',
-    dataIndex: 'id',
-    key: 'id',
-    width: '5%'
-  },
-  {
-    title: '标题',
-    dataIndex: 'title',
-    key: 'title',
-    width: '30%'
-  },
-  {
-    title: '内容',
-    dataIndex: 'body',
-    key: 'body',
-    width: '50%'
-  },
-  {
-    title: '用户 ID',
-    dataIndex: 'userId',
-    key: 'userId',
-    width: '5%'
-  },
-  {
-    title: '操作',
-    key: 'action',
-    width: '10%',
-    render: (_: any, post: Post) => {
-      return (
-        <Space>
-          <Link to={`/posts/${post.id}`}>详情</Link>
-          <Typography.Link onClick={() => handleDeleteClick(post.id)}>删除</Typography.Link>
-        </Space>
-      );
-    }
-  }
-];
+import Column from 'antd/es/table/Column';
 
 export default function PostList() {
   usePageTitle('所有文章');
 
-  const {posts, loading, error} = usePosts();
+  const {posts, loading, error, dispatch} = usePosts();
+
+  const tableContent = (
+    <Table rowKey="id" dataSource={posts} loading={loading}>
+      <Column title="文章 ID" dataIndex="id" key="id" width="5%"/>
+      <Column title="标题" dataIndex="title" key="title" width="30%"/>
+      <Column title="内容" dataIndex="body" key="body" width="50%"/>
+      <Column title="用户 ID" dataIndex="userId" key="userId" width="5%"/>
+      <Column
+        title="操作"
+        key="action"
+        width="10%"
+        render={(_: any, post: Post) => {
+          return (
+            <Space>
+              <Link to={`/posts/${post.id}`}>详情</Link>
+              <Popconfirm
+                title="删除文章"
+                description="您确定要删除此文章吗？"
+                onConfirm={() => dispatch(deletePost(post.id))}
+                okText="确认"
+                cancelText="取消"
+              >
+                <Typography.Link>删除</Typography.Link>
+              </Popconfirm>
+            </Space>
+          );
+        }}
+      />
+    </Table>
+  );
 
   return (
     <>
       {error && <Alert type="error" message={error} showIcon/>}
-      {
-        !error &&
-        <Table
-          columns={columns}
-          rowKey="id"
-          dataSource={posts}
-          loading={loading}
-        />
-      }
+      {!error && tableContent}
     </>
   );
 }
@@ -94,7 +76,7 @@ function usePosts() {
 
       return () => controller.abort();
     },
-    []
+    [JSON.stringify(cachedPosts)]
   );
 
   function applyPosts(posts: Post[]) {
@@ -102,9 +84,5 @@ function usePosts() {
     dispatch(initPosts({posts}));
   }
 
-  return {posts, loading, error};
-}
-
-function handleDeleteClick(postId: number) {
-  console.log('delete: ', postId);
+  return {posts, loading, error, dispatch};
 }

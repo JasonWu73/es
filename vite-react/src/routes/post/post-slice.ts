@@ -24,12 +24,12 @@ export const postSlice = createSlice({
       const newPost = {...action.payload, id: action.payload.id + state.posts.length};
       state.posts.unshift(newPost);
     },
-    removePost: (state, action: PayloadAction<number>) => {
-      state.posts = state.posts.filter(post => post.id === action.payload);
+    deletePost: (state, action: PayloadAction<number>) => {
+      state.posts = state.posts.filter(post => post.id !== action.payload);
     }
   }
 });
 
 export const postReducer = postSlice.reducer;
 
-export const {initPosts, addPost, removePost} = postSlice.actions;
+export const {initPosts, addPost, deletePost} = postSlice.actions;
