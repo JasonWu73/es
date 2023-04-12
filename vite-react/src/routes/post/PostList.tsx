@@ -11,6 +11,17 @@ export default function PostList() {
   usePageTitle('所有文章');
 
   const {posts, loading, error, dispatch} = usePosts();
+  const {error: deleteError, sendRequest: sendDeleteRequest} = useHttp();
+
+  function handleDeleteClick(postId: number) {
+    void sendDeleteRequest(
+      {
+        method: 'delete',
+        url: `https://jsonplaceholder.typicode.com/posts${Math.random() > 0.2 ? '' : 'error'}/${postId}`
+      },
+      () => dispatch(deletePost(postId))
+    );
+  }
 
   const tableContent = (
     <Table rowKey="id" dataSource={posts} loading={loading}>
@@ -29,7 +40,7 @@ export default function PostList() {
               <Popconfirm
                 title="删除文章"
                 description="您确定要删除此文章吗？"
-                onConfirm={() => dispatch(deletePost(post.id))}
+                onConfirm={() => handleDeleteClick(post.id)}
                 okText="确认"
                 cancelText="取消"
               >
@@ -44,7 +55,10 @@ export default function PostList() {
 
   return (
     <>
-      {error && <Alert type="error" message={error} showIcon/>}
+      {
+        (error || deleteError) &&
+        <Alert type="error" message={error || deleteError} showIcon/>
+      }
       {!error && tableContent}
     </>
   );

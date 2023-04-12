@@ -36,7 +36,7 @@ function usePosts() {
     []
   );
 
-  return {posts, loading, error, sendRequest};
+  return {posts, loading, error};
 }
 
 function Posts({posts}: Props) {
