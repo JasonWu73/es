@@ -78,14 +78,19 @@ function usePosts() {
 
   useEffect(
     () => {
+      const controller = new AbortController();
+
       // noinspection JSIgnoredPromiseFromCall
       sendRequest(
         {
+          signal: controller.signal,
           method: 'get',
           url: `https://jsonplaceholder.typicode.com/posts${Math.random() > 0.5 ? '' : 'error'}`
         },
         setPosts
       );
+
+      return () => controller.abort();
     },
     [sendRequest]
   );

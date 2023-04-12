@@ -51,16 +51,6 @@ const MENUS: MenuItem[] = [
         authority: 'post_view',
       },
       {
-        title: '文章一',
-        url: '/posts/1',
-        authority: 'post_view',
-      },
-      {
-        title: '文章二',
-        url: '/posts/2',
-        authority: 'post_view',
-      },
-      {
         title: '新增文章',
         url: '/posts/new',
         authority: 'post_add',
