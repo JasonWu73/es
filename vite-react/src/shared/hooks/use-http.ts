@@ -22,15 +22,22 @@ export function useHttp() {
       setError('');
 
       try {
-        const response = await apiAxios({method, url, data});
-
-        if (signal && signal.aborted) return;
-
-        applyData(response.data);
+        const {data: result} = await apiAxios({signal, method, url, data});
+        applyData(result);
       } catch (error) {
         if (signal && signal.aborted) return;
 
-        setError((error as AxiosError).message);
+        console.error(error);
+
+        const axiosError = error as AxiosError;
+        const errorData = axiosError.response?.data;
+
+        if (errorData && Object.keys(errorData).length > 0) {
+          setError(JSON.stringify(errorData));
+          return;
+        }
+
+        setError(axiosError.message);
       } finally {
         setLoading(false);
       }
