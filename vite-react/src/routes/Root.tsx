@@ -2,7 +2,7 @@ import {Route, Routes} from 'react-router-dom';
 import NotFound from '../shared/components/not-found/NotFound';
 import Home from './home/Home';
 import Counter from './counter/Counter';
-import AdminLayout from './AdminLayout';
+import AdminLayout from './layout/AdminLayout';
 import {CalculatorOutlined, EditOutlined} from '@ant-design/icons';
 import Login from './auth/Login';
 import RequireAuth from './auth/RequireAuth';

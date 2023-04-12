@@ -1,11 +1,12 @@
 import {usePageTitle} from '../../shared/hooks/use-page-title';
 import {useParams} from 'react-router-dom';
 import {Dispatch, SetStateAction, useEffect, useState} from 'react';
-import {Alert, Button, Skeleton, Space, Typography} from 'antd';
+import {Button, Skeleton, Space, Typography} from 'antd';
 import {useAppSelector} from '../../store-hooks';
 import {Post} from './post-slice';
 import {useHttp} from '../../shared/hooks/use-http';
 import SkeletonButton from 'antd/es/skeleton/Button';
+import {useErrorNotification} from '../layout/use-layout';
 
 export default function PostDetail() {
   const {id} = useParams();
@@ -13,6 +14,8 @@ export default function PostDetail() {
   usePageTitle(`文章详情 - ${id}`);
 
   const {post, loading, error} = usePost(+id!);
+
+  useErrorNotification(error);
 
   const [countdown, setCountdown] = useCountdownTimer(5);
 
@@ -53,7 +56,6 @@ export default function PostDetail() {
   return (
     <Space direction="vertical" size="large" style={{width: '100%'}}>
       {loading && skeletonContent}
-      {error && <Alert type="error" message={error} showIcon closable/>}
       {!error && postContent}
     </Space>
   );

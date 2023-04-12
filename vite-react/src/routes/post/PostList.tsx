@@ -1,17 +1,23 @@
 import {usePageTitle} from '../../shared/hooks/use-page-title';
 import {useEffect, useState} from 'react';
 import {useHttp} from '../../shared/hooks/use-http';
-import {Alert, Popconfirm, Space, Table, Typography} from 'antd';
+import {Popconfirm, Space, Table, Typography} from 'antd';
 import {Link} from 'react-router-dom';
-import {deletePost, replacePosts, Post} from './post-slice';
+import {deletePost, Post, replacePosts} from './post-slice';
 import {useAppDispatch, useAppSelector} from '../../store-hooks';
 import Column from 'antd/es/table/Column';
+import {useErrorNotification} from '../layout/use-layout';
 
 export default function PostList() {
   usePageTitle('所有文章');
 
   const {posts, loading, error, dispatch} = usePosts();
+
+  useErrorNotification(error);
+
   const {error: deleteError, sendRequest: sendDeleteRequest} = useHttp();
+
+  useErrorNotification(deleteError);
 
   function handleDeleteClick(postId: number) {
     void sendDeleteRequest(
@@ -55,10 +61,6 @@ export default function PostList() {
 
   return (
     <>
-      {
-        (error || deleteError) &&
-        <Alert type="error" message={error || deleteError} showIcon closable/>
-      }
       {!error && tableContent}
     </>
   );

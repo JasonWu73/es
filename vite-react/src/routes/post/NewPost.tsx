@@ -5,11 +5,14 @@ import TextArea from 'antd/es/input/TextArea';
 import {useAppDispatch, useAppSelector} from '../../store-hooks';
 import {addPost, Post} from './post-slice';
 import {useNavigate} from 'react-router-dom';
+import {useErrorNotification} from '../layout/use-layout';
 
 export default function NewPost() {
   usePageTitle('新增文章');
 
   const {loading, error, sendRequest} = useHttp();
+
+  useErrorNotification(error);
 
   const userId = useAppSelector(state => state.auth.userId);
   const dispatch = useAppDispatch();
@@ -48,13 +51,6 @@ export default function NewPost() {
       onFinish={handleFormFinish}
       autoComplete="off"
     >
-      {
-        error &&
-        <Form.Item wrapperCol={{span: 16, offset: 4}}>
-          <Alert type="error" message={error} showIcon closable/>
-        </Form.Item>
-      }
-
       <Form.Item
         label="标题"
         name="title"

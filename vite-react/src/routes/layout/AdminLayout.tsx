@@ -1,12 +1,12 @@
 import classes from './AdminLayout.module.scss';
-import {Breadcrumb, Button, Layout, Menu, theme, Typography} from 'antd';
+import {Alert, Breadcrumb, Button, Layout, Menu, Space, theme, Typography} from 'antd';
 import {Link, Outlet, useLocation, useNavigate} from 'react-router-dom';
-import {MenuItem, PAGES, useAuthorizedMenus} from './Root';
-import Copyright from '../shared/components/copyright/Copyright';
+import {MenuItem, PAGES, useAuthorizedMenus} from '../Root';
+import Copyright from '../../shared/components/copyright/Copyright';
 import {ReactNode, useEffect, useMemo, useState} from 'react';
 import {LoginOutlined, PoweroffOutlined, UserOutlined} from '@ant-design/icons';
-import {useAppDispatch, useAppSelector} from '../store-hooks';
-import {logout} from './auth/auth-slice';
+import {useAppDispatch, useAppSelector} from '../../store-hooks';
+import {logout} from '../auth/auth-slice';
 
 export default function AdminLayout() {
   const {pathname} = useLocation();
@@ -14,6 +14,8 @@ export default function AdminLayout() {
 
   const menus = useAuthorizedMenus();
   const paths = usePathSnippets(menus);
+
+  const {notification} = useAppSelector(state => state.layout);
 
   return (
     <Layout>
@@ -26,7 +28,18 @@ export default function AdminLayout() {
           {!isHomeLocation && <Breadcrumbs paths={paths}/>}
 
           <ContentLayout>
-            <Outlet/>
+            <Space direction="vertical" style={{width: '100%'}}>
+              {
+                notification &&
+                <Alert
+                  type={notification.type}
+                  message={notification.message}
+                  showIcon
+                  closable
+                />
+              }
+              <Outlet/>
+            </Space>
           </ContentLayout>
 
           <FooterLayout/>
