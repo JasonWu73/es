@@ -64,10 +64,10 @@ function LoginForm() {
       return;
     }
 
-    applyAuthData(authData);
+    applyAuth(authData);
   }
 
-  function applyAuthData(authData: AuthState) {
+  function applyAuth(authData: AuthState) {
     dispatch(login(authData));
 
     navigate(from, {replace: true});

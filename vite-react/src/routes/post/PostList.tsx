@@ -3,8 +3,8 @@ import {useEffect, useState} from 'react';
 import {useHttp} from '../../shared/hooks/use-http';
 import {Alert, Table} from 'antd';
 import {Link} from 'react-router-dom';
-import {Post} from './post-slice';
-import {useAppSelector} from '../../store-hooks';
+import {initPosts, Post} from './post-slice';
+import {useAppDispatch, useAppSelector} from '../../store-hooks';
 
 const columns = [
   {
@@ -61,6 +61,7 @@ function usePosts() {
   const [posts, setPosts] = useState<Post[]>([]);
   const {loading, error, sendRequest} = useHttp();
   const {posts: cachedPosts} = useAppSelector(state => state.post);
+  const dispatch = useAppDispatch();
 
   useEffect(
     () => {
@@ -77,13 +78,18 @@ function usePosts() {
           method: 'get',
           url: `https://jsonplaceholder.typicode.com/posts${Math.random() > 0.2 ? '' : 'error'}`
         },
-        setPosts
+        applyPosts
       );
 
       return () => controller.abort();
     },
     []
   );
+
+  function applyPosts(posts: Post[]) {
+    setPosts(posts);
+    dispatch(initPosts({posts}));
+  }
 
   return {posts, loading, error};
 }
