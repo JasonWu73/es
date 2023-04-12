@@ -4,6 +4,7 @@ import {useHttp} from '../../shared/hooks/use-http';
 import TextArea from 'antd/es/input/TextArea';
 import {useAppDispatch, useAppSelector} from '../../store-hooks';
 import {addPost, Post} from './post-slice';
+import {useNavigate} from 'react-router-dom';
 
 export default function NewPost() {
   usePageTitle('新增文章');
@@ -12,6 +13,8 @@ export default function NewPost() {
 
   const userId = useAppSelector(state => state.auth.userId);
   const dispatch = useAppDispatch();
+
+  const navigate = useNavigate();
 
   function handleFormFinish({title, body}: { title: string, body: string }) {
     const newPost = {
@@ -33,6 +36,8 @@ export default function NewPost() {
 
   function applyAddedPost(newPost: Post) {
     dispatch(addPost(newPost));
+
+    navigate('/posts');
   }
 
   return (

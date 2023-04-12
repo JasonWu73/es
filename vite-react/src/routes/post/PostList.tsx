@@ -4,6 +4,7 @@ import {useHttp} from '../../shared/hooks/use-http';
 import {Alert, Table} from 'antd';
 import {Link} from 'react-router-dom';
 import {Post} from './post-slice';
+import {useAppSelector} from '../../store-hooks';
 
 const columns = [
   {
@@ -63,6 +64,11 @@ export default function PostList() {
 function usePosts() {
   const [posts, setPosts] = useState<Post[]>([]);
   const {loading, error, sendRequest} = useHttp();
+  const {posts: cachedPosts} = useAppSelector(state => state.post);
+
+  if (cachedPosts.length > 0) {
+    return {posts: cachedPosts, loading, error, sendRequest};
+  }
 
   useEffect(
     () => {

@@ -129,7 +129,7 @@ function getAuthData(username: string, password: string) {
   const expiredAt = currentTimestampSeconds + expiresInSeconds;
 
   const userId = username === 'admin' ? 1 : 2;
-  const authorities = username === 'admin' ? ['counter', 'post'] : ['post_add'];
+  const authorities = username === 'admin' ? ['counter', 'post'] : ['post'];
   const nickname = username === 'admin' ? '测试管理员' : '测试用户';
 
   return {

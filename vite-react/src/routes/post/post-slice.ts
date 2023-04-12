@@ -18,7 +18,8 @@ export const postSlice = createSlice({
   } as PostState,
   reducers: {
     addPost: (state, action: PayloadAction<Post>) => {
-      state.posts.unshift(action.payload);
+      const newPost = {...action.payload, id: action.payload.id + state.posts.length};
+      state.posts.unshift(newPost);
     },
     removePost: (state, action: PayloadAction<number>) => {
       state.posts = state.posts.filter(post => post.id === action.payload);
