@@ -9,7 +9,7 @@ import RequireAuth from './auth/RequireAuth';
 import {ReactNode, useMemo} from 'react';
 import {useAppSelector} from '../store-hooks';
 import PostList from './post/PostList';
-import Post from './post/Post';
+import PostDetail from './post/PostDetail';
 import NewPost from './post/NewPost';
 
 export const PAGES = [
@@ -89,7 +89,7 @@ export default function Root() {
           path="/posts/:id"
           element={
             <RequireAuth authority="post_view">
-              <Post/>
+              <PostDetail/>
             </RequireAuth>
           }
         />

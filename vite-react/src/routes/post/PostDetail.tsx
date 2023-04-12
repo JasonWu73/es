@@ -3,11 +3,11 @@ import {useParams} from 'react-router-dom';
 import {Dispatch, SetStateAction, useEffect, useState} from 'react';
 import {Alert, Button, Skeleton, Space, Typography} from 'antd';
 import {useAppSelector} from '../../store-hooks';
-import {Post as PostType} from './post-slice';
+import {Post} from './post-slice';
 import {useHttp} from '../../shared/hooks/use-http';
 import SkeletonButton from 'antd/es/skeleton/Button';
 
-export default function Post() {
+export default function PostDetail() {
   const {id} = useParams();
 
   usePageTitle(`文章详情 - ${id}`);
@@ -60,7 +60,7 @@ export default function Post() {
 }
 
 function usePost(postId: number) {
-  const [post, setPost] = useState<PostType | null>(null);
+  const [post, setPost] = useState<Post | null>(null);
   const {loading, error, sendRequest} = useHttp();
   const {posts: cachedPosts} = useAppSelector(state => state.post);
 
@@ -95,22 +95,25 @@ function usePost(postId: number) {
 function useCountdownTimer(countdownSeconds: number): [number, Dispatch<SetStateAction<number>>] {
   const [countdown, setCountdown] = useState(countdownSeconds);
 
-  useEffect(() => {
-    const interval = setInterval(
-      () => {
-        setCountdown(prevCountdown => prevCountdown - 1);
-      },
-      1000
-    );
+  useEffect(
+    () => {
+      const interval = setInterval(
+        () => {
+          setCountdown(prevCountdown => prevCountdown - 1);
+        },
+        1000
+      );
 
-    if (countdown === 0) {
-      window.clearInterval(interval);
-    }
+      if (countdown === 0) {
+        window.clearInterval(interval);
+      }
 
-    return () => {
-      window.clearInterval(interval);
-    };
-  }, [countdown]);
+      return () => {
+        window.clearInterval(interval);
+      };
+    },
+    [countdown]
+  );
 
   return [countdown, setCountdown];
 }

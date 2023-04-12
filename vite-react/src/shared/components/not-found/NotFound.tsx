@@ -49,21 +49,24 @@ function useRedirect() {
 
   const [countdown, setCountdown] = useState(COUNTDOWN_SECONDS);
 
-  useEffect(() => {
-    const interval = setInterval(
-      () => {
-        setCountdown(prevCountdown => prevCountdown - 1);
-      },
-      1000
-    );
+  useEffect(
+    () => {
+      const interval = setInterval(
+        () => {
+          setCountdown(prevCountdown => prevCountdown - 1);
+        },
+        1000
+      );
 
-    const timeout = setTimeout(goToHome, COUNTDOWN_SECONDS * 1000);
+      const timeout = setTimeout(goToHome, COUNTDOWN_SECONDS * 1000);
 
-    return () => {
-      clearInterval(interval);
-      clearTimeout(timeout);
-    };
-  }, []);
+      return () => {
+        clearInterval(interval);
+        clearTimeout(timeout);
+      };
+    },
+    []
+  );
 
   return {goToHome, countdown};
 }
