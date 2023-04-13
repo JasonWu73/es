@@ -22,6 +22,11 @@ export const PAGES = [
     title: 'React Router',
     url: 'post/index.html',
     description: '单独测试 React Router'
+  },
+  {
+    title: 'Learning',
+    url: 'learning/index.html',
+    description: 'Learning never exhausts the mind.'
   }
 ];
 
