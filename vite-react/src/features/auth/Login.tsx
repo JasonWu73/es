@@ -5,10 +5,11 @@ import {FooterLayout} from '../../routes/layout/AdminLayout';
 import bg from '../../assets/img/ant-design-pro-background.svg';
 import {LockOutlined, UserOutlined} from '@ant-design/icons';
 import {useAppDispatch} from '../../store-hooks';
-import {wait} from '../../utils/promisify';
-import {useState} from 'react';
 import {AuthState, login} from './auth-slice';
 import {useLocation, useNavigate} from 'react-router-dom';
+import {useHttp} from '../../hooks/use-http';
+import {getAccessTokenApi} from './auth-api';
+import {useState} from 'react';
 
 export default function Login() {
   usePageTitle('登录');
@@ -27,7 +28,7 @@ export default function Login() {
         <div className={classes.login}>
           <div className={classes.login__logo}>
             <img src="/vite.svg" alt="Vite logo"/>
-            <Typography.Title level={2} style={{marginBottom: 0}}>登录表单</Typography.Title>
+            <Typography.Title level={2} style={{marginBottom: 0}}>多页面应用 Demo</Typography.Title>
           </div>
 
           <LoginForm/>
@@ -40,8 +41,9 @@ export default function Login() {
 }
 
 function LoginForm() {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const {loading, error, sendRequest} = useHttp();
+
+  const [fakeError, setFakeError] = useState('');
 
   const dispatch = useAppDispatch();
 
@@ -50,21 +52,30 @@ function LoginForm() {
 
   const from = location.state?.from?.pathname || '/';
 
-  async function handleFormFinish({username, password}: { username: string, password: string }) {
-    setLoading(true);
-    setError('');
+  async function handleFormFinish({username, password}: {
+    username: string,
+    password: string
+  }) {
+    setFakeError('');
 
-    await wait(1);
-    setLoading(false);
+    sendRequest(
+      {
+        ...getAccessTokenApi({
+          username: username.trim(),
+          password: password.trim()
+        })
+      },
+      () => {
+        const authData = getAuthData(username.trim(), password.trim());
 
-    const authData = getAuthData(username.trim(), password.trim());
+        if (!authData) {
+          setFakeError('用户名或密码错误');
+          return;
+        }
 
-    if (!authData) {
-      setError('用户名或密码错误');
-      return;
-    }
-
-    applyAuth(authData);
+        applyAuth(authData);
+      }
+    );
   }
 
   function applyAuth(authData: AuthState) {
@@ -81,9 +92,9 @@ function LoginForm() {
       autoComplete="off"
     >
       {
-        error &&
+        (error || fakeError) &&
         <Form.Item>
-          <Alert type="error" message={error} showIcon closable/>
+          <Alert type="error" message={error || fakeError} showIcon closable/>
         </Form.Item>
       }
 
