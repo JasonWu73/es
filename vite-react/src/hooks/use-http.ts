@@ -32,8 +32,6 @@ export function useHttp() {
       }).then(response => {
         applyData(response.data);
       }).catch(error => {
-        console.log(error);
-
         if (controller.signal.aborted) return;
 
         const axiosError = error as AxiosError;

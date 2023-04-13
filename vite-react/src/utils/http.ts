@@ -2,8 +2,8 @@ import axios, {AxiosError, InternalAxiosRequestConfig} from 'axios';
 import NProgress from 'nprogress';
 import {store} from '../store';
 import {getAuthFromCache, login, logout} from '../features/auth/auth-slice';
-import {internalApiBaseUrl} from '../config-data';
 import {isAuthApi, updateAccessTokenApi} from '../features/auth/auth-api';
+import {getInternalApiBaseUrl} from '../config';
 
 export const apiAxios = axios.create({
   timeout: 10_000
@@ -25,7 +25,7 @@ apiAxios.interceptors.request.use(
 
 apiAxios.interceptors.request.use(
   config => {
-    const {accessToken} = store.getState().auth;
+    const accessToken = store.getState().auth.accessToken;
 
     if (accessToken) {
       config.headers['Authorization'] = `Bearer ${accessToken}`;
@@ -49,9 +49,11 @@ apiAxios.interceptors.response.use(
   error => {
     NProgress.done();
 
+    console.log(error);
+
     const axiosError = error as AxiosError;
-    const isUnauthorizedError = axiosError.response!.status === 401;
-    const isApiRequest = axiosError.request.responseURL.startsWith(internalApiBaseUrl);
+    const isUnauthorizedError = axiosError.response?.status === 401;
+    const isApiRequest = axiosError.request.responseURL.startsWith(getInternalApiBaseUrl());
 
     if (isUnauthorizedError && isApiRequest) {
       store.dispatch(logout());
@@ -62,7 +64,7 @@ apiAxios.interceptors.response.use(
 );
 
 function onGetCallInternalApi(config: InternalAxiosRequestConfig) {
-  return !!config.url && config.url.startsWith(internalApiBaseUrl);
+  return !!config.url && config.url.startsWith(getInternalApiBaseUrl());
 }
 
 function tryRefreshAccessToken(config: InternalAxiosRequestConfig) {

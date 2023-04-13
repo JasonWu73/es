@@ -1,5 +1,5 @@
-import {internalApiBaseUrl} from '../../config-data';
 import {AxiosRequest} from '../../hooks/use-http';
+import {getInternalApiBaseUrl} from '../../config';
 
 export function getAccessTokenApi(data: { username: string, password: string }): AxiosRequest {
   return {
@@ -18,10 +18,10 @@ export function getAccessTokenApi(data: { username: string, password: string }):
 export function updateAccessTokenApi(refreshToken: string): AxiosRequest {
   return {
     method: 'post',
-    url: `${internalApiBaseUrl}/api/v1/token/${refreshToken}`
+    url: `${getInternalApiBaseUrl()}/api/v1/token/${refreshToken}`
   };
 }
 
 export function isAuthApi(url: string) {
-  return url.startsWith(`${internalApiBaseUrl}/api/v1/token`);
+  return url.startsWith(`${getInternalApiBaseUrl()}/api/v1/token`);
 }
