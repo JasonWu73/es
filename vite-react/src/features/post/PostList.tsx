@@ -16,7 +16,7 @@ export default function PostList() {
 
   useErrorNotification(error);
 
-  const {posts} = useAppSelector(state => state.post);
+  const posts = useAppSelector(state => state.post.posts);
   const dispatch = useAppDispatch();
 
   useEffect(
@@ -35,9 +35,7 @@ export default function PostList() {
 
   function getPosts() {
     return sendRequest(
-      {
-        ...getPostsApi()
-      },
+      getPostsApi(),
       applyPosts
     );
   }
@@ -48,9 +46,7 @@ export default function PostList() {
 
   function handleDeleteClick(postId: number) {
     sendRequest(
-      {
-        ...deletePostApi(postId)
-      },
+      deletePostApi(postId),
       () => dispatch(deletePost(postId))
     );
   }

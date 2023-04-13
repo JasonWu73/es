@@ -21,7 +21,10 @@ export const postSlice = createSlice({
       state.posts = action.payload.posts;
     },
     addPost(state, action: PayloadAction<Post>) {
-      const newPost = {...action.payload, id: (state.posts.at(-1)?.id ?? 0) + 1};
+      const newPost = {
+        ...action.payload,
+        id: (state.posts.at(-1)?.id ?? 0) + 1
+      };
       state.posts.unshift(newPost);
     },
     deletePost(state, action: PayloadAction<number>) {

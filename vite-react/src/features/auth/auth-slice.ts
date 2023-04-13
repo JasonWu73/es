@@ -49,7 +49,7 @@ export const authReducer = authSlice.reducer;
 export const {setAuth, clearAuth} = authSlice.actions;
 
 export function login(auth: AuthState) {
-  return async (dispatch: AppDispatch) => {
+  return (dispatch: AppDispatch) => {
     setLocalStorage(auth);
     dispatch(setAuth(auth));
 
@@ -64,7 +64,7 @@ export function login(auth: AuthState) {
 }
 
 export function logout() {
-  return async (dispatch: AppDispatch) => {
+  return (dispatch: AppDispatch) => {
     clearLocalStorage();
     dispatch(clearAuth());
   };
@@ -73,7 +73,7 @@ export function logout() {
 const KEY_AUTH = 'vite_react_auth';
 
 export function reLoginFromCache(callback: VoidFunction) {
-  return async (dispatch: AppDispatch) => {
+  return (dispatch: AppDispatch) => {
     const authData = getAuthFromCache();
     if (!authData) return;
 

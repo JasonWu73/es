@@ -8,7 +8,7 @@ export default function RequireAuth({authority, children}: {
   authority: string,
   children: ReactNode
 }) {
-  const {username} = useAppSelector(state => state.auth);
+  const username = useAppSelector(state => state.auth.username);
   const location = useLocation();
 
   const menus = useAuthorizedMenus();

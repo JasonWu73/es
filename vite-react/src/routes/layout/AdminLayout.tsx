@@ -163,7 +163,8 @@ function HeaderLayout() {
 }
 
 function AuthButton() {
-  const {username, nickname} = useAppSelector(state => state.auth);
+  const username = useAppSelector(state => state.auth.username);
+  const nickname = useAppSelector(state => state.auth.nickname);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 

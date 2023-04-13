@@ -52,19 +52,18 @@ function LoginForm() {
 
   const from = location.state?.from?.pathname || '/';
 
-  async function handleFormFinish({username, password}: {
+  function handleFormFinish({username, password}: {
     username: string,
     password: string
   }) {
     setFakeError('');
 
     sendRequest(
-      {
-        ...getAccessTokenApi({
-          username: username.trim(),
-          password: password.trim()
-        })
-      },
+      getAccessTokenApi({
+        username: username.trim(),
+        password: password.trim()
+
+      }),
       () => {
         const authData = getAuthData(username.trim(), password.trim());
 

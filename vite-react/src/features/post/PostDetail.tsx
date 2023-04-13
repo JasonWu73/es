@@ -20,7 +20,7 @@ export default function PostDetail() {
 
   useErrorNotification(error);
 
-  const {posts} = useAppSelector(state => state.post);
+  const posts = useAppSelector(state => state.post.posts);
   const [post, setPost] = useState<Post>();
 
   useEffect(
@@ -33,9 +33,7 @@ export default function PostDetail() {
       }
 
       const controller = sendRequest(
-        {
-          ...getPostApi(+id)
-        },
+        getPostApi(+id),
         setPost
       );
 

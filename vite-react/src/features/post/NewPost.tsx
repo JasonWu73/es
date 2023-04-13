@@ -28,9 +28,7 @@ export default function NewPost() {
     };
 
     sendRequest(
-      {
-        ...addPostApi(newPost)
-      },
+      addPostApi(newPost),
       newPost => {
         dispatch(addPost(newPost));
         navigate('/posts');
