@@ -53,10 +53,13 @@ export function login(auth: AuthState) {
     setLocalStorage(auth);
     dispatch(setAuth(auth));
 
-    setAutoLogout(auth.expiredAt, () => {
-      clearLocalStorage();
-      dispatch(clearAuth());
-    });
+    setAutoLogout(
+      auth.expiredAt,
+      () => {
+        clearLocalStorage();
+        dispatch(clearAuth());
+      }
+    );
   };
 }
 
@@ -68,13 +71,6 @@ export function logout() {
 }
 
 const KEY_AUTH = 'vite_react_auth';
-
-export function getAuthFromCache() {
-  const authJson = localStorage.getItem(KEY_AUTH);
-  if (!authJson) return null;
-
-  return JSON.parse(authJson) as AuthState;
-}
 
 export function reLoginFromCache(callback: VoidFunction) {
   return async (dispatch: AppDispatch) => {
@@ -98,6 +94,13 @@ function setLocalStorage(auth: AuthState) {
 
 function clearLocalStorage() {
   localStorage.removeItem(KEY_AUTH);
+}
+
+function getAuthFromCache() {
+  const authJson = localStorage.getItem(KEY_AUTH);
+  if (!authJson) return null;
+
+  return JSON.parse(authJson) as AuthState;
 }
 
 let loginTimeout: number;

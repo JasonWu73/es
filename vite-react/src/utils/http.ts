@@ -1,7 +1,7 @@
 import axios, {AxiosError, InternalAxiosRequestConfig} from 'axios';
 import NProgress from 'nprogress';
 import {store} from '../store';
-import {getAuthFromCache, login, logout} from '../features/auth/auth-slice';
+import {login, logout} from '../features/auth/auth-slice';
 import {isAuthApi, updateAccessTokenApi} from '../features/auth/auth-api';
 import {getInternalApiBaseUrl} from '../config';
 
@@ -51,46 +51,51 @@ apiAxios.interceptors.response.use(
 
     console.log(error);
 
-    const axiosError = error as AxiosError;
-    const isUnauthorizedError = axiosError.response?.status === 401;
-    const isApiRequest = axiosError.request.responseURL.startsWith(getInternalApiBaseUrl());
+    if (axios.isCancel(error)) return Promise.reject(error);
 
-    if (isUnauthorizedError && isApiRequest) {
-      store.dispatch(logout());
-    }
+    const axiosError = error as AxiosError;
+
+    logoutWhenUnauthorized(axiosError);
 
     return Promise.reject(error);
   }
 );
 
-function onGetCallInternalApi(config: InternalAxiosRequestConfig) {
-  return !!config.url && config.url.startsWith(getInternalApiBaseUrl());
-}
-
 function tryRefreshAccessToken(config: InternalAxiosRequestConfig) {
   if (!config.url) return;
 
-  const authData = getAuthFromCache();
+  const refreshToken = store.getState().auth.refreshToken;
+  const expiredAt = store.getState().auth.expiredAt;
 
-  if (!isAuthApi(config.url) && !authData) {
+  if (!isAuthApi(config.url) && (!refreshToken || !expiredAt)) {
     store.dispatch(logout());
     return;
   }
 
-  if (!isAuthApi(config.url) && authData) {
-    const {refreshToken, expiredAt} = authData;
+  if (!isAuthApi(config.url)) {
     const currentTimestampSeconds = Math.floor(new Date().getTime() / 1000);
     const countdownSeconds = expiredAt - currentTimestampSeconds;
-    const thresholdSeconds = 300;
+    const refreshLessThanSeconds = 600;
 
-    if (countdownSeconds <= thresholdSeconds) {
-      axios(updateAccessTokenApi(refreshToken))
-        .then(response => {
-          store.dispatch(login(response.data));
-        })
-        .catch(() => {
-          store.dispatch(logout());
-        })
+    if (countdownSeconds <= refreshLessThanSeconds) {
+      axios(updateAccessTokenApi(refreshToken)).then(response => {
+        store.dispatch(login(response.data));
+      }).catch(() => {
+        store.dispatch(logout());
+      })
     }
+  }
+}
+
+function onGetCallInternalApi(config: InternalAxiosRequestConfig) {
+  return !!config.url && config.url.startsWith(getInternalApiBaseUrl());
+}
+
+function logoutWhenUnauthorized(axiosError: AxiosError<unknown, any>) {
+  const isUnauthorizedError = axiosError.response?.status === 401;
+  const isApiRequest = axiosError.request.responseURL.startsWith(getInternalApiBaseUrl());
+
+  if (isUnauthorizedError && isApiRequest) {
+    store.dispatch(logout());
   }
 }
