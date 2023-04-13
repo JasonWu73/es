@@ -7,6 +7,7 @@ import {Link} from 'react-router-dom';
 import {deletePost, Post, replacePosts} from './post-slice';
 import {useAppDispatch, useAppSelector} from '../../store-hooks';
 import Column from 'antd/es/table/Column';
+import {deletePostApi, getPostsApi} from './post-api';
 
 export default function PostList() {
   usePageTitle('所有文章');
@@ -22,9 +23,7 @@ export default function PostList() {
     () => {
       if (posts.length > 0) return;
 
-      const controller = new AbortController();
-
-      getPosts(controller.signal);
+      const controller = getPosts();
 
       return () => {
         controller.abort();
@@ -34,15 +33,13 @@ export default function PostList() {
     []
   );
 
-  function getPosts(signal?: AbortSignal) {
-    sendRequest(
+  function getPosts() {
+    return sendRequest(
       {
-        signal,
-        method: 'get',
-        url: `https://jsonplaceholder.typicode.com/posts${Math.random() > 0.2 ? '' : 'error'}`
+        ...getPostsApi()
       },
       applyPosts
-    ).then();
+    );
   }
 
   function applyPosts(posts: Post[]) {
@@ -52,11 +49,10 @@ export default function PostList() {
   function handleDeleteClick(postId: number) {
     sendRequest(
       {
-        method: 'delete',
-        url: `https://jsonplaceholder.typicode.com/posts${Math.random() > 0.2 ? '' : 'error'}/${postId}`
+        ...deletePostApi(postId)
       },
       () => dispatch(deletePost(postId))
-    ).then();
+    );
   }
 
   return (

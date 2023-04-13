@@ -1,8 +1,8 @@
-interface Config {
+interface ConfigData {
   baseUrl: string;
 }
 
 // @ts-ignore
-export const config: Config | undefined = window?._CONFIG;
+export const config: ConfigData | undefined = window?._CONFIG;
 
 export const internalApiBaseUrl = config?.baseUrl || window.location.origin;

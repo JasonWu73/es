@@ -1,6 +1,6 @@
 import {useEffect} from 'react';
 import {useAppDispatch} from '../../store-hooks';
-import {setNotification} from './layout-slice';
+import {setError} from './layout-slice';
 
 export function useErrorNotification(...errors: string[]) {
   const dispatch = useAppDispatch();
@@ -10,14 +10,11 @@ export function useErrorNotification(...errors: string[]) {
       const error = errors.find(error => error);
 
       if (!error) {
-        dispatch(setNotification(null));
+        dispatch(setError(''));
         return;
       }
 
-      dispatch(setNotification({
-        type: 'error',
-        message: error
-      }));
+      dispatch(setError(error));
     },
     [...errors]
   );

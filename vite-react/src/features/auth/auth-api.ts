@@ -1,7 +1,7 @@
-import {internalApiBaseUrl} from '../../config';
+import {internalApiBaseUrl} from '../../config-data';
 import {AxiosRequest} from '../../hooks/use-http';
 
-export function getAccessToken(data: { username: string, password: string }): AxiosRequest {
+export function getAccessTokenApi(data: { username: string, password: string }): AxiosRequest {
   return {
     method: 'post',
     url: `${internalApiBaseUrl}/api/v1/token`,
@@ -9,7 +9,7 @@ export function getAccessToken(data: { username: string, password: string }): Ax
   };
 }
 
-export function updateAccessToken(refreshToken: string): AxiosRequest {
+export function updateAccessTokenApi(refreshToken: string): AxiosRequest {
   return {
     method: 'post',
     url: `${internalApiBaseUrl}/api/v1/token/${refreshToken}`

@@ -3,9 +3,10 @@ import {Button, Form, Input} from 'antd';
 import {useHttp} from '../../hooks/use-http';
 import TextArea from 'antd/es/input/TextArea';
 import {useAppDispatch, useAppSelector} from '../../store-hooks';
-import {addPost, Post} from './post-slice';
+import {addPost} from './post-slice';
 import {useNavigate} from 'react-router-dom';
 import {useErrorNotification} from '../../routes/layout/use-layout';
+import {addPostApi} from './post-api';
 
 export default function NewPost() {
   usePageTitle('新增文章');
@@ -23,24 +24,18 @@ export default function NewPost() {
     const newPost = {
       title: title.trim(),
       body: body.trim(),
-      userId,
-      id: 111
+      userId
     };
 
     sendRequest(
       {
-        method: 'post',
-        url: `https://jsonplaceholder.typicode.com/posts${Math.random() > 0.2 ? '' : 'error'}`,
-        data: newPost
+        ...addPostApi(newPost)
       },
-      applyAddedPost
-    ).then();
-  }
-
-  function applyAddedPost(newPost: Post) {
-    dispatch(addPost(newPost));
-
-    navigate('/posts');
+      newPost => {
+        dispatch(addPost(newPost));
+        navigate('/posts');
+      }
+    );
   }
 
   return (

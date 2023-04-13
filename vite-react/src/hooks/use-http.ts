@@ -3,10 +3,9 @@ import {apiAxios} from '../utils/http';
 import {AxiosError} from 'axios';
 
 export interface AxiosRequest {
-  signal?: AbortSignal;
   method: 'get' | 'post' | 'put' | 'delete';
   url: string;
-  data?: object;
+  data?: any;
 }
 
 export function useHttp() {
@@ -14,20 +13,26 @@ export function useHttp() {
   const [error, setError] = useState('');
 
   const sendRequest = useCallback(
-    async (
-      {signal, method, url, data}: AxiosRequest,
+    (
+      {method, url, data}: AxiosRequest,
       applyData: (data: any) => void
     ) => {
       setLoading(true);
       setError('');
 
-      try {
-        const {data: result} = await apiAxios({signal, method, url, data});
-        applyData(result);
-      } catch (error) {
-        if (signal && signal.aborted) return;
+      const controller = new AbortController();
 
-        console.error(error);
+      apiAxios({
+        signal: controller.signal,
+        method,
+        url,
+        data
+      }).then(response => {
+        applyData(response.data);
+      }).catch(error => {
+        console.log(error);
+
+        if (controller.signal.aborted) return;
 
         const axiosError = error as AxiosError;
         const errorData = axiosError.response?.data;
@@ -38,9 +43,10 @@ export function useHttp() {
         }
 
         setError(axiosError.message);
-      } finally {
-        setLoading(false);
-      }
+      }).finally(() => setLoading(false));
+
+      // controller.abort();
+      return controller;
     },
     []
   );

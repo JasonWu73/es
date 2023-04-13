@@ -1,26 +1,21 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 
-interface Notification {
-  type: 'success' | 'info' | 'warning' | 'error';
-  message: string;
-}
-
 export interface LayoutState {
-  notification: Notification | null;
+  error: string;
 }
 
 export const layoutSlice = createSlice({
   name: 'layout',
   initialState: {
-    notification: null
+    error: ''
   } as LayoutState,
   reducers: {
-    setNotification: (state, action: PayloadAction<Notification | null>) => {
-      state.notification = action.payload;
+    setError(state, action: PayloadAction<string>) {
+      state.error = action.payload;
     }
   }
 });
 
 export const layoutReducer = layoutSlice.reducer;
 
-export const {setNotification} = layoutSlice.actions;
+export const {setError} = layoutSlice.actions;

@@ -31,7 +31,7 @@ function usePosts() {
       sendRequest({
         method: 'get',
         url: 'https://jsonplaceholder.typicode.com/posts'
-      }, setPosts).then();
+      }, setPosts);
     },
     []
   );

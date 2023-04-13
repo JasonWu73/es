@@ -15,7 +15,7 @@ export default function AdminLayout() {
   const menus = useAuthorizedMenus();
   const paths = usePathSnippets(menus);
 
-  const {notification} = useAppSelector(state => state.layout);
+  const error = useAppSelector(state => state.layout.error);
 
   return (
     <Layout>
@@ -29,15 +29,7 @@ export default function AdminLayout() {
 
           <ContentLayout>
             <Space direction="vertical" style={{width: '100%'}}>
-              {
-                notification &&
-                <Alert
-                  type={notification.type}
-                  message={notification.message}
-                  showIcon
-                  closable
-                />
-              }
+              {error && <Alert type="error" message={error} showIcon closable/>}
               <Outlet/>
             </Space>
           </ContentLayout>

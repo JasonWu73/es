@@ -1,27 +1,56 @@
 import {usePageTitle} from '../../hooks/use-page-title';
 import {useParams} from 'react-router-dom';
 import {Dispatch, SetStateAction, useEffect, useState} from 'react';
-import {Button, Skeleton, Space, Typography} from 'antd';
+import {Button, Empty, Skeleton, Space, Typography} from 'antd';
 import {useAppSelector} from '../../store-hooks';
 import {Post} from './post-slice';
 import {useHttp} from '../../hooks/use-http';
 import SkeletonButton from 'antd/es/skeleton/Button';
 import {useErrorNotification} from '../../routes/layout/use-layout';
+import {getPostApi} from './post-api';
 
 export default function PostDetail() {
   const {id} = useParams();
 
+  if (!id) return <Empty/>;
+
   usePageTitle(`文章详情 - ${id}`);
 
-  const {post, loading, error} = usePost(+id!);
+  const {loading, error, sendRequest} = useHttp();
 
   useErrorNotification(error);
+
+  const {posts} = useAppSelector(state => state.post);
+  const [post, setPost] = useState<Post>();
+
+  useEffect(
+    () => {
+      const cachedPost = posts.find(post => post.id === +id);
+
+      if (cachedPost) {
+        setPost(cachedPost);
+        return;
+      }
+
+      const controller = sendRequest(
+        {
+          ...getPostApi(+id)
+        },
+        setPost
+      );
+
+      return () => controller.abort();
+    },
+    []
+  );
 
   const [countdown, setCountdown] = useCountdownTimer(5);
 
   function handleResetClick() {
     setCountdown(Math.floor(Math.random() * 10 + 1));
   }
+
+  if (!post) return <Empty/>;
 
   const skeletonContent = (
     <>
@@ -36,7 +65,7 @@ export default function PostDetail() {
 
   const postContent = (
     <>
-      <Typography.Title level={2}>{id} - {post?.title ?? ''}</Typography.Title>
+      <Typography.Title level={2}>{id} - {post.title ?? ''}</Typography.Title>
 
       <section style={{display: 'flex', alignItems: 'center', gap: '1rem'}}>
         <Typography.Title level={3} style={{marginBottom: 0}}>随机倒数读秒器：{countdown}</Typography.Title>
@@ -44,11 +73,11 @@ export default function PostDetail() {
       </section>
 
       <section>
-        <Typography.Text>{post?.body ?? ''}</Typography.Text>
+        <Typography.Text>{post.body ?? ''}</Typography.Text>
       </section>
 
       <section>
-        <Typography.Text>用户 ID：{post?.userId ?? ''}</Typography.Text>
+        <Typography.Text>用户 ID：{post.userId ?? ''}</Typography.Text>
       </section>
     </>
   );
@@ -59,39 +88,6 @@ export default function PostDetail() {
       {!error && postContent}
     </Space>
   );
-}
-
-function usePost(postId: number) {
-  const [post, setPost] = useState<Post | null>(null);
-  const {loading, error, sendRequest} = useHttp();
-  const {posts: cachedPosts} = useAppSelector(state => state.post);
-
-  useEffect(
-    () => {
-      const cachedPost = cachedPosts.find(post => post.id === postId);
-
-      if (cachedPost) {
-        setPost(cachedPost);
-        return;
-      }
-
-      const controller = new AbortController();
-
-      sendRequest(
-        {
-          signal: controller.signal,
-          method: 'get',
-          url: `https://jsonplaceholder.typicode.com/posts${Math.random() > 0.2 ? '' : 'error'}/${postId}`
-        },
-        setPost
-      ).then();
-
-      return () => controller.abort();
-    },
-    []
-  );
-
-  return {post, loading, error};
 }
 
 function useCountdownTimer(countdownSeconds: number): [number, Dispatch<SetStateAction<number>>] {

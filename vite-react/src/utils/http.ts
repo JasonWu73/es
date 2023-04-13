@@ -2,8 +2,8 @@ import axios, {AxiosError, InternalAxiosRequestConfig} from 'axios';
 import NProgress from 'nprogress';
 import {store} from '../store';
 import {getAuthFromCache, login, logout} from '../features/auth/auth-slice';
-import {internalApiBaseUrl} from '../config';
-import {isAuthApi, updateAccessToken} from '../features/auth/auth-api';
+import {internalApiBaseUrl} from '../config-data';
+import {isAuthApi, updateAccessTokenApi} from '../features/auth/auth-api';
 
 export const apiAxios = axios.create({
   timeout: 10_000
@@ -82,7 +82,7 @@ function tryRefreshAccessToken(config: InternalAxiosRequestConfig) {
     const thresholdSeconds = 300;
 
     if (countdownSeconds <= thresholdSeconds) {
-      axios(updateAccessToken(refreshToken))
+      axios(updateAccessTokenApi(refreshToken))
         .then(response => {
           store.dispatch(login(response.data));
         })
