@@ -1,10 +1,10 @@
 import classes from './Counter.module.scss';
-import {usePageTitle} from '../../shared/hooks/use-page-title';
+import {usePageTitle} from '../../hooks/use-page-title';
 import {useState} from 'react';
 import {Button, InputNumber, Space, Typography} from 'antd';
 import {useAppDispatch, useAppSelector} from '../../store-hooks';
 import {decrement, increment, incrementAsync, incrementByAmount} from './counter-slice';
-import reduxLogo from '../../shared/assets/img/redux-logo.svg';
+import reduxLogo from '../../assets/img/redux-logo.svg';
 
 export default function Counter() {
   usePageTitle('计数器');

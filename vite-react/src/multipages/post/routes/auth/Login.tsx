@@ -1,9 +1,9 @@
 import {useLocation, useNavigate} from 'react-router-dom';
 import {useAuth} from './AuthProvider';
 import {FormEvent, useState} from 'react';
-import Button from '../../../../shared/components/button/Button';
-import Card from '../../../../shared/components/card/Card';
-import {usePageTitle} from '../../../../shared/hooks/use-page-title';
+import Button from '../../../../components/button/Button';
+import Card from '../../../../components/card/Card';
+import {usePageTitle} from '../../../../hooks/use-page-title';
 
 export default function Login() {
   usePageTitle('Login');

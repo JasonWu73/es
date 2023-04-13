@@ -1,8 +1,8 @@
-import Nav, {NavRoute} from '../../../shared/components/nav/Nav';
+import Nav, {NavRoute} from '../../../components/nav/Nav';
 import {Navigate, Outlet, Route, Routes} from 'react-router-dom';
 import Home from './home/Home';
 import SimpleInput from './form/SimpleInput';
-import NotFound from '../../../shared/components/not-found/NotFound';
+import NotFound from '../../../components/not-found/NotFound';
 import PostLayout from './posts/PostLayout';
 import PostList from './posts/PostList';
 import Post from './posts/Post';

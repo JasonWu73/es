@@ -1,8 +1,8 @@
 import {useCallback, useState} from "react";
-import {apiAxios} from '../api/http';
+import {apiAxios} from '../utils/http';
 import {AxiosError} from 'axios';
 
-interface Request {
+export interface AxiosRequest {
   signal?: AbortSignal;
   method: 'get' | 'post' | 'put' | 'delete';
   url: string;
@@ -15,7 +15,7 @@ export function useHttp() {
 
   const sendRequest = useCallback(
     async (
-      {signal, method, url, data}: Request,
+      {signal, method, url, data}: AxiosRequest,
       applyData: (data: any) => void
     ) => {
       setLoading(true);

@@ -1,4 +1,4 @@
-import {usePageTitle} from '../../../../shared/hooks/use-page-title';
+import {usePageTitle} from '../../../../hooks/use-page-title';
 
 export default function NewPost() {
   usePageTitle('New Post');

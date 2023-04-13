@@ -1,7 +1,7 @@
-import {usePageTitle} from '../../shared/hooks/use-page-title';
+import {usePageTitle} from '../../hooks/use-page-title';
 import {useEffect} from 'react';
-import {useHttp} from '../../shared/hooks/use-http';
-import {useErrorNotification} from '../layout/use-layout';
+import {useHttp} from '../../hooks/use-http';
+import {useErrorNotification} from '../../routes/layout/use-layout';
 import {Button, Popconfirm, Space, Table, Typography} from 'antd';
 import {Link} from 'react-router-dom';
 import {deletePost, Post, replacePosts} from './post-slice';

@@ -1,6 +1,6 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {AppDispatch, RootState} from '../../store';
-import {wait} from '../../shared/utils/promisify';
+import {wait} from '../../utils/promisify';
 
 export const counterSlice = createSlice({
   name: 'counter',

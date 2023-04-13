@@ -2,11 +2,11 @@ import classes from './AdminLayout.module.scss';
 import {Alert, Breadcrumb, Button, Layout, Menu, Space, theme, Typography} from 'antd';
 import {Link, Outlet, useLocation, useNavigate} from 'react-router-dom';
 import {MenuItem, PAGES, useAuthorizedMenus} from '../Root';
-import Copyright from '../../shared/components/copyright/Copyright';
+import Copyright from '../../components/copyright/Copyright';
 import {ReactNode, useEffect, useMemo, useState} from 'react';
 import {LoginOutlined, PoweroffOutlined, UserOutlined} from '@ant-design/icons';
 import {useAppDispatch, useAppSelector} from '../../store-hooks';
-import {logout} from '../auth/auth-slice';
+import {logout} from '../../features/auth/auth-slice';
 
 export default function AdminLayout() {
   const {pathname} = useLocation();

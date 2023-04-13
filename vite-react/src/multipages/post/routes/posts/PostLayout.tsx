@@ -1,7 +1,7 @@
 import {ChangeEvent, useState} from 'react';
 import {Outlet, useSearchParams} from 'react-router-dom';
-import Card from '../../../../shared/components/card/Card';
-import Nav, {NavRoute} from '../../../../shared/components/nav/Nav';
+import Card from '../../../../components/card/Card';
+import Nav, {NavRoute} from '../../../../components/nav/Nav';
 import {PostOutletContext} from './post.model';
 
 const ROUTES = [

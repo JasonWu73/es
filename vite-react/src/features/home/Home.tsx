@@ -1,7 +1,7 @@
-import {usePageTitle} from '../../shared/hooks/use-page-title';
+import {usePageTitle} from '../../hooks/use-page-title';
 import {Card, Divider, List} from 'antd';
 import Counter from '../counter/Counter';
-import {PAGES} from '../Root';
+import {PAGES} from '../../routes/Root';
 
 export default function Home() {
   usePageTitle('首页');

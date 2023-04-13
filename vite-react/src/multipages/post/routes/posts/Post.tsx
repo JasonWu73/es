@@ -1,5 +1,5 @@
 import classes from './Post.module.scss';
-import {usePageTitle} from '../../../../shared/hooks/use-page-title';
+import {usePageTitle} from '../../../../hooks/use-page-title';
 import {useOutletContext, useParams} from 'react-router-dom';
 import {PostOutletContext} from './post.model';
 

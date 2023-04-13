@@ -1,7 +1,7 @@
 import classes from './AuthStatus.module.scss';
 import {useAuth} from './AuthProvider';
 import {useNavigate} from 'react-router-dom';
-import Button from '../../../../shared/components/button/Button';
+import Button from '../../../../components/button/Button';
 import {useState} from 'react';
 
 export default function AuthStatus() {

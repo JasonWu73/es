@@ -1,7 +1,7 @@
 import classes from './Counter.module.scss';
 import {useAppDispatch, useAppSelector} from '../../store-hooks';
 import {decrement, increment, incrementAsync} from './counter-slice';
-import Button from '../../../../shared/components/button/Button';
+import Button from '../../../../components/button/Button';
 
 export default function Counter() {
   // The `state` arg is correctly typed as `RootState` already

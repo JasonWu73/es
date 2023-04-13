@@ -1,11 +1,11 @@
-import {usePageTitle} from '../../shared/hooks/use-page-title';
+import {usePageTitle} from '../../hooks/use-page-title';
 import {Button, Form, Input} from 'antd';
-import {useHttp} from '../../shared/hooks/use-http';
+import {useHttp} from '../../hooks/use-http';
 import TextArea from 'antd/es/input/TextArea';
 import {useAppDispatch, useAppSelector} from '../../store-hooks';
 import {addPost, Post} from './post-slice';
 import {useNavigate} from 'react-router-dom';
-import {useErrorNotification} from '../layout/use-layout';
+import {useErrorNotification} from '../../routes/layout/use-layout';
 
 export default function NewPost() {
   usePageTitle('新增文章');

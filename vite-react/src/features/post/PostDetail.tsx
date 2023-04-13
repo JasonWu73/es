@@ -1,12 +1,12 @@
-import {usePageTitle} from '../../shared/hooks/use-page-title';
+import {usePageTitle} from '../../hooks/use-page-title';
 import {useParams} from 'react-router-dom';
 import {Dispatch, SetStateAction, useEffect, useState} from 'react';
 import {Button, Skeleton, Space, Typography} from 'antd';
 import {useAppSelector} from '../../store-hooks';
 import {Post} from './post-slice';
-import {useHttp} from '../../shared/hooks/use-http';
+import {useHttp} from '../../hooks/use-http';
 import SkeletonButton from 'antd/es/skeleton/Button';
-import {useErrorNotification} from '../layout/use-layout';
+import {useErrorNotification} from '../../routes/layout/use-layout';
 
 export default function PostDetail() {
   const {id} = useParams();

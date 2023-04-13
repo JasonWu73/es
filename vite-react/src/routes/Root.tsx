@@ -1,16 +1,16 @@
 import {Route, Routes} from 'react-router-dom';
-import NotFound from '../shared/components/not-found/NotFound';
-import Home from './home/Home';
-import Counter from './counter/Counter';
+import NotFound from '../components/not-found/NotFound';
+import Home from '../features/home/Home';
+import Counter from '../features/counter/Counter';
 import AdminLayout from './layout/AdminLayout';
 import {CalculatorOutlined, EditOutlined} from '@ant-design/icons';
-import Login from './auth/Login';
-import RequireAuth from './auth/RequireAuth';
+import Login from '../features/auth/Login';
+import RequireAuth from '../features/auth/RequireAuth';
 import {ReactNode, useMemo} from 'react';
 import {useAppSelector} from '../store-hooks';
-import PostList from './post/PostList';
-import PostDetail from './post/PostDetail';
-import NewPost from './post/NewPost';
+import PostList from '../features/post/PostList';
+import PostDetail from '../features/post/PostDetail';
+import NewPost from '../features/post/NewPost';
 
 export const PAGES = [
   {

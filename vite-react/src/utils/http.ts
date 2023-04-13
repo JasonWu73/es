@@ -1,9 +1,9 @@
 import axios, {AxiosError, InternalAxiosRequestConfig} from 'axios';
 import NProgress from 'nprogress';
-import {store} from '../../store';
-import {getAuthFromCache, login, logout} from '../../routes/auth/auth-slice';
-import {internalApiBaseUrl} from './config';
-import {isAuthApi, updateAccessToken} from './auth';
+import {store} from '../store';
+import {getAuthFromCache, login, logout} from '../features/auth/auth-slice';
+import {internalApiBaseUrl} from '../config';
+import {isAuthApi, updateAccessToken} from '../features/auth/auth-api';
 
 export const apiAxios = axios.create({
   timeout: 10_000

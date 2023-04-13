@@ -1,9 +1,9 @@
 import classes from './SimpleInput.module.scss';
-import Button from '../../../../shared/components/button/Button';
+import Button from '../../../../components/button/Button';
 import {FormEvent} from "react";
-import {useInput} from "../../../../shared/hooks/use-input";
-import Card from '../../../../shared/components/card/Card';
-import {usePageTitle} from '../../../../shared/hooks/use-page-title';
+import {useInput} from "../../../../hooks/use-input";
+import Card from '../../../../components/card/Card';
+import {usePageTitle} from '../../../../hooks/use-page-title';
 
 export default function SimpleInput() {
   usePageTitle('Simple Input Form');

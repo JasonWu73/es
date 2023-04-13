@@ -1,6 +1,6 @@
 import './App.scss';
 import Counter from './features/counter/Counter';
-import Card from '../../shared/components/card/Card';
+import Card from '../../components/card/Card';
 
 export default function App() {
   return (

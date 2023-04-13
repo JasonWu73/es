@@ -1,8 +1,8 @@
 import classes from './PostList.module.scss';
 import {Post} from "./post.model";
-import {useHttp} from '../../../../shared/hooks/use-http';
+import {useHttp} from '../../../../hooks/use-http';
 import {useEffect, useState} from 'react';
-import {usePageTitle} from '../../../../shared/hooks/use-page-title';
+import {usePageTitle} from '../../../../hooks/use-page-title';
 
 interface Props {
   posts: Post[];

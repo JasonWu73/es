@@ -1,6 +1,6 @@
-import Card from '../../../../shared/components/card/Card';
+import Card from '../../../../components/card/Card';
 import {useLocation} from 'react-router-dom';
-import {usePageTitle} from '../../../../shared/hooks/use-page-title';
+import {usePageTitle} from '../../../../hooks/use-page-title';
 
 export default function Home() {
   usePageTitle('Home');
