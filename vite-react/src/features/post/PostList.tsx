@@ -28,7 +28,7 @@ export default function PostList() {
       return () => {
         controller.abort();
         applyPosts([]);
-      }
+      };
     },
     []
   );
