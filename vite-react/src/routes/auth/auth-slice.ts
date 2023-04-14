@@ -52,41 +52,34 @@ export function login(auth: AuthState) {
   return (dispatch: AppDispatch) => {
     setLocalStorage(auth);
     dispatch(setAuth(auth));
+    setAutoLogoutTimer(auth.expiredAt, dispatch);
+  };
+}
 
-    setAutoLogout(
-      auth.expiredAt,
-      () => {
-        clearLocalStorage();
-        dispatch(clearAuth());
-      }
-    );
+export function reLoginFromCache(callback: VoidFunction) {
+  return (dispatch: AppDispatch) => {
+    const auth = getAuthFromCache();
+
+    if (!auth) {
+      return;
+    }
+
+    dispatch(setAuth(auth));
+    setAutoLogoutTimer(auth.expiredAt, dispatch);
+
+    callback();
   };
 }
 
 export function logout() {
   return (dispatch: AppDispatch) => {
     clearLocalStorage();
+    tryClearAutoLogoutTimer();
     dispatch(clearAuth());
   };
 }
 
 const KEY_AUTH = 'vite_react_auth';
-
-export function reLoginFromCache(callback: VoidFunction) {
-  return (dispatch: AppDispatch) => {
-    const authData = getAuthFromCache();
-    if (!authData) return;
-
-    dispatch(setAuth(authData));
-
-    setAutoLogout(authData.expiredAt, () => {
-      clearLocalStorage();
-      dispatch(clearAuth());
-    });
-
-    callback();
-  };
-}
 
 function setLocalStorage(auth: AuthState) {
   localStorage.setItem(KEY_AUTH, JSON.stringify(auth));
@@ -98,19 +91,33 @@ function clearLocalStorage() {
 
 function getAuthFromCache() {
   const authJson = localStorage.getItem(KEY_AUTH);
-  if (!authJson) return null;
+
+  if (!authJson) {
+    return null;
+  }
 
   return JSON.parse(authJson) as AuthState;
 }
 
-let loginTimeout: number;
+let logoutTimer: number;
 
-function setAutoLogout(expiredAt: number, logout: VoidFunction) {
-  if (loginTimeout) {
-    clearTimeout(loginTimeout);
-  }
+function setAutoLogoutTimer(expiredAt: number, dispatch: AppDispatch) {
+  tryClearAutoLogoutTimer();
 
   const currentTimestamp = new Date().getTime();
   const countdownMilliseconds = expiredAt * 1000 - currentTimestamp;
-  loginTimeout = window.setTimeout(logout, countdownMilliseconds);
+
+  logoutTimer = window.setTimeout(
+    () => {
+      clearLocalStorage();
+      dispatch(clearAuth());
+    },
+    countdownMilliseconds
+  );
+}
+
+function tryClearAutoLogoutTimer() {
+  if (logoutTimer) {
+    window.clearTimeout(logoutTimer);
+  }
 }
