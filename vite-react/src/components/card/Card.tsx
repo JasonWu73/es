@@ -1,13 +1,15 @@
 import classes from './Card.module.scss';
-import {ReactNode} from "react";
+import {CSSProperties, ReactNode} from "react";
 
-interface Props {
+export default function Card({children, style}: {
   children: ReactNode;
-}
-
-export default function Card({children}: Props) {
+  style: CSSProperties
+}) {
   return (
-    <div className={classes.card}>
+    <div
+      style={style}
+      className={classes.card}
+    >
       {children}
     </div>
   );
