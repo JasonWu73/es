@@ -1,5 +1,4 @@
 import {createBrowserRouter, RouterProvider} from 'react-router-dom';
-import NotFound from './components/not-found/NotFound';
 import Root from './routes/Root';
 import Login from './features/auth/Login';
 import Secure from './features/auth/Secure';
@@ -11,6 +10,7 @@ import Home from './features/home/Home';
 import {ReactNode, useMemo} from 'react';
 import {CalculatorOutlined, EditOutlined} from '@ant-design/icons';
 import {useAppSelector} from './store-hooks';
+import Error from './routes/error/Error';
 
 export const PAGES = [
   {
@@ -58,7 +58,7 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <Root/>,
-    errorElement: <NotFound/>,
+    errorElement: <Error/>,
     children: [
       {index: true, element: <Home/>},
       {path: 'counter', element: <Secure authority="counter"><Counter/></Secure>},

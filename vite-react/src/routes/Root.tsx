@@ -41,6 +41,35 @@ export default function Root() {
   );
 }
 
+export function HeaderLayout() {
+  const topBarMenus = PAGES.map(page => {
+    return {
+      key: page.url,
+      label: <a href={page.url}>{page.title}</a>
+    };
+  });
+
+  topBarMenus.unshift({
+    key: '/counter',
+    label: <Link to="/counter">计数器</Link>
+  });
+
+  return (
+    <Layout.Header style={{display: 'flex', alignItems: 'center', gap: '1rem'}}>
+      <Link to="/" style={{display: 'flex', alignItems: 'center'}}>
+        <img src="/vite.svg" alt="Vite logo"/>
+        <Typography.Title level={2} style={{color: 'white', marginBottom: 0}}>
+          Vite + React + TS
+        </Typography.Title>
+      </Link>
+
+      <Menu theme="dark" mode="horizontal" selectable={false} items={topBarMenus}/>
+
+      <AuthButton/>
+    </Layout.Header>
+  );
+}
+
 export function FooterLayout() {
   return (
     <Layout.Footer style={{textAlign: 'center'}}>
@@ -107,35 +136,6 @@ function usePathSnippets(authorizedMenus: MenuItem[]): PathSnippet[] {
       }
     },
     [JSON.stringify(authorizedMenus), pathname]
-  );
-}
-
-function HeaderLayout() {
-  const topBarMenus = PAGES.map(page => {
-    return {
-      key: page.url,
-      label: <a href={page.url}>{page.title}</a>
-    };
-  });
-
-  topBarMenus.unshift({
-    key: '/counter',
-    label: <Link to="/counter">计数器</Link>
-  });
-
-  return (
-    <Layout.Header style={{display: 'flex', alignItems: 'center', gap: '1rem'}}>
-      <Link to="/" style={{display: 'flex', alignItems: 'center'}}>
-        <img src="/vite.svg" alt="Vite logo"/>
-        <Typography.Title level={2} style={{color: 'white', marginBottom: 0}}>
-          Vite + React + TS
-        </Typography.Title>
-      </Link>
-
-      <Menu theme="dark" mode="horizontal" selectable={false} items={topBarMenus}/>
-
-      <AuthButton/>
-    </Layout.Header>
   );
 }
 
