@@ -21,7 +21,7 @@ export default function Root() {
       <HeaderLayout/>
 
       <Layout style={{minHeight: 'calc(100vh - 64px)'}}>
-        {!isHomePage && <SidebarMenu menus={authorizedMenus} paths={pathSnippets}/>}
+        <SidebarMenu menus={authorizedMenus} paths={pathSnippets}/>
 
         <Layout style={{padding: '0 2.4rem 2.4rem'}}>
           {!isHomePage && <Breadcrumbs paths={pathSnippets}/>}

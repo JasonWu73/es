@@ -60,7 +60,7 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <Root/>,
-    errorElement: <ErrorPage error={404} message="糟糕！未找到您要访问的页面 :("/>,
+    errorElement: <ErrorPage code={404} message="糟糕！未找到您要访问的页面 :("/>,
     children: [
       {index: true, element: <Home/>},
       {path: 'counter', element: <Secure authority="counter"><Counter/></Secure>},
