@@ -1,16 +1,16 @@
 import {createBrowserRouter, RouterProvider} from 'react-router-dom';
+import {lazy, ReactNode, useMemo} from 'react';
+import {CalculatorOutlined, EditOutlined} from '@ant-design/icons';
+import {useAppSelector} from './store-hooks';
 import Root from './routes/Root';
-import Login from './routes/auth/Login';
+import Home from './routes/home/Home';
+import Error from './routes/error/Error';
 import Secure from './routes/auth/Secure';
-import Counter from './routes/counter/Counter';
+import {delayForDemo} from './utils/promisify';
+import Login from './routes/auth/Login';
 import PostList from './routes/post/PostList';
 import PostDetail from './routes/post/PostDetail';
 import NewPost from './routes/post/NewPost';
-import Home from './routes/home/Home';
-import {ReactNode, useMemo} from 'react';
-import {CalculatorOutlined, EditOutlined} from '@ant-design/icons';
-import {useAppSelector} from './store-hooks';
-import Error from './routes/error/Error';
 
 export const PAGES = [
   {
@@ -53,6 +53,8 @@ const MENUS: MenuItem[] = [
     ]
   }
 ];
+
+const Counter = lazy(() => delayForDemo(import('./routes/counter/Counter')));
 
 const router = createBrowserRouter([
   {

@@ -1,13 +1,13 @@
 import {usePageTitle} from '../../hooks/use-page-title';
 import {useParams} from 'react-router-dom';
 import {Dispatch, SetStateAction, useEffect, useState} from 'react';
-import {Button, Empty, Skeleton, Space, Typography} from 'antd';
+import {Button, Empty, Space, Typography} from 'antd';
 import {useAppSelector} from '../../store-hooks';
 import {Post} from './post-slice';
 import {useHttp} from '../../hooks/use-http';
-import SkeletonButton from 'antd/es/skeleton/Button';
 import {useErrorNotification} from '../use-layout';
 import {getPostApi} from './post-api';
+import {SkeletonLoading} from '../../components/loading/SuspenseLoading';
 
 export default function PostDetail() {
   const {postId} = useParams();
@@ -48,47 +48,29 @@ export default function PostDetail() {
     setCountdown(Math.floor(Math.random() * 10 + 1));
   }
 
-  if (!post) return <Empty/>;
+  const postContent = post ?
+    (
+      <>
+        <Typography.Title level={2}>{postId} - {post.title ?? ''}</Typography.Title>
 
-  const skeletonContent = (
-    <>
-      <Skeleton
-        active
-        paragraph={false}
-      />
-      <Space>
-        <SkeletonButton active/>
-        <SkeletonButton active/>
-      </Space>
-      <Skeleton
-        active
-        paragraph
-        title={false}
-      />
-    </>
-  );
+        <section style={{display: 'flex', alignItems: 'center', gap: '1rem'}}>
+          <Typography.Title
+            level={3}
+            style={{marginBottom: 0}}
+          >随机倒数读秒器：{countdown}</Typography.Title>
+          <Button onClick={handleResetClick}>随机重置倒数</Button>
+        </section>
 
-  const postContent = (
-    <>
-      <Typography.Title level={2}>{postId} - {post.title ?? ''}</Typography.Title>
+        <section>
+          <Typography.Text>{post.body ?? ''}</Typography.Text>
+        </section>
 
-      <section style={{display: 'flex', alignItems: 'center', gap: '1rem'}}>
-        <Typography.Title
-          level={3}
-          style={{marginBottom: 0}}
-        >随机倒数读秒器：{countdown}</Typography.Title>
-        <Button onClick={handleResetClick}>随机重置倒数</Button>
-      </section>
-
-      <section>
-        <Typography.Text>{post.body ?? ''}</Typography.Text>
-      </section>
-
-      <section>
-        <Typography.Text>用户 ID：{post.userId ?? ''}</Typography.Text>
-      </section>
-    </>
-  );
+        <section>
+          <Typography.Text>用户 ID：{post.userId ?? ''}</Typography.Text>
+        </section>
+      </>
+    ) :
+    <Empty/>;
 
   return (
     <Space
@@ -96,8 +78,8 @@ export default function PostDetail() {
       size="large"
       style={{width: '100%'}}
     >
-      {loading && skeletonContent}
-      {!error && postContent}
+      {loading && <SkeletonLoading/>}
+      {!loading && postContent}
     </Space>
   );
 }

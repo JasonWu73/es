@@ -34,10 +34,7 @@ export default function PostList() {
   );
 
   function getPosts() {
-    return sendRequest(
-      getPostsApi(),
-      applyPosts
-    );
+    return sendRequest(getPostsApi(), applyPosts);
   }
 
   function applyPosts(posts: Post[]) {

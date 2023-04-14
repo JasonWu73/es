@@ -1,8 +1,9 @@
-import {ReactNode} from 'react';
+import {ReactNode, Suspense} from 'react';
 import {Navigate, useLocation} from 'react-router-dom';
 import {useAppSelector} from '../../store-hooks';
 import NotFound from '../../components/not-found/NotFound';
 import {MenuItem, useAuthorizedMenus} from '../../App';
+import SuspenseLoading from '../../components/loading/SuspenseLoading';
 
 export default function Secure(
   {authority, children}: { authority: string, children: ReactNode }
@@ -19,7 +20,11 @@ export default function Secure(
     return <NotFound/>;
   }
 
-  return <>{children}</>;
+  return (
+    <SuspenseLoading>
+      {children}
+    </SuspenseLoading>
+  );
 }
 
 function hasAuthority(menus: MenuItem[], authority: string): boolean {
