@@ -21,7 +21,6 @@ dayjs.locale('zh-cn');
 NProgress.configure({showSpinner: false});
 
 const root = createRoot(document.getElementById('root') as HTMLElement);
-
 root.render(
   <StrictMode>
     <Provider store={store}>
