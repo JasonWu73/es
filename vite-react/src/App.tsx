@@ -1,6 +1,6 @@
 import {createBrowserRouter, RouterProvider} from 'react-router-dom';
 import {lazy, ReactNode, useMemo} from 'react';
-import {CalculatorOutlined, EditOutlined} from '@ant-design/icons';
+import {CalculatorOutlined, EditOutlined, HomeOutlined} from '@ant-design/icons';
 import {useAppSelector} from './store-hooks';
 import Root from './routes/Root';
 import Home from './routes/home/Home';
@@ -24,11 +24,16 @@ export interface MenuItem {
   title: string;
   url?: string;
   icon?: ReactNode;
-  authority: string;
+  authority?: string;
   children?: MenuItem[];
 }
 
 const MENUS: MenuItem[] = [
+  {
+    title: '首页',
+    url: '/',
+    icon: <HomeOutlined/>
+  },
   {
     title: '计数器',
     url: '/counter',
@@ -87,7 +92,7 @@ export function useAuthorizedMenus() {
         const filteredMenus: MenuItem[] = [];
 
         for (const menu of menus) {
-          if (authorities.indexOf(menu.authority) !== -1) {
+          if (!menu.authority || authorities.indexOf(menu.authority) !== -1) {
             filteredMenus.push(menu);
             continue;
           }

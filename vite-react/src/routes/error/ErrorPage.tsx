@@ -5,7 +5,6 @@ import {usePageTitle} from '../../hooks/use-page-title';
 
 export default function ErrorPage({code, message}: { code: number, message: string }) {
   usePageTitle(code + '');
-  console.log(code);
 
   return (
     <Layout style={{minHeight: '100vh'}}>
