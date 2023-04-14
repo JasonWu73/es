@@ -13,6 +13,16 @@
 
       li {
 
+        a {
+
+          &:hover {
+            font-size: 3.2rem;
+          }
+
+          &.active {
+            font-size: 3.2rem;
+          }
+        }
       }
     }
   }
