@@ -4,7 +4,7 @@ import Copyright from '../components/copyright/Copyright';
 import {ReactNode, useEffect, useMemo, useState} from 'react';
 import {LoginOutlined, PoweroffOutlined, UserOutlined} from '@ant-design/icons';
 import {useAppDispatch, useAppSelector} from '../store-hooks';
-import {logout, reLoginFromCache} from '../features/auth/auth-slice';
+import {logout, reLoginFromCache} from './auth/auth-slice';
 import {MenuItem, PAGES, useAuthorizedMenus} from '../App';
 
 export default function Root() {

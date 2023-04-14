@@ -1,7 +1,7 @@
 import classes from './Login.module.scss';
 import {usePageTitle} from '../../hooks/use-page-title';
 import {Alert, Button, Form, Input, Layout, Typography} from 'antd';
-import {FooterLayout} from '../../routes/Root';
+import {FooterLayout} from '../Root';
 import bg from '../../assets/img/ant-design-pro-background.svg';
 import {LockOutlined, UserOutlined} from '@ant-design/icons';
 import {useAppDispatch} from '../../store-hooks';

@@ -1,7 +1,7 @@
 import {configureStore} from '@reduxjs/toolkit';
-import {authReducer} from './features/auth/auth-slice';
-import {counterReducer} from './features/counter/counter-slice';
-import {postReducer} from './features/post/post-slice';
+import {authReducer} from './routes/auth/auth-slice';
+import {counterReducer} from './routes/counter/counter-slice';
+import {postReducer} from './routes/post/post-slice';
 import {layoutReducer} from './routes/layout-slice';
 
 export const store = configureStore({

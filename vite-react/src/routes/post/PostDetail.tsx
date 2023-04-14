@@ -6,7 +6,7 @@ import {useAppSelector} from '../../store-hooks';
 import {Post} from './post-slice';
 import {useHttp} from '../../hooks/use-http';
 import SkeletonButton from 'antd/es/skeleton/Button';
-import {useErrorNotification} from '../../routes/use-layout';
+import {useErrorNotification} from '../use-layout';
 import {getPostApi} from './post-api';
 
 export default function PostDetail() {
