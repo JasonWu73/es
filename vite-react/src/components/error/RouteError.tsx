@@ -1,30 +1,34 @@
-import classes from './NotFound.module.scss';
 import {useNavigate} from 'react-router-dom';
 import {useCallback, useEffect, useState} from 'react';
-import {usePageTitle} from '../../hooks/use-page-title';
 import {Button, Space, Typography} from 'antd';
 
 const COUNTDOWN_SECONDS = 10;
 
-export default function NotFound() {
-  usePageTitle('页面不存在');
-
+export default function RouteError({code, message}: { code: number, message: string }) {
   const {goToHome, countdown} = useRedirect();
 
   return (
-    <div className={classes['not-found']}>
+    <div
+      style={{
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        maxWidth: '80rem'
+      }}
+    >
       <Typography.Title
         type="warning"
         style={{marginBottom: '1rem', fontSize: '18.6rem', textAlign: 'center'}}
       >
-        404
+        {code}
       </Typography.Title>
 
       <Typography.Title
         level={2}
         style={{marginTop: '1rem', fontSize: '3.3rem'}}
       >
-        糟糕！什么都没有找到 :(
+        {message}
       </Typography.Title>
 
       <Space>

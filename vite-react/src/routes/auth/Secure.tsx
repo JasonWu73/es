@@ -1,7 +1,7 @@
-import {ReactNode, Suspense} from 'react';
+import {ReactNode} from 'react';
 import {Navigate, useLocation} from 'react-router-dom';
 import {useAppSelector} from '../../store-hooks';
-import NotFound from '../../components/not-found/NotFound';
+import RouteError from '../../components/error/RouteError';
 import {MenuItem, useAuthorizedMenus} from '../../App';
 import SuspenseLoading from '../../components/loading/SuspenseLoading';
 
@@ -17,7 +17,7 @@ export default function Secure(
   }
 
   if (!hasAuthority(menus, authority)) {
-    return <NotFound/>;
+    return <RouteError code={403} message="抱歉！您没有访问该页面的权限 :("/>;
   }
 
   return (

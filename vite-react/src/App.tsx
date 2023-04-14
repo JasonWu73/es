@@ -4,7 +4,7 @@ import {CalculatorOutlined, EditOutlined} from '@ant-design/icons';
 import {useAppSelector} from './store-hooks';
 import Root from './routes/Root';
 import Home from './routes/home/Home';
-import Error from './routes/error/Error';
+import ErrorPage from './routes/error/ErrorPage';
 import Secure from './routes/auth/Secure';
 import {delayForDemo} from './utils/promisify';
 import Login from './routes/auth/Login';
@@ -60,7 +60,7 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <Root/>,
-    errorElement: <Error/>,
+    errorElement: <ErrorPage error={404} message="糟糕！未找到您要访问的页面 :("/>,
     children: [
       {index: true, element: <Home/>},
       {path: 'counter', element: <Secure authority="counter"><Counter/></Secure>},
