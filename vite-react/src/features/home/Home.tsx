@@ -4,7 +4,7 @@ import Counter from '../counter/Counter';
 import {PAGES} from '../../routes/Root';
 
 export default function Home() {
-  usePageTitle('首页');
+  usePageTitle('Home');
 
   return (
     <>
@@ -17,7 +17,7 @@ export default function Home() {
 function MultiplePages() {
   return (
     <Card style={{maxWidth: '60rem', margin: '1rem auto'}}>
-      <Divider orientation="left">多页面链接</Divider>
+      <Divider orientation="left">Multiple Page Links</Divider>
       <List
         itemLayout="horizontal"
         dataSource={PAGES}

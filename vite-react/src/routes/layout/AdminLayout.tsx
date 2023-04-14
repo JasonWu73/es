@@ -22,14 +22,25 @@ export default function AdminLayout() {
       <HeaderLayout/>
 
       <Layout style={{minHeight: 'calc(100vh - 64px)'}}>
-        {!isHomeLocation && <SidebarMenus menus={menus} paths={paths}/>}
+        {!isHomeLocation && <SidebarMenus
+          menus={menus}
+          paths={paths}
+        />}
 
         <Layout style={{padding: '0 2.4rem 2.4rem'}}>
           {!isHomeLocation && <Breadcrumbs paths={paths}/>}
 
           <ContentLayout>
-            <Space direction="vertical" style={{width: '100%'}}>
-              {error && <Alert type="error" message={error} showIcon closable/>}
+            <Space
+              direction="vertical"
+              style={{width: '100%'}}
+            >
+              {error && <Alert
+                type="error"
+                message={error}
+                showIcon
+                closable
+              />}
               <Outlet/>
             </Space>
           </ContentLayout>
@@ -146,16 +157,32 @@ function HeaderLayout() {
     };
   });
 
-  menuItems.unshift({key: '/counter', label: <Link to="/counter">计数器 (受保护页)</Link>});
+  menuItems.unshift({key: '/counter', label: <Link to="/counter">Counter (Protected Page)</Link>});
 
   return (
     <Layout.Header style={{display: 'flex', alignItems: 'center', gap: '1rem'}}>
-      <Link to="/" style={{display: 'flex', alignItems: 'center'}}>
-        <img src="/vite.svg" alt="Vite logo"/>
-        <Typography.Title level={2} style={{color: 'white', marginBottom: 0}}>多页面应用 Demo</Typography.Title>
+      <Link
+        to="/"
+        style={{display: 'flex', alignItems: 'center'}}
+      >
+        <img
+          src="/vite.svg"
+          alt="Vite logo"
+        />
+        <Typography.Title
+          level={2}
+          style={{color: 'white', marginBottom: 0}}
+        >
+          Multiple Pages Demo
+        </Typography.Title>
       </Link>
 
-      <Menu theme="dark" mode="horizontal" selectable={false} items={menuItems}/>
+      <Menu
+        theme="dark"
+        mode="horizontal"
+        selectable={false}
+        items={menuItems}
+      />
 
       <AuthButton/>
     </Layout.Header>
@@ -172,7 +199,10 @@ function AuthButton() {
     <div className={classes.auth}>
       {
         username &&
-        <Typography.Text strong style={{color: 'white', fontSize: '1.6rem'}}>
+        <Typography.Text
+          strong
+          style={{color: 'white', fontSize: '1.6rem'}}
+        >
           <UserOutlined/> {nickname || username}
         </Typography.Text>
       }

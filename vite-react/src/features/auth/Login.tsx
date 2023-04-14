@@ -12,7 +12,7 @@ import {getAccessTokenApi} from './auth-api';
 import {useState} from 'react';
 
 export default function Login() {
-  usePageTitle('登录');
+  usePageTitle('Login');
 
   return (
     <Layout
@@ -27,8 +27,16 @@ export default function Login() {
       <Layout.Content>
         <div className={classes.login}>
           <div className={classes.login__logo}>
-            <img src="/vite.svg" alt="Vite logo"/>
-            <Typography.Title level={2} style={{marginBottom: 0}}>多页面应用 Demo</Typography.Title>
+            <img
+              src="/vite.svg"
+              alt="Vite logo"
+            />
+            <Typography.Title
+              level={2}
+              style={{marginBottom: 0}}
+            >
+              Multiple Pages Demo
+            </Typography.Title>
           </div>
 
           <LoginForm/>
@@ -93,7 +101,12 @@ function LoginForm() {
       {
         (error || fakeError) &&
         <Form.Item>
-          <Alert type="error" message={error || fakeError} showIcon closable/>
+          <Alert
+            type="error"
+            message={error || fakeError}
+            showIcon
+            closable
+          />
         </Form.Item>
       }
 
@@ -101,18 +114,32 @@ function LoginForm() {
         name="username"
         rules={[{required: true, whitespace: true, message: '用户名不能为空'}]}
       >
-        <Input size="large" prefix={<UserOutlined/>} placeholder={'用户名：admin 或 user'}/>
+        <Input
+          size="large"
+          prefix={<UserOutlined/>}
+          placeholder={'用户名：admin 或 user'}
+        />
       </Form.Item>
 
       <Form.Item
         name="password"
         rules={[{required: true, whitespace: true, message: '密码不能为空'}]}
       >
-        <Input.Password size="large" prefix={<LockOutlined/>} placeholder={'密码：123'}/>
+        <Input.Password
+          size="large"
+          prefix={<LockOutlined/>}
+          placeholder={'密码：123'}
+        />
       </Form.Item>
 
       <Form.Item>
-        <Button type="primary" loading={loading} htmlType="submit" size="large" style={{width: '100%'}}>
+        <Button
+          type="primary"
+          loading={loading}
+          htmlType="submit"
+          size="large"
+          style={{width: '100%'}}
+        >
           登录
         </Button>
       </Form.Item>

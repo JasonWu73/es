@@ -15,7 +15,7 @@ import NewPost from '../features/post/NewPost';
 export const PAGES = [
   {
     title: 'Learning',
-    url: 'learning/index.html',
+    url: '/learning/index.html',
     description: 'Learning never exhausts the mind.'
   }
 ];
