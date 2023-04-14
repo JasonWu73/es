@@ -1,4 +1,3 @@
-import './App.scss';
 import Root from './routes/Root';
 import {useEffect} from 'react';
 import {useAppDispatch} from './store-hooks';
@@ -9,11 +8,9 @@ export default function App() {
   useReLogin();
 
   return (
-    <div className="app">
-      <Root/>
-    </div>
+    <Root/>
   );
-};
+}
 
 function useReLogin() {
   const dispatch = useAppDispatch();

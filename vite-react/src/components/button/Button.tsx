@@ -12,7 +12,7 @@ export default function Button({onClick, type = 'submit', children, disabled}: {
       type={type}
       disabled={disabled}
       onClick={onClick}
-      className={classes.btn}
+      className={classes.button}
     >
       {children}
     </button>
