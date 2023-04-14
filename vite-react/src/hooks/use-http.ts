@@ -35,10 +35,14 @@ export function useHttp() {
         if (controller.signal.aborted) return;
 
         const axiosError = error as AxiosError;
-        const errorData = axiosError.response?.data;
+        const errorData: any = axiosError.response?.data;
 
         if (errorData && Object.keys(errorData).length > 0) {
-          setError(JSON.stringify(errorData));
+          setError(
+            errorData.error ||
+            errorData.message ||
+            JSON.stringify(errorData)
+          );
           return;
         }
 

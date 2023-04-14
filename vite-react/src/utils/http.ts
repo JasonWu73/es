@@ -82,7 +82,7 @@ function tryRefreshAccessToken(config: InternalAxiosRequestConfig) {
         store.dispatch(login(response.data));
       }).catch(() => {
         store.dispatch(logout());
-      })
+      });
     }
   }
 }

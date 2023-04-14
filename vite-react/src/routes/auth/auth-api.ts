@@ -3,14 +3,14 @@ import {getInternalApiBaseUrl} from '../../config';
 
 export function getAccessTokenApi(data: { username: string, password: string }): AxiosRequest {
   return {
-    method: 'get',
-    url: 'https://jsonplaceholder.typicode.com/posts/98',
-    params: data
+    method: 'post',
+    url: 'https://dummyjson.com/auth/login',
+    data
   };
 
   // return {
   //   method: 'post',
-  //   url: `${internalApiBaseUrl}/api/v1/token`,
+  //   url: `${getInternalApiBaseUrl()}/api/v1/token`,
   //   data
   // };
 }
