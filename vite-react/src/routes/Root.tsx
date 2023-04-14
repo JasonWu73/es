@@ -14,16 +14,6 @@ import NewPost from '../features/post/NewPost';
 
 export const PAGES = [
   {
-    title: 'React Redux',
-    url: 'counter/index.html',
-    description: '单独测试 React Redux'
-  },
-  {
-    title: 'React Router',
-    url: 'post/index.html',
-    description: '单独测试 React Router'
-  },
-  {
     title: 'Learning',
     url: 'learning/index.html',
     description: 'Learning never exhausts the mind.'
@@ -67,11 +57,20 @@ const MENUS: MenuItem[] = [
 export default function Root() {
   return (
     <Routes>
-      <Route path="*" element={<NotFound/>}/>
-      <Route path="/login" element={<Login/>}/>
+      <Route
+        path="*"
+        element={<NotFound/>}
+      />
+      <Route
+        path="/login"
+        element={<Login/>}
+      />
 
       <Route element={<AdminLayout/>}>
-        <Route path="/" element={<Home/>}/>
+        <Route
+          path="/"
+          element={<Home/>}
+        />
 
         <Route
           path="/counter"
