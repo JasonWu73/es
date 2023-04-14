@@ -157,7 +157,7 @@ function HeaderLayout() {
     };
   });
 
-  menuItems.unshift({key: '/counter', label: <Link to="/counter">Counter (Protected Page)</Link>});
+  menuItems.unshift({key: '/counter', label: <Link to="/counter">计数器（受保护页）</Link>});
 
   return (
     <Layout.Header style={{display: 'flex', alignItems: 'center', gap: '1rem'}}>
@@ -173,7 +173,7 @@ function HeaderLayout() {
           level={2}
           style={{color: 'white', marginBottom: 0}}
         >
-          Multiple Pages Demo
+          Vite + React + TS
         </Typography.Title>
       </Link>
 

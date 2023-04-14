@@ -90,7 +90,7 @@ export default function Root() {
           }
         />
         <Route
-          path="/posts/:id"
+          path="/posts/:postId"
           element={
             <RequireAuth authority="post_view">
               <PostDetail/>

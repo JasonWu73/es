@@ -10,11 +10,11 @@ import {useErrorNotification} from '../../routes/layout/use-layout';
 import {getPostApi} from './post-api';
 
 export default function PostDetail() {
-  const {id} = useParams();
+  const {postId} = useParams();
 
-  if (!id) return <Empty/>;
+  if (!postId) return <Empty/>;
 
-  usePageTitle(`文章详情 - ${id}`);
+  usePageTitle(`文章详情 - ${postId}`);
 
   const {loading, error, sendRequest} = useHttp();
 
@@ -25,7 +25,7 @@ export default function PostDetail() {
 
   useEffect(
     () => {
-      const cachedPost = posts.find(post => post.id === +id);
+      const cachedPost = posts.find(post => post.id === +postId);
 
       if (cachedPost) {
         setPost(cachedPost);
@@ -33,7 +33,7 @@ export default function PostDetail() {
       }
 
       const controller = sendRequest(
-        getPostApi(+id),
+        getPostApi(+postId),
         setPost
       );
 
@@ -52,21 +52,31 @@ export default function PostDetail() {
 
   const skeletonContent = (
     <>
-      <Skeleton active paragraph={false}/>
+      <Skeleton
+        active
+        paragraph={false}
+      />
       <Space>
         <SkeletonButton active/>
         <SkeletonButton active/>
       </Space>
-      <Skeleton active paragraph title={false}/>
+      <Skeleton
+        active
+        paragraph
+        title={false}
+      />
     </>
   );
 
   const postContent = (
     <>
-      <Typography.Title level={2}>{id} - {post.title ?? ''}</Typography.Title>
+      <Typography.Title level={2}>{postId} - {post.title ?? ''}</Typography.Title>
 
       <section style={{display: 'flex', alignItems: 'center', gap: '1rem'}}>
-        <Typography.Title level={3} style={{marginBottom: 0}}>随机倒数读秒器：{countdown}</Typography.Title>
+        <Typography.Title
+          level={3}
+          style={{marginBottom: 0}}
+        >随机倒数读秒器：{countdown}</Typography.Title>
         <Button onClick={handleResetClick}>随机重置倒数</Button>
       </section>
 
@@ -81,7 +91,11 @@ export default function PostDetail() {
   );
 
   return (
-    <Space direction="vertical" size="large" style={{width: '100%'}}>
+    <Space
+      direction="vertical"
+      size="large"
+      style={{width: '100%'}}
+    >
       {loading && skeletonContent}
       {!error && postContent}
     </Space>

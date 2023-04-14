@@ -12,7 +12,7 @@ import {getAccessTokenApi} from './auth-api';
 import {useState} from 'react';
 
 export default function Login() {
-  usePageTitle('Login');
+  usePageTitle('登录');
 
   return (
     <Layout
@@ -35,7 +35,7 @@ export default function Login() {
               level={2}
               style={{marginBottom: 0}}
             >
-              Multiple Pages Demo
+              Vite + React + TS
             </Typography.Title>
           </div>
 
