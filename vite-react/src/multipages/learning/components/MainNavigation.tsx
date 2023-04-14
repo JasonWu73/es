@@ -1,8 +1,9 @@
+import classes from './MainNavigation.module.scss';
 import {Link} from 'react-router-dom';
 
 export default function MainNavigation() {
   return (
-    <header>
+    <header className={classes.header}>
       <nav>
         <ul>
           <li>
