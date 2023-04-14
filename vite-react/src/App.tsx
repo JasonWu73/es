@@ -2,7 +2,7 @@ import {createBrowserRouter, RouterProvider} from 'react-router-dom';
 import NotFound from './components/not-found/NotFound';
 import Root from './routes/Root';
 import Login from './features/auth/Login';
-import RequireAuth from './features/auth/RequireAuth';
+import Secure from './features/auth/Secure';
 import Counter from './features/counter/Counter';
 import PostList from './features/post/PostList';
 import PostDetail from './features/post/PostDetail';
@@ -61,10 +61,10 @@ const router = createBrowserRouter([
     errorElement: <NotFound/>,
     children: [
       {index: true, element: <Home/>},
-      {path: 'counter', element: <RequireAuth authority="counter"><Counter/></RequireAuth>},
-      {path: 'posts', element: <RequireAuth authority="post_view"><PostList/></RequireAuth>},
-      {path: 'posts/:postId', element: <RequireAuth authority="post_view"><PostDetail/></RequireAuth>},
-      {path: 'posts/new', element: <RequireAuth authority="post_add"><NewPost/></RequireAuth>}
+      {path: 'counter', element: <Secure authority="counter"><Counter/></Secure>},
+      {path: 'posts', element: <Secure authority="post_view"><PostList/></Secure>},
+      {path: 'posts/:postId', element: <Secure authority="post_view"><PostDetail/></Secure>},
+      {path: 'posts/new', element: <Secure authority="post_add"><NewPost/></Secure>}
     ]
   },
   {path: '/login', element: <Login/>}
@@ -79,29 +79,27 @@ export function useAuthorizedMenus() {
 
   return useMemo(
     () => {
-      return getMenus(MENUS);
+      return getAuthorizedMenus(MENUS);
 
-      function getMenus(items: MenuItem[]) {
-        const menus = [] as MenuItem[];
+      function getAuthorizedMenus(menus: MenuItem[]) {
+        const filteredMenus: MenuItem[] = [];
 
-        for (const item of items) {
-          if (authorities.indexOf(item.authority) !== -1) {
-            menus.push(item);
+        for (const menu of menus) {
+          if (authorities.indexOf(menu.authority) !== -1) {
+            filteredMenus.push(menu);
             continue;
           }
 
-          if (!item.url && item.children) {
-            const childMenus = getMenus(item.children);
+          if (menu.children && menu.children.length > 0) {
+            const submenus = getAuthorizedMenus(menu.children);
 
-            if (childMenus.length > 0) {
-              const newParent = {...item, children: childMenus};
-
-              menus.push(newParent);
+            if (submenus.length > 0) {
+              filteredMenus.push({...menu, children: submenus});
             }
           }
         }
 
-        return menus;
+        return filteredMenus;
       }
     },
     [JSON.stringify(authorities)]

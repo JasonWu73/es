@@ -4,7 +4,7 @@ import Counter from '../counter/Counter';
 import {PAGES} from '../../App';
 
 export default function Home() {
-  usePageTitle('Home');
+  usePageTitle('首页');
 
   return (
     <>

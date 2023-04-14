@@ -7,8 +7,7 @@ export default function Copyright({message = DEFAULT_MESSAGE}: { message?: strin
   return (
     <>
       <Typography.Text type="secondary">
-        <CopyrightOutlined/>
-        {' ' + message}
+        <CopyrightOutlined/> {message}
       </Typography.Text>
     </>
   );

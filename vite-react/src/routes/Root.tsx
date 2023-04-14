@@ -1,4 +1,3 @@
-import classes from './AdminLayout.module.scss';
 import {Alert, Breadcrumb, Button, Layout, Menu, Space, theme, Typography} from 'antd';
 import {Link, Outlet, useLocation, useNavigate} from 'react-router-dom';
 import Copyright from '../components/copyright/Copyright';
@@ -10,39 +9,27 @@ import {MenuItem, PAGES, useAuthorizedMenus} from '../App';
 
 export default function Root() {
   useReLogin();
-
   const {pathname} = useLocation();
-  const isHomeLocation = pathname === '/';
-
-  const menus = useAuthorizedMenus();
-  const paths = usePathSnippets(menus);
-
+  const authorizedMenus = useAuthorizedMenus();
+  const pathSnippets = usePathSnippets(authorizedMenus);
   const error = useAppSelector(state => state.layout.error);
+
+  const isHomePage = pathname === '/';
 
   return (
     <Layout>
       <HeaderLayout/>
 
       <Layout style={{minHeight: 'calc(100vh - 64px)'}}>
-        {!isHomeLocation && <SidebarMenus
-          menus={menus}
-          paths={paths}
-        />}
+        {!isHomePage && <SidebarMenu menus={authorizedMenus} paths={pathSnippets}/>}
 
         <Layout style={{padding: '0 2.4rem 2.4rem'}}>
-          {!isHomeLocation && <Breadcrumbs paths={paths}/>}
+          {!isHomePage && <Breadcrumbs paths={pathSnippets}/>}
 
           <ContentLayout>
-            <Space
-              direction="vertical"
-              style={{width: '100%'}}
-            >
-              {error && <Alert
-                type="error"
-                message={error}
-                showIcon
-                closable
-              />}
+            <Space direction="vertical" style={{width: '100%'}}>
+              {error && <Alert type="error" message={error} showIcon closable/>}
+
               <Outlet/>
             </Space>
           </ContentLayout>
@@ -51,6 +38,14 @@ export default function Root() {
         </Layout>
       </Layout>
     </Layout>
+  );
+}
+
+export function FooterLayout() {
+  return (
+    <Layout.Footer style={{textAlign: 'center'}}>
+      <Copyright/>
+    </Layout.Footer>
   );
 }
 
@@ -78,137 +73,66 @@ function useReLogin() {
   );
 }
 
-export function FooterLayout() {
-  return (
-    <Layout.Footer style={{textAlign: 'center'}}>
-      <Copyright/>
-    </Layout.Footer>
-  );
+interface PathSnippet {
+  url: string;
+  title: string;
 }
 
-function ContentLayout({children}: { children: ReactNode }) {
-  const {token: {colorBgContainer}} = theme.useToken();
+function usePathSnippets(authorizedMenus: MenuItem[]): PathSnippet[] {
+  const {pathname} = useLocation();
 
-  const contentStyles = {
-    padding: '2.4rem',
-    margin: 0,
-    minHeight: '28rem',
-    background: colorBgContainer
-  };
-
-  return (
-    <Layout.Content style={contentStyles}>
-      {children}
-    </Layout.Content>
-  );
-}
-
-function Breadcrumbs({paths}: {
-  paths: { url: string, title: string }[]
-}) {
-  const breadcrumbItems = useMemo(
+  return useMemo(
     () => {
-      const extraBreadcrumbItems = paths.map(({url, title}) => {
-        return {
-          key: url,
-          title: <Link to={url}>{title}</Link>
-        };
+      const pathSnippets = pathname.split('/').filter((p) => p);
+
+      return pathSnippets.map((path, index) => {
+        const url = `/${pathSnippets.slice(0, index + 1).join('/')}`;
+        const title = getMenuTitle(authorizedMenus, url) ?? path;
+
+        return {url, title};
       });
 
-      return [
-        {
-          key: '/',
-          title: <Link to="/">首页</Link>
-        }
-      ].concat(extraBreadcrumbItems);
-    },
-    [JSON.stringify(paths)]
-  );
+      function getMenuTitle(items: MenuItem[], urlToSearch: string): string | null {
+        for (const item of items) {
+          if (item.url === urlToSearch) {
+            return item.title;
+          }
 
-  return (
-    <Breadcrumb
-      items={breadcrumbItems}
-      style={{margin: '1.6rem 0'}}
-    />
-  );
-}
-
-function SidebarMenus({menus, paths}: {
-  menus: MenuItem[],
-  paths: { url: string, title: string }[]
-}) {
-  const menuItems = useMenus(menus);
-  const selectedKeys = useMenuSelectedKeys(menus, paths);
-
-  const [openKeys, setOpenKeys] = useState(selectedKeys);
-
-  useEffect(
-    () => {
-      setOpenKeys(prevKeys => {
-        if (prevKeys.length === 0) {
-          return [...selectedKeys];
+          if (item.children) {
+            return getMenuTitle(item.children, urlToSearch);
+          }
         }
 
-        return prevKeys;
-      });
+        return null;
+      }
     },
-    [JSON.stringify(selectedKeys)]
-  );
-
-  function handleOpenChange(keys: string[]) {
-    setOpenKeys([...keys]);
-  }
-
-  return (
-    <Layout.Sider>
-      <Menu
-        mode="inline"
-        style={{height: '100%', borderRight: 0}}
-        items={menuItems}
-        selectedKeys={selectedKeys}
-        openKeys={openKeys}
-        onOpenChange={handleOpenChange}
-      />
-    </Layout.Sider>
+    [JSON.stringify(authorizedMenus), pathname]
   );
 }
 
 function HeaderLayout() {
-  const menuItems = PAGES.map(page => {
+  const topBarMenus = PAGES.map(page => {
     return {
       key: page.url,
-      label: (
-        <a href={page.url}>{page.title}</a>
-      )
+      label: <a href={page.url}>{page.title}</a>
     };
   });
 
-  menuItems.unshift({key: '/counter', label: <Link to="/counter">计数器（受保护页）</Link>});
+  topBarMenus.unshift({
+    key: '/counter',
+    label: <Link to="/counter">计数器</Link>
+  });
 
   return (
     <Layout.Header style={{display: 'flex', alignItems: 'center', gap: '1rem'}}>
-      <Link
-        to="/"
-        style={{display: 'flex', alignItems: 'center'}}
-      >
-        <img
-          src="/vite.svg"
-          alt="Vite logo"
-        />
-        <Typography.Title
-          level={2}
-          style={{color: 'white', marginBottom: 0}}
-        >
+      <Link to="/" style={{display: 'flex', alignItems: 'center'}}>
+        <img src="/vite.svg" alt="Vite logo"/>
+        <Typography.Title level={2} style={{color: 'white', marginBottom: 0}}>
           Vite + React + TS
         </Typography.Title>
       </Link>
 
-      <Menu
-        theme="dark"
-        mode="horizontal"
-        selectable={false}
-        items={menuItems}
-      />
+      <Menu theme="dark" mode="horizontal" selectable={false} items={topBarMenus}/>
 
       <AuthButton/>
     </Layout.Header>
@@ -222,35 +146,24 @@ function AuthButton() {
   const navigate = useNavigate();
 
   return (
-    <div className={classes.auth}>
+    <div style={{marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: '1rem'}}>
       {
         username &&
-        <Typography.Text
-          strong
-          style={{color: 'white', fontSize: '1.6rem'}}
-        >
+        <Typography.Text strong style={{color: 'white', fontSize: '1.6rem'}}>
           <UserOutlined/> {nickname || username}
         </Typography.Text>
       }
 
       {
         username &&
-        <Button
-          type="primary"
-          icon={<PoweroffOutlined/>}
-          onClick={() => dispatch(logout())}
-        >
+        <Button type="primary" icon={<PoweroffOutlined/>} onClick={() => dispatch(logout())}>
           注销
         </Button>
       }
 
       {
         !username &&
-        <Button
-          type="primary"
-          icon={<LoginOutlined/>}
-          onClick={() => navigate('/login')}
-        >
+        <Button type="primary" icon={<LoginOutlined/>} onClick={() => navigate('/login')}>
           登录
         </Button>
       }
@@ -258,39 +171,26 @@ function AuthButton() {
   );
 }
 
-function usePathSnippets(menus: MenuItem[]) {
-  const {pathname} = useLocation();
+function SidebarMenu({menus, paths}: { menus: MenuItem[], paths: PathSnippet[] }) {
+  const menuItems = useAntMenus(menus);
+  const selectedKeys = useMenuSelectedKeys(menus, paths);
+  const {openKeys, setOpenKeys} = useOpenKeys(selectedKeys);
 
-  return useMemo(
-    () => {
-      const pathSnippets = pathname.split('/').filter((p) => p);
-
-      return pathSnippets.map((path, index) => {
-        const url = `/${pathSnippets.slice(0, index + 1).join('/')}`;
-        const title = getTitle(menus, url) ?? path;
-
-        return {url, title};
-      });
-
-      function getTitle(items: MenuItem[], urlToSearch: string): string | null {
-        for (const item of items) {
-          if (item.url && item.url === urlToSearch) {
-            return item.title;
-          }
-
-          if (!item.url && item.children) {
-            return getTitle(item.children, urlToSearch);
-          }
-        }
-
-        return null;
-      }
-    },
-    [pathname, JSON.stringify(menus)]
+  return (
+    <Layout.Sider>
+      <Menu
+        mode="inline"
+        style={{height: '100%', borderRight: 0}}
+        items={menuItems}
+        selectedKeys={selectedKeys}
+        openKeys={openKeys}
+        onOpenChange={keys => setOpenKeys([...keys])}
+      />
+    </Layout.Sider>
   );
 }
 
-function useMenus(menus: MenuItem[]) {
+function useAntMenus(menus: MenuItem[]) {
   return useMemo(
     () => {
       return menus.map(route => {
@@ -302,19 +202,19 @@ function useMenus(menus: MenuItem[]) {
           };
         }
 
-        const children = route.children?.map(child => {
-          return {
-            key: child.url,
-            label: <Link to={child.url!}>{child.title}</Link>
-          };
-        });
+        if (route.children && route.children.length > 0) {
+          const submenus = route.children.map(submenu => {
+            return {
+              key: submenu.url,
+              label: <Link to={submenu.url!}>{submenu.title}</Link>
+            };
+          });
 
-        if (children) {
           return {
             key: route.title,
             icon: route.icon,
             label: route.title,
-            children
+            children: submenus
           };
         }
 
@@ -329,37 +229,99 @@ function useMenus(menus: MenuItem[]) {
   );
 }
 
-function useMenuSelectedKeys(
-  menus: MenuItem[],
-  paths: { url: string, title: string }[]
-) {
+function useMenuSelectedKeys(menus: MenuItem[], paths: PathSnippet[]) {
   const pathEnd = paths.at(paths.length - 1);
 
   return useMemo(
     () => {
       return getSelectedKeys(menus);
 
-      function getSelectedKeys(items: MenuItem[]) {
-        const keys = [] as string[];
+      function getSelectedKeys(menus: MenuItem[]) {
+        const selectedKeys: string[] = [];
 
-        for (const item of items) {
-          if (item.url && pathEnd?.url === item.url) {
-            keys.push(item.url);
+        for (const menu of menus) {
+          if (menu.url && menu.url === pathEnd?.url) {
+            selectedKeys.push(menu.url);
             continue;
           }
 
-          if (!item.url && item.children) {
-            const childKeys = getSelectedKeys(item.children);
+          if (menu.children && menu.children.length > 0) {
+            const submenuSelectedKeys = getSelectedKeys(menu.children);
 
-            if (childKeys.length > 0) {
-              keys.push(item.title, ...childKeys);
+            if (submenuSelectedKeys.length > 0) {
+              selectedKeys.push(menu.title, ...submenuSelectedKeys);
             }
           }
         }
 
-        return keys;
+        return selectedKeys;
       }
     },
     [JSON.stringify(menus), pathEnd]
+  );
+}
+
+function useOpenKeys(selectedKeys: string[]) {
+  const [openKeys, setOpenKeys] = useState(selectedKeys);
+
+  useEffect(
+    () => {
+      setOpenKeys(prevKeys => {
+        if (prevKeys.length < selectedKeys.length) {
+          return [...selectedKeys];
+        }
+
+        return prevKeys;
+      });
+    },
+    [JSON.stringify(selectedKeys)]
+  );
+
+  return {openKeys, setOpenKeys};
+}
+
+function Breadcrumbs({paths}: { paths: PathSnippet[] }) {
+  const breadcrumbItems = useBreadcrumbItems(paths);
+
+  return (
+    <Breadcrumb items={breadcrumbItems} style={{margin: '1.6rem 0'}}/>
+  );
+}
+
+function useBreadcrumbItems(paths: PathSnippet[]) {
+  return useMemo(
+    () => {
+      const prevBreadcrumbItems = paths.map(({url, title}) => {
+        return {
+          key: url,
+          title: <Link to={url}>{title}</Link>
+        };
+      });
+
+      return [
+        {
+          key: '/',
+          title: <Link to="/">首页</Link>
+        }
+      ].concat(prevBreadcrumbItems);
+    },
+    [JSON.stringify(paths)]
+  );
+}
+
+function ContentLayout({children}: { children: ReactNode }) {
+  const {token: {colorBgContainer}} = theme.useToken();
+
+  return (
+    <Layout.Content
+      style={{
+        padding: '2.4rem',
+        margin: 0,
+        minHeight: '28rem',
+        background: colorBgContainer
+      }}
+    >
+      {children}
+    </Layout.Content>
   );
 }
