@@ -6,9 +6,11 @@ import Copyright from '../../components/copyright/Copyright';
 import {ReactNode, useEffect, useMemo, useState} from 'react';
 import {LoginOutlined, PoweroffOutlined, UserOutlined} from '@ant-design/icons';
 import {useAppDispatch, useAppSelector} from '../../store-hooks';
-import {logout} from '../../features/auth/auth-slice';
+import {logout, reLoginFromCache} from '../../features/auth/auth-slice';
 
 export default function AdminLayout() {
+  useReLogin();
+
   const {pathname} = useLocation();
   const isHomeLocation = pathname === '/';
 
@@ -52,6 +54,30 @@ export default function AdminLayout() {
   );
 }
 
+function useReLogin() {
+  const dispatch = useAppDispatch();
+  const {pathname} = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(
+    () => {
+      dispatch(
+        reLoginFromCache(
+          () => {
+            if (pathname === '/login') {
+              navigate('/', {replace: true});
+              return;
+            }
+
+            navigate(pathname, {replace: true});
+          }
+        )
+      );
+    },
+    []
+  );
+}
+
 export function FooterLayout() {
   return (
     <Layout.Footer style={{textAlign: 'center'}}>
@@ -85,7 +111,7 @@ function Breadcrumbs({paths}: {
       const extraBreadcrumbItems = paths.map(({url, title}) => {
         return {
           key: url,
-          title: <Link to={url}>{title}</Link>,
+          title: <Link to={url}>{title}</Link>
         };
       });
 
@@ -93,7 +119,7 @@ function Breadcrumbs({paths}: {
         {
           key: '/',
           title: <Link to="/">首页</Link>
-        },
+        }
       ].concat(extraBreadcrumbItems);
     },
     [JSON.stringify(paths)]
@@ -243,7 +269,7 @@ function usePathSnippets(menus: MenuItem[]) {
         const url = `/${pathSnippets.slice(0, index + 1).join('/')}`;
         const title = getTitle(menus, url) ?? path;
 
-        return {url, title}
+        return {url, title};
       });
 
       function getTitle(items: MenuItem[], urlToSearch: string): string | null {
@@ -297,7 +323,7 @@ function useMenus(menus: MenuItem[]) {
           icon: route.icon,
           label: route.title
         };
-      })
+      });
     },
     [JSON.stringify(menus)]
   );
