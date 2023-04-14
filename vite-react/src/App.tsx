@@ -2,7 +2,7 @@ import {createBrowserRouter, RouterProvider} from 'react-router-dom';
 import {lazy, ReactNode, useMemo} from 'react';
 import {CalculatorOutlined, EditOutlined, HomeOutlined} from '@ant-design/icons';
 import {useAppSelector} from './store-hooks';
-import Root from './routes/Root';
+import AdminLayout from './routes/AdminLayout';
 import Home from './routes/home/Home';
 import ErrorPage from './routes/error/ErrorPage';
 import Secure from './routes/auth/Secure';
@@ -11,6 +11,7 @@ import Login from './routes/auth/Login';
 import PostList from './routes/post/PostList';
 import PostDetail from './routes/post/PostDetail';
 import NewPost from './routes/post/NewPost';
+import Root from './routes/Root';
 
 export const PAGES = [
   {
@@ -63,18 +64,22 @@ const Counter = lazy(() => delayForDemo(import('./routes/counter/Counter')));
 
 const router = createBrowserRouter([
   {
-    path: '/',
     element: <Root/>,
-    errorElement: <ErrorPage code={404} message="糟糕！未找到您要访问的页面 :("/>,
     children: [
-      {index: true, element: <Home/>},
-      {path: 'counter', element: <Secure authority="counter"><Counter/></Secure>},
-      {path: 'posts', element: <Secure authority="post_view"><PostList/></Secure>},
-      {path: 'posts/:postId', element: <Secure authority="post_view"><PostDetail/></Secure>},
-      {path: 'posts/new', element: <Secure authority="post_add"><NewPost/></Secure>}
+      {
+        element: <AdminLayout/>,
+        children: [
+          {path: '/', element: <Home/>},
+          {path: '/counter', element: <Secure authority="counter"><Counter/></Secure>},
+          {path: '/posts', element: <Secure authority="post_view"><PostList/></Secure>},
+          {path: '/posts/:postId', element: <Secure authority="post_view"><PostDetail/></Secure>},
+          {path: '/posts/new', element: <Secure authority="post_add"><NewPost/></Secure>}
+        ]
+      },
+      {path: '/login', element: <Login/>},
+      {path: '*', element: <ErrorPage code={404} message="糟糕！未找到您要访问的页面 :("/>}
     ]
-  },
-  {path: '/login', element: <Login/>}
+  }
 ]);
 
 export default function App() {

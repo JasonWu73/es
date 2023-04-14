@@ -1,5 +1,5 @@
 import {Layout} from 'antd';
-import {FooterLayout, HeaderLayout} from '../Root';
+import {FooterLayout, HeaderLayout} from '../AdminLayout';
 import RouteError from '../../components/error/RouteError';
 import {usePageTitle} from '../../hooks/use-page-title';
 
