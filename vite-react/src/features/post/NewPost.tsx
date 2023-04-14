@@ -5,7 +5,7 @@ import TextArea from 'antd/es/input/TextArea';
 import {useAppDispatch, useAppSelector} from '../../store-hooks';
 import {addPost} from './post-slice';
 import {useNavigate} from 'react-router-dom';
-import {useErrorNotification} from '../../routes/layout/use-layout';
+import {useErrorNotification} from '../../routes/use-layout';
 import {addPostApi} from './post-api';
 
 export default function NewPost() {

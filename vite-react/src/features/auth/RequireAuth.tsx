@@ -1,8 +1,8 @@
 import {ReactNode} from 'react';
 import {Navigate, useLocation} from 'react-router-dom';
 import {useAppSelector} from '../../store-hooks';
-import {MenuItem, useAuthorizedMenus} from '../../routes/Root';
 import NotFound from '../../components/not-found/NotFound';
+import {MenuItem, useAuthorizedMenus} from '../../App';
 
 export default function RequireAuth({authority, children}: {
   authority: string,

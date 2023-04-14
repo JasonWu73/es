@@ -1,7 +1,7 @@
 import {usePageTitle} from '../../hooks/use-page-title';
 import {Card, Divider, List} from 'antd';
 import Counter from '../counter/Counter';
-import {PAGES} from '../../routes/Root';
+import {PAGES} from '../../App';
 
 export default function Home() {
   usePageTitle('Home');
