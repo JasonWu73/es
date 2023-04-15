@@ -72,7 +72,7 @@ function LoginForm() {
   function applyAuth(data: { token: string }, username: string) {
     const {token: accessToken} = data;
 
-    const expiresInSeconds = 1800;
+    const expiresInSeconds = 30;
     const currentTimestampSeconds = Math.floor(new Date().getTime() / 1000);
     const expiredAt = currentTimestampSeconds + expiresInSeconds;
 

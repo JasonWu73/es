@@ -89,10 +89,8 @@ function useCountdownTimer(countdownSeconds: number): [number, Dispatch<SetState
 
   useEffect(
     () => {
-      const interval = setInterval(
-        () => {
-          setCountdown(prevCountdown => prevCountdown - 1);
-        },
+      const interval = window.setInterval(
+        () => setCountdown(prevCountdown => prevCountdown - 1),
         1000
       );
 
@@ -100,9 +98,7 @@ function useCountdownTimer(countdownSeconds: number): [number, Dispatch<SetState
         window.clearInterval(interval);
       }
 
-      return () => {
-        window.clearInterval(interval);
-      };
+      return () => window.clearInterval(interval);
     },
     [countdown]
   );

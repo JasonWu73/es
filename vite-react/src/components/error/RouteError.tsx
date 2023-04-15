@@ -45,9 +45,7 @@ function useRedirect() {
   const navigate = useNavigate();
 
   const goToHome = useCallback(
-    () => {
-      navigate('/', {replace: true});
-    },
+    () => navigate('/', {replace: true}),
     []
   );
 
@@ -55,18 +53,16 @@ function useRedirect() {
 
   useEffect(
     () => {
-      const interval = setInterval(
-        () => {
-          setCountdown(prevCountdown => prevCountdown - 1);
-        },
+      const interval = window.setInterval(
+        () => setCountdown(prevCountdown => prevCountdown - 1),
         1000
       );
 
-      const timeout = setTimeout(goToHome, COUNTDOWN_SECONDS * 1000);
+      const timeout = window.setTimeout(goToHome, COUNTDOWN_SECONDS * 1000);
 
       return () => {
-        clearInterval(interval);
-        clearTimeout(timeout);
+        window.clearInterval(interval);
+        window.clearTimeout(timeout);
       };
     },
     []

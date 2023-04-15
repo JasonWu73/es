@@ -11,7 +11,7 @@ export default function Counter() {
 
   const [incrementAmount, setIncrementAmount] = useState(2);
 
-  const counter = useAppSelector(state => state.counter);
+  const value = useAppSelector(state => state.counter.value);
   const dispatch = useAppDispatch();
 
   function handleIncrementAmountChange(value: number | null) {
@@ -25,7 +25,7 @@ export default function Counter() {
         <Space direction="vertical">
           <Space>
             <Button type="default" shape="circle" size="large" onClick={() => dispatch(increment())}>+</Button>
-            <Typography.Text style={{fontSize: '4.8rem'}}>{counter.value}</Typography.Text>
+            <Typography.Text style={{fontSize: '4.8rem'}}>{value}</Typography.Text>
             <Button type="default" shape="circle" size="large" onClick={() => dispatch(decrement())}>-</Button>
           </Space>
 

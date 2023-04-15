@@ -1,21 +1,25 @@
 import {Alert, Breadcrumb, Button, Layout, Menu, Space, theme, Typography} from 'antd';
 import {Link, Outlet, useLocation, useNavigate} from 'react-router-dom';
 import Copyright from '../components/copyright/Copyright';
-import {ReactNode, useEffect, useMemo, useState} from 'react';
+import {CSSProperties, ReactNode, useEffect, useMemo, useState} from 'react';
 import {LoginOutlined, PoweroffOutlined, UserOutlined} from '@ant-design/icons';
 import {useAppDispatch, useAppSelector} from '../store-hooks';
 import {logout} from './auth/auth-slice';
 import {MenuItem, PAGES, useAuthorizedMenus} from '../App';
-import {useReLogin} from './auth/use-auth';
 
 export default function AdminLayout() {
-  useReLogin();
   const {pathname} = useLocation();
   const authorizedMenus = useAuthorizedMenus();
   const pathSnippets = usePathSnippets(authorizedMenus);
   const error = useAppSelector(state => state.layout.error);
 
   const isHomePage = pathname === '/';
+  const ContentContainerStyle: CSSProperties = {
+    paddingTop: isHomePage ? '2.4rem' : '',
+    paddingRight: '2.4rem',
+    paddingBottom: '2.4rem',
+    paddingLeft: '2.4rem'
+  };
 
   return (
     <Layout>
@@ -24,7 +28,7 @@ export default function AdminLayout() {
       <Layout style={{minHeight: 'calc(100vh - 64px)'}}>
         <SidebarMenu menus={authorizedMenus} paths={pathSnippets}/>
 
-        <Layout style={{padding: '0 2.4rem 2.4rem'}}>
+        <Layout style={ContentContainerStyle}>
           {!isHomePage && <Breadcrumbs paths={pathSnippets}/>}
 
           <ContentLayout>
@@ -121,8 +125,7 @@ function usePathSnippets(authorizedMenus: MenuItem[]): PathSnippet[] {
 }
 
 function AuthButton() {
-  const username = useAppSelector(state => state.auth.username);
-  const nickname = useAppSelector(state => state.auth.nickname);
+  const {username, nickname} = useAppSelector(state => state.auth);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 

@@ -13,7 +13,7 @@ export default function Secure(
   const menus = useAuthorizedMenus();
 
   if (!username) {
-    return <Navigate to="/login" state={{from: location}} replace/>;
+    return <Navigate to="/login" replace state={{from: location}}/>;
   }
 
   if (!hasAuthority(menus, authority)) {

@@ -77,7 +77,7 @@ const router = createBrowserRouter([
         ]
       },
       {path: '/login', element: <Login/>},
-      {path: '*', element: <ErrorPage code={404} message="糟糕！未找到您要访问的页面 :("/>}
+      {path: '/*', element: <ErrorPage code={404} message="糟糕！未找到您要访问的页面 :("/>}
     ]
   }
 ]);

@@ -50,46 +50,43 @@ export const {setAuth, clearAuth} = authSlice.actions;
 
 export function login(auth: AuthState) {
   return (dispatch: AppDispatch) => {
-    setLocalStorage(auth);
     dispatch(setAuth(auth));
-    setAutoLogoutTimer(auth.expiredAt, dispatch);
+    setLocalStorage(auth);
   };
 }
 
-export function reLoginFromCache(callback: VoidFunction) {
+export function tryLogin(callback: () => void) {
   return (dispatch: AppDispatch) => {
-    const auth = getAuthFromCache();
+    const auth = getAuthFromLocalStorage();
 
     if (!auth) {
       return;
     }
 
-    dispatch(setAuth(auth));
-    setAutoLogoutTimer(auth.expiredAt, dispatch);
-
+    dispatch(login(auth));
     callback();
   };
 }
 
-export function logout() {
+export function logout(callback?: () => void) {
   return (dispatch: AppDispatch) => {
-    clearLocalStorage();
-    tryClearAutoLogoutTimer();
     dispatch(clearAuth());
+    clearLocalStorage();
+    callback && callback();
   };
 }
 
 const KEY_AUTH = 'vite_react_auth';
 
+export function clearLocalStorage() {
+  localStorage.removeItem(KEY_AUTH);
+}
+
 function setLocalStorage(auth: AuthState) {
   localStorage.setItem(KEY_AUTH, JSON.stringify(auth));
 }
 
-function clearLocalStorage() {
-  localStorage.removeItem(KEY_AUTH);
-}
-
-function getAuthFromCache() {
+function getAuthFromLocalStorage() {
   const authJson = localStorage.getItem(KEY_AUTH);
 
   if (!authJson) {
@@ -97,27 +94,4 @@ function getAuthFromCache() {
   }
 
   return JSON.parse(authJson) as AuthState;
-}
-
-let logoutTimer: number;
-
-function setAutoLogoutTimer(expiredAt: number, dispatch: AppDispatch) {
-  tryClearAutoLogoutTimer();
-
-  const currentTimestamp = new Date().getTime();
-  const countdownMilliseconds = expiredAt * 1000 - currentTimestamp;
-
-  logoutTimer = window.setTimeout(
-    () => {
-      clearLocalStorage();
-      dispatch(clearAuth());
-    },
-    countdownMilliseconds
-  );
-}
-
-function tryClearAutoLogoutTimer() {
-  if (logoutTimer) {
-    window.clearTimeout(logoutTimer);
-  }
 }

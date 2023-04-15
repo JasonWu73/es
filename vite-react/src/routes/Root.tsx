@@ -1,8 +1,10 @@
 import {Outlet} from 'react-router-dom';
-import {useReLogin} from './auth/use-auth';
+import {useAutoLogout, useTryLogin, useAutoRefreshAuth} from './auth/use-auth';
 
 export default function Root() {
-  useReLogin();
+  useTryLogin();
+  useAutoLogout();
+  useAutoRefreshAuth();
 
   return <Outlet/>;
 }

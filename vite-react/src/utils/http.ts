@@ -1,8 +1,7 @@
 import axios, {AxiosError, InternalAxiosRequestConfig} from 'axios';
 import NProgress from 'nprogress';
 import {store} from '../store';
-import {login, logout} from '../routes/auth/auth-slice';
-import {isAuthApi, updateAccessTokenApi} from '../routes/auth/auth-api';
+import {logout} from '../routes/auth/auth-slice';
 import {getInternalApiBaseUrl} from '../config';
 
 export const apiAxios = axios.create({
@@ -12,9 +11,6 @@ export const apiAxios = axios.create({
 apiAxios.interceptors.request.use(
   config => {
     NProgress.start();
-
-    tryRefreshAccessToken(config);
-
     return config;
   },
   error => {
@@ -48,44 +44,16 @@ apiAxios.interceptors.response.use(
   },
   error => {
     NProgress.done();
-
     console.log(error);
 
-    if (axios.isCancel(error)) return Promise.reject(error);
+    if (axios.isCancel(error)) {
+      return Promise.reject(error);
+    }
 
-    const axiosError = error as AxiosError;
-
-    logoutWhenUnauthorized(axiosError);
-
+    logoutWhenUnauthorized(error);
     return Promise.reject(error);
   }
 );
-
-function tryRefreshAccessToken(config: InternalAxiosRequestConfig) {
-  if (!config.url) return;
-
-  const refreshToken = store.getState().auth.refreshToken;
-  const expiredAt = store.getState().auth.expiredAt;
-
-  if (!isAuthApi(config.url) && (!refreshToken || !expiredAt)) {
-    store.dispatch(logout());
-    return;
-  }
-
-  if (!isAuthApi(config.url)) {
-    const currentTimestampSeconds = Math.floor(new Date().getTime() / 1000);
-    const countdownSeconds = expiredAt - currentTimestampSeconds;
-    const refreshLessThanSeconds = 600;
-
-    if (countdownSeconds <= refreshLessThanSeconds) {
-      axios(updateAccessTokenApi(refreshToken)).then(response => {
-        store.dispatch(login(response.data));
-      }).catch(() => {
-        store.dispatch(logout());
-      });
-    }
-  }
-}
 
 function onGetCallInternalApi(config: InternalAxiosRequestConfig) {
   return !!config.url && config.url.startsWith(getInternalApiBaseUrl());

@@ -5,6 +5,7 @@ import {AxiosError} from 'axios';
 export interface AxiosRequest {
   method: 'get' | 'post' | 'put' | 'delete';
   url: string;
+  headers?: object;
   params?: object;
   data?: object;
 }
@@ -15,7 +16,7 @@ export function useHttp() {
 
   const sendRequest = useCallback(
     (
-      {method, url, params, data}: AxiosRequest,
+      {method, url, headers, params, data}: AxiosRequest,
       applyData: (data: any) => void
     ) => {
       setLoading(true);
@@ -27,6 +28,7 @@ export function useHttp() {
         signal: controller.signal,
         method,
         url,
+        headers,
         params,
         data
       }).then(response => {
