@@ -34,8 +34,9 @@ export function refreshAccessTokenApi(refreshToken: string): AxiosRequest {
   // };
 }
 
-export function isAuthApi(url: string) {
-  return url.startsWith(`${getInternalApiBaseUrl()}/auth/login`);
-
-  // return url.startsWith(`${getInternalApiBaseUrl()}/api/v1/token`);
+export function mockHttpApi(httpStatusCode: number): AxiosRequest {
+  return {
+    method: 'get',
+    url: `https://dummyjson.com/http/${httpStatusCode}`
+  };
 }

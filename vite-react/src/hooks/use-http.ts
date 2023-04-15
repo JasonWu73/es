@@ -2,7 +2,6 @@ import {useCallback, useState} from 'react';
 import {apiAxios} from '../utils/http';
 import {AxiosError} from 'axios';
 import {getInternalApiBaseUrl} from '../config';
-import {useAppDispatch} from '../store-hooks';
 import {logout} from '../routes/auth/auth-slice';
 import {store} from '../store';
 
@@ -88,12 +87,10 @@ function extendHeader(url: string, headers?: object) {
 }
 
 function useUnauthorizedLogout(axiosError: AxiosError<unknown, any>) {
-  const dispatch = useAppDispatch();
-
   const isUnauthorizedError = axiosError.response?.status === 401;
   const isApiRequest = axiosError.request.responseURL.startsWith(getInternalApiBaseUrl());
 
   if (isUnauthorizedError && isApiRequest) {
-    dispatch(logout());
+    store.dispatch(logout());
   }
 }

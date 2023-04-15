@@ -6,6 +6,8 @@ import {LoginOutlined, PoweroffOutlined, UserOutlined} from '@ant-design/icons';
 import {useAppDispatch, useAppSelector} from '../store-hooks';
 import {logout} from './auth/auth-slice';
 import {MenuItem, PAGES, useAuthorizedMenus} from '../App';
+import {useHttp} from '../hooks/use-http';
+import {mockHttpApi} from './auth/auth-api';
 
 export default function AdminLayout() {
   const {pathname} = useLocation();
@@ -47,6 +49,8 @@ export default function AdminLayout() {
 }
 
 export function HeaderLayout() {
+  const {sendRequest} = useHttp();
+
   const topBarMenus = PAGES.map(page => {
     return {
       key: page.url,
@@ -55,9 +59,24 @@ export function HeaderLayout() {
   });
 
   topBarMenus.unshift({
+    key: 'Unauthorized',
+    label: <a
+      onClick={handleUnauthorizedClick}
+      style={{}}
+    >
+      Mock Unauthorized
+    </a>
+  });
+
+  topBarMenus.unshift({
     key: '/counter',
     label: <Link to="/counter">计数器</Link>
   });
+
+  function handleUnauthorizedClick() {
+    sendRequest(mockHttpApi(401), () => {
+    });
+  }
 
   return (
     <Layout.Header style={{display: 'flex', alignItems: 'center', gap: '1rem'}}>
