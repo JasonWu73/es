@@ -1,6 +1,10 @@
 import {useCallback, useState} from 'react';
 import {apiAxios} from '../utils/http';
 import {AxiosError} from 'axios';
+import {getInternalApiBaseUrl} from '../config';
+import {useAppDispatch} from '../store-hooks';
+import {logout} from '../routes/auth/auth-slice';
+import {store} from '../store';
 
 export interface AxiosRequest {
   method: 'get' | 'post' | 'put' | 'delete';
@@ -28,7 +32,7 @@ export function useHttp() {
         signal: controller.signal,
         method,
         url,
-        headers,
+        headers: extendHeader(url, headers),
         params,
         data
       }).then(response => {
@@ -37,6 +41,8 @@ export function useHttp() {
         if (controller.signal.aborted) return;
 
         const axiosError = error as AxiosError;
+        useUnauthorizedLogout(axiosError);
+
         const errorData: any = axiosError.response?.data;
 
         if (errorData && Object.keys(errorData).length > 0) {
@@ -58,4 +64,36 @@ export function useHttp() {
   );
 
   return {loading, error, sendRequest};
+}
+
+function extendHeader(url: string, headers?: object) {
+  if (!url.startsWith(getInternalApiBaseUrl())) {
+    return headers;
+  }
+
+  const accessToken = store.getState().auth.accessToken;
+
+  if (!accessToken) {
+    return headers;
+  }
+
+  if (headers) {
+    return {
+      ...headers,
+      Authorization: `Bearer ${accessToken}`
+    };
+  }
+
+  return {Authorization: `Bearer ${accessToken}`};
+}
+
+function useUnauthorizedLogout(axiosError: AxiosError<unknown, any>) {
+  const dispatch = useAppDispatch();
+
+  const isUnauthorizedError = axiosError.response?.status === 401;
+  const isApiRequest = axiosError.request.responseURL.startsWith(getInternalApiBaseUrl());
+
+  if (isUnauthorizedError && isApiRequest) {
+    dispatch(logout());
+  }
 }

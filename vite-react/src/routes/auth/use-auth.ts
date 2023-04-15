@@ -72,13 +72,13 @@ export function useAutoRefreshAuth() {
 
       const currentTimestampSeconds = Math.floor(new Date().getTime() / 1000);
       const countdownSeconds = expiredAt - currentTimestampSeconds;
-      const refreshLessThanSeconds = 600;
+      const refreshLessThanSeconds = 120;
       let timeout: number;
 
       if (countdownSeconds <= refreshLessThanSeconds) {
         timeout = window.setTimeout(
           () => {
-            const expiresInSeconds = 30;
+            const expiresInSeconds = 300;
             const currentTimestampSeconds = Math.floor(new Date().getTime() / 1000);
             const expiredAt = currentTimestampSeconds + expiresInSeconds;
 
