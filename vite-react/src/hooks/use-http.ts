@@ -20,7 +20,7 @@ export function useHttp() {
   const sendRequest = useCallback(
     (
       {method, url, headers, params, data}: AxiosRequest,
-      applyData: (data: any) => void
+      applyData?: (data: any) => void
     ) => {
       setLoading(true);
       setError('');
@@ -35,7 +35,7 @@ export function useHttp() {
         params,
         data
       }).then(response => {
-        applyData(response.data);
+        applyData && applyData(response.data);
       }).catch(error => {
         if (controller.signal.aborted) return;
 

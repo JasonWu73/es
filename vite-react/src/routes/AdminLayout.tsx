@@ -60,10 +60,7 @@ export function HeaderLayout() {
 
   topBarMenus.unshift({
     key: 'Unauthorized',
-    label: <a
-      onClick={handleUnauthorizedClick}
-      style={{}}
-    >
+    label: <a onClick={() => sendRequest(mockHttpApi(401))}>
       Mock Unauthorized
     </a>
   });
@@ -72,11 +69,6 @@ export function HeaderLayout() {
     key: '/counter',
     label: <Link to="/counter">计数器</Link>
   });
-
-  function handleUnauthorizedClick() {
-    sendRequest(mockHttpApi(401), () => {
-    });
-  }
 
   return (
     <Layout.Header style={{display: 'flex', alignItems: 'center', gap: '1rem'}}>
