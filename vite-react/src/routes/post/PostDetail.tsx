@@ -5,7 +5,7 @@ import {Button, Empty, Space, Typography} from 'antd';
 import {useAppSelector} from '../../store-hooks';
 import {Post} from './post-slice';
 import {useHttp} from '../../hooks/use-http';
-import {useErrorNotification} from '../use-layout';
+import {useErrorNotification} from '../../components/layout/use-layout';
 import {getPostApi} from './post-api';
 import {SkeletonLoading} from '../../components/loading/SuspenseLoading';
 

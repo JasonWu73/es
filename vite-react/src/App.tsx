@@ -2,7 +2,7 @@ import {createBrowserRouter, RouterProvider} from 'react-router-dom';
 import {lazy, ReactNode, useMemo} from 'react';
 import {CalculatorOutlined, EditOutlined, HomeOutlined} from '@ant-design/icons';
 import {useAppSelector} from './store-hooks';
-import AdminLayout from './routes/AdminLayout';
+import AdminLayout from './components/layout/AdminLayout';
 import Home from './routes/home/Home';
 import ErrorPage from './routes/error/ErrorPage';
 import Secure from './routes/auth/Secure';

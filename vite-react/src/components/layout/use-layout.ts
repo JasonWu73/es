@@ -1,5 +1,5 @@
 import {useEffect} from 'react';
-import {useAppDispatch} from '../store-hooks';
+import {useAppDispatch} from '../../store-hooks';
 import {setError} from './layout-slice';
 
 export function useErrorNotification(...errors: string[]) {

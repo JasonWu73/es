@@ -1,13 +1,13 @@
 import {Alert, Breadcrumb, Button, Layout, Menu, Space, theme, Typography} from 'antd';
 import {Link, Outlet, useLocation, useNavigate} from 'react-router-dom';
-import Copyright from '../components/copyright/Copyright';
+import Copyright from '../copyright/Copyright';
 import {CSSProperties, ReactNode, useEffect, useMemo, useState} from 'react';
 import {LoginOutlined, PoweroffOutlined, UserOutlined} from '@ant-design/icons';
-import {useAppDispatch, useAppSelector} from '../store-hooks';
-import {logout} from './auth/auth-slice';
-import {MenuItem, PAGES, useAuthorizedMenus} from '../App';
-import {useHttp} from '../hooks/use-http';
-import {mockHttpApi} from './auth/auth-api';
+import {useAppDispatch, useAppSelector} from '../../store-hooks';
+import {logout} from '../../routes/auth/auth-slice';
+import {MenuItem, PAGES, useAuthorizedMenus} from '../../App';
+import {useHttp} from '../../hooks/use-http';
+import {mockHttpApi} from '../../routes/auth/auth-api';
 
 export default function AdminLayout() {
   const {pathname} = useLocation();
