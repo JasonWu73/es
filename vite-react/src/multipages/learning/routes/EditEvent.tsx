@@ -48,7 +48,7 @@ export default function EditEvent() {
   );
 };
 
-export async function actionUpdateEvent({request, params}: { request: Request, params: any }) {
+export async function updateEvent({params, request}: { params: any, request: Request }) {
   const formData = await request.formData();
 
   const [data, error] = await sendRequest({

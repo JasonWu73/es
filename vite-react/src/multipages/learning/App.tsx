@@ -1,9 +1,9 @@
 import {createHashRouter, RouterProvider} from 'react-router-dom';
 import Home from './routes/Home';
-import EventList, {getEvents} from './routes/EventList';
-import EventDetail, {getEvent} from './routes/EventDetail';
+import EventList, {loadEvents} from './routes/EventList';
+import EventDetail, {deleteEvent, loadEvent} from './routes/EventDetail';
 import NewEvent from './routes/NewEvent';
-import EditEvent, {actionUpdateEvent} from './routes/EditEvent';
+import EditEvent, {updateEvent} from './routes/EditEvent';
 import Root from './routes/Root';
 import EventNavigation from './components/EventNavigation';
 import ErrorPage from './routes/ErrorPage';
@@ -20,23 +20,18 @@ const router = createHashRouter([
           {
             path: '/events',
             children: [
-              {index: true, element: <EventList/>, loader: getEvents},
+              {index: true, element: <EventList/>, loader: loadEvents},
               {
                 path: ':eventId',
                 id: 'event-detail',
-                loader: getEvent,
+                loader: loadEvent,
                 children: [
-                  {index: true, element: <EventDetail/>},
-                  {path: 'edit', element: <EditEvent/>, action: actionUpdateEvent}
+                  {index: true, element: <EventDetail/>, action: deleteEvent},
+                  {path: 'edit', element: <EditEvent/>, action: updateEvent}
                 ]
               }
             ]
           },
-          /*
-          {path: '/events', element: <EventList/>, loader: getEvents},
-          {path: '/events/:eventId', element: <EventDetail/>, loader: getEvent},
-          {path: '/events/:eventId/edit', element: <EditEvent/>, loader: getEvent},
-          */
           {path: '/events/new', element: <NewEvent/>}
         ]
       }
