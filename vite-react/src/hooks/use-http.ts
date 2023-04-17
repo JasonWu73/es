@@ -27,7 +27,7 @@ export async function sendRequest(
     return [response.data, null];
   } catch (error) {
     const axiosError = error as AxiosError;
-    useUnauthorizedLogout(axiosError);
+    logoutWhenUnauthorized(axiosError);
 
     const errorData: any = axiosError.response?.data;
 
@@ -70,7 +70,7 @@ export function useHttp() {
         if (controller.signal.aborted) return;
 
         const axiosError = error as AxiosError;
-        useUnauthorizedLogout(axiosError);
+        logoutWhenUnauthorized(axiosError);
 
         const errorData: any = axiosError.response?.data;
 
@@ -116,7 +116,7 @@ function extendHeader(url: string, headers?: object) {
   return {Authorization: `Bearer ${accessToken}`};
 }
 
-function useUnauthorizedLogout(axiosError: AxiosError<unknown, any>) {
+function logoutWhenUnauthorized(axiosError: AxiosError<unknown, any>) {
   const isUnauthorizedError = axiosError.response?.status === 401;
   const isApiRequest = axiosError.request.responseURL.startsWith(getInternalApiBaseUrl());
 

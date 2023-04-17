@@ -3,7 +3,7 @@ import Home from './routes/Home';
 import EventList, {getEvents} from './routes/EventList';
 import EventDetail, {getEvent} from './routes/EventDetail';
 import NewEvent from './routes/NewEvent';
-import EditEvent from './routes/EditEvent';
+import EditEvent, {actionUpdateEvent} from './routes/EditEvent';
 import Root from './routes/Root';
 import EventNavigation from './components/EventNavigation';
 import ErrorPage from './routes/ErrorPage';
@@ -27,7 +27,7 @@ const router = createHashRouter([
                 loader: getEvent,
                 children: [
                   {index: true, element: <EventDetail/>},
-                  {path: 'edit', element: <EditEvent/>}
+                  {path: 'edit', element: <EditEvent/>, action: actionUpdateEvent}
                 ]
               }
             ]
