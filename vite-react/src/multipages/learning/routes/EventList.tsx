@@ -43,7 +43,7 @@ export default function EventList() {
 export async function getEvents() {
   const [data, error] = await sendRequest({
     method: 'get',
-    url: 'https://dummyjson.com/productsi'
+    url: 'https://dummyjson.com/products'
   });
 
   if (error) {

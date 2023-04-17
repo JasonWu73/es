@@ -1,7 +1,7 @@
 import {createHashRouter, RouterProvider} from 'react-router-dom';
 import Home from './routes/Home';
 import EventList, {getEvents} from './routes/EventList';
-import EventDetail from './routes/EventDetail';
+import EventDetail, {getEvent} from './routes/EventDetail';
 import NewEvent from './routes/NewEvent';
 import EditEvent from './routes/EditEvent';
 import Root from './routes/Root';
@@ -22,7 +22,7 @@ const router = createHashRouter([
             element: <EventList/>,
             loader: getEvents
           },
-          {path: '/events/:eventId', element: <EventDetail/>},
+          {path: '/events/:eventId', element: <EventDetail/>, loader: getEvent},
           {path: '/events/:eventId/edit', element: <EditEvent/>},
           {path: '/events/new', element: <NewEvent/>}
         ]
