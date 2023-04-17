@@ -46,9 +46,7 @@ export function useAutoLogout() {
         countdownMilliseconds
       );
 
-      return () => {
-        window.clearTimeout(timeout);
-      };
+      return () => window.clearTimeout(timeout);
     },
     [expiredAt]
   );
@@ -72,10 +70,10 @@ export function useAutoRefreshAuth() {
 
       const currentTimestampSeconds = Math.floor(new Date().getTime() / 1000);
       const countdownSeconds = expiredAt - currentTimestampSeconds;
-      const refreshLessThanSeconds = 120;
+      const refreshWhenLessThanSeconds = 120;
       let timeout: number;
 
-      if (countdownSeconds <= refreshLessThanSeconds) {
+      if (countdownSeconds <= refreshWhenLessThanSeconds) {
         timeout = window.setTimeout(
           () => {
             const expiresInSeconds = 300;
