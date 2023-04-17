@@ -1,21 +1,17 @@
-$purple: purple;
-
 .button {
   padding: 1rem;
   cursor: pointer;
-  background: $purple;
-  color: white;
-  border: 0.1rem solid $purple;
-  border-radius: 0.6rem;
+  border: 0.1rem solid black;
+  border-radius: 0.4rem;
 
   &:hover {
-    background-color: #8d038d;
+    background-color: #ddd;
   }
 
   &:disabled {
     cursor: not-allowed;
-    border: 0.1rem solid #999;
     background-color: #ccc;
+    border: 0.1rem solid #666;
     color: #666;
   }
 }
