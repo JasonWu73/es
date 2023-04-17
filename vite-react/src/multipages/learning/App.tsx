@@ -6,10 +6,12 @@ import NewEvent from './routes/NewEvent';
 import EditEvent from './routes/EditEvent';
 import Root from './routes/Root';
 import EventNavigation from './components/EventNavigation';
+import ErrorPage from './routes/ErrorPage';
 
 const router = createHashRouter([
   {
     element: <Root/>,
+    errorElement: <ErrorPage/>,
     children: [
       {path: '/', element: <Home/>},
       {

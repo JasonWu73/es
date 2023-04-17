@@ -3,24 +3,19 @@ import {useEffect, useState} from 'react';
 import {sendRequest, useHttp} from '../../../hooks/use-http';
 
 export default function EventList() {
-  const [data, error] = useLoaderData() as [data: {
+  const {products: events} = useLoaderData() as {
     products: { id: number, title: string }[]
-  }, error: string];
-
-  const events = data?.products;
+  };
 
   return (
     <>
-      {error && <p>{error}</p>}
-      {!error &&
-        <ul>
-          {events.map(event =>
-            <li key={event.id}>
-              <Link to={event.id + ''}>{event.title}</Link>
-            </li>
-          )}
-        </ul>
-      }
+      <ul>
+        {events.map(event =>
+          <li key={event.id}>
+            <Link to={event.id + ''}>{event.title}</Link>
+          </li>
+        )}
+      </ul>
     </>
   );
 
@@ -48,9 +43,14 @@ export default function EventList() {
 export async function getEvents() {
   const [data, error] = await sendRequest({
     method: 'get',
-    url: 'https://dummyjson.com/products'
+    url: 'https://dummyjson.com/productsi'
   });
-  return [data, error];
+
+  if (error) {
+    throw new Error(error);
+  }
+
+  return data;
 }
 
 function useEvents() {
