@@ -4,7 +4,6 @@ import {AxiosError} from 'axios';
 import {getInternalApiBaseUrl} from '../config';
 import {logout} from '../routes/auth/auth-slice';
 import {store} from '../store';
-import {wait} from '../utils/promisify';
 
 export interface AxiosRequest {
   method: 'get' | 'post' | 'put' | 'delete';
@@ -25,7 +24,6 @@ export async function sendRequest(
       params,
       data
     });
-    await wait(1.5);
     return [response.data, null];
   } catch (error) {
     const axiosError = error as AxiosError;
@@ -38,10 +36,10 @@ export async function sendRequest(
         errorData.error ||
         errorData.message ||
         JSON.stringify(errorData);
-      return [errorMessage, null];
+      return [null, errorMessage];
     }
 
-    return [axiosError.message, null];
+    return [null, axiosError.message];
   }
 }
 
