@@ -99,7 +99,7 @@ interface PathSnippet {
   title: string;
 }
 
-function usePathSnippets(authorizedMenus: MenuItem[]): PathSnippet[] {
+function usePathSnippets(menus: MenuItem[]): PathSnippet[] {
   const {pathname} = useLocation();
 
   return useMemo(
@@ -112,7 +112,7 @@ function usePathSnippets(authorizedMenus: MenuItem[]): PathSnippet[] {
 
       return pathSnippets.map((path, index) => {
         const url = `/${pathSnippets.slice(0, index + 1).join('/')}`;
-        const title = getMenuTitle(authorizedMenus, url) ?? path;
+        const title = getMenuTitle(menus, url) ?? path;
 
         return {url, title};
       });
@@ -131,7 +131,7 @@ function usePathSnippets(authorizedMenus: MenuItem[]): PathSnippet[] {
         return null;
       }
     },
-    [JSON.stringify(authorizedMenus), pathname]
+    [menus, pathname]
   );
 }
 
@@ -220,7 +220,7 @@ function useAntMenus(menus: MenuItem[]) {
         };
       });
     },
-    [JSON.stringify(menus)]
+    [menus]
   );
 }
 
@@ -252,7 +252,7 @@ function useMenuSelectedKeys(menus: MenuItem[], paths: PathSnippet[]) {
         return selectedKeys;
       }
     },
-    [JSON.stringify(menus), pathEnd]
+    [menus, pathEnd]
   );
 }
 
@@ -269,7 +269,7 @@ function useOpenKeys(selectedKeys: string[]) {
         return prevKeys;
       });
     },
-    [JSON.stringify(selectedKeys)]
+    [selectedKeys]
   );
 
   return {openKeys, setOpenKeys};
@@ -300,7 +300,7 @@ function useBreadcrumbItems(paths: PathSnippet[]) {
         }
       ].concat(prevBreadcrumbItems);
     },
-    [JSON.stringify(paths)]
+    [paths]
   );
 }
 
