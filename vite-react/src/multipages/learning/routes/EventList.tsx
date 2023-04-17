@@ -1,4 +1,4 @@
-import {Link, useLoaderData} from 'react-router-dom';
+import {json, Link, useLoaderData} from 'react-router-dom';
 import {useEffect, useState} from 'react';
 import {sendRequest, useHttp} from '../../../hooks/use-http';
 
@@ -47,7 +47,15 @@ export async function getEvents() {
   });
 
   if (error) {
-    throw new Response('Server error happened', {status: 500});
+    // throw new Response('Server error happened', {status: 500});
+    throw json(
+      {
+        error: 'Custom error happened'
+      },
+      {
+        status: 500
+      }
+    );
   }
 
   return data;
