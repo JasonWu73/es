@@ -1,29 +1,30 @@
-import classes from './MainNavigation.module.scss';
+import classes from './Navigation.module.scss';
 import {NavLink} from 'react-router-dom';
+
+const ROUTES: { path: string, name: string }[] = [
+  {path: '/', name: 'Home'},
+  {path: '/events', name: 'Event List'}
+];
 
 export default function MainNavigation() {
   return (
-    <header className={classes.header}>
-      <nav>
-        <ul>
-          <li>
-            <NavLink
-              to="/"
-              className={({isActive}) => isActive ? classes.active : ''}
-            >
-              Home
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/products"
-              className={({isActive}) => isActive ? classes.active : ''}
-            >
-              Products
-            </NavLink>
-          </li>
-        </ul>
-      </nav>
-    </header>
+    <>
+      <header>
+        <nav className={classes.nav}>
+          <ul>
+            {ROUTES.map(route =>
+              <li key={route.path}>
+                <NavLink
+                  to={route.path}
+                  className={({isActive}) => isActive ? classes.active : ''}
+                >
+                  {route.name}
+                </NavLink>
+              </li>
+            )}
+          </ul>
+        </nav>
+      </header>
+    </>
   );
-}
+};

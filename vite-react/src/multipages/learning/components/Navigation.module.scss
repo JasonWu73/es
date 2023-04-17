@@ -1,0 +1,38 @@
+.nav {
+  width: 80%;
+  margin: 6rem auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  ul {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    list-style: none;
+
+    li {
+
+      a {
+        text-decoration: none;
+
+        &:link,
+        &:visited {
+          color: darkorange
+        }
+
+        &:hover {
+          color: orangered;
+        }
+
+        &:active,
+        &.active {
+          color: orangered;
+          text-decoration: underline;
+          font-weight: bolder;
+        }
+      }
+    }
+  }
+}

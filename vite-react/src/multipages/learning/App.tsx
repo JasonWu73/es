@@ -1,25 +1,30 @@
 import {createHashRouter, RouterProvider} from 'react-router-dom';
 import Home from './routes/Home';
-import ProductList from './routes/ProductList';
-import NewProduct from './routes/NewProduct';
-import ProductDetail from './routes/ProductDetail';
+import EventList from './routes/EventList';
+import EventDetail from './routes/EventDetail';
+import NewEvent from './routes/NewEvent';
+import EditEvent from './routes/EditEvent';
 import Root from './routes/Root';
-import Error from './routes/Error';
+import EventNavigation from './components/EventNavigation';
 
 const router = createHashRouter([
   {
-    path: '/',
     element: <Root/>,
-    errorElement: <Error/>,
     children: [
-      {index: true, element: <Home/>},
-      {path: 'products', element: <ProductList/>},
-      {path: 'products/:productId', element: <ProductDetail/>},
-      {path: 'products/new', element: <NewProduct/>}
+      {path: '/', element: <Home/>},
+      {
+        element: <EventNavigation/>,
+        children: [
+          {path: '/events', element: <EventList/>},
+          {path: '/events/:eventId', element: <EventDetail/>},
+          {path: '/events/:eventId/edit', element: <EditEvent/>},
+          {path: '/events/new', element: <NewEvent/>}
+        ]
+      }
     ]
   }
 ]);
 
 export default function App() {
   return <RouterProvider router={router}/>;
-}
+};
