@@ -58,10 +58,7 @@ export function login(auth: AuthState) {
 export function tryLogin(callback: () => void) {
   return (dispatch: AppDispatch) => {
     const auth = getAuthFromLocalStorage();
-
-    if (!auth) {
-      return;
-    }
+    if (!auth) return;
 
     dispatch(login(auth));
     callback();
@@ -88,10 +85,7 @@ function setLocalStorage(auth: AuthState) {
 
 function getAuthFromLocalStorage() {
   const authJson = localStorage.getItem(KEY_AUTH);
-
-  if (!authJson) {
-    return null;
-  }
+  if (!authJson) return null;
 
   return JSON.parse(authJson) as AuthState;
 }

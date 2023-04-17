@@ -32,9 +32,7 @@ export function useAutoLogout() {
 
   useEffect(
     () => {
-      if (expiredAt <= 0) {
-        return;
-      }
+      if (expiredAt <= 0) return;
 
       const currentTimestamp = new Date().getTime();
       const countdownMilliseconds = expiredAt * 1000 - currentTimestamp;
@@ -60,13 +58,9 @@ export function useAutoRefreshAuth() {
 
   useEffect(
     () => {
-      if (pathname === '/login') {
-        return;
-      }
+      if (pathname === '/login') return;
 
-      if (!expiredAt || !refreshToken) {
-        return;
-      }
+      if (!expiredAt || !refreshToken) return;
 
       const currentTimestampSeconds = Math.floor(new Date().getTime() / 1000);
       const countdownSeconds = expiredAt - currentTimestampSeconds;

@@ -133,9 +133,8 @@
         }
 
         stop() {
-          if (!this.player) {
-            return;
-          }
+          if (!this.player) return;
+
           this.player.close();
           this.player = null;
           this.resetMedia();

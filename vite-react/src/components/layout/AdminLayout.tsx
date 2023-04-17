@@ -104,9 +104,7 @@ function usePathSnippets(menus: MenuItem[]): PathSnippet[] {
 
   return useMemo(
     () => {
-      if (pathname === '/') {
-        return [{url: '/', title: '首页'}];
-      }
+      if (pathname === '/') return [{url: '/', title: '首页'}];
 
       const pathSnippets = pathname.split('/').filter((p) => p);
 

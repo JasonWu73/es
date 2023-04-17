@@ -29,9 +29,7 @@ export default function Secure(
 
 function hasAuthority(menus: MenuItem[], authority: string): boolean {
   for (const menu of menus) {
-    if (menu.authority === authority) {
-      return true;
-    }
+    if (menu.authority === authority) return true;
 
     if (menu.children && menu.children.length > 0) {
       return hasAuthority(menu.children, authority);
