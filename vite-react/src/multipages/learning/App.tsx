@@ -19,11 +19,24 @@ const router = createHashRouter([
         children: [
           {
             path: '/events',
-            element: <EventList/>,
-            loader: getEvents
+            children: [
+              {index: true, element: <EventList/>, loader: getEvents},
+              {
+                path: ':eventId',
+                id: 'event-detail',
+                loader: getEvent,
+                children: [
+                  {index: true, element: <EventDetail/>},
+                  {path: 'edit', element: <EditEvent/>}
+                ]
+              }
+            ]
           },
+          /*
+          {path: '/events', element: <EventList/>, loader: getEvents},
           {path: '/events/:eventId', element: <EventDetail/>, loader: getEvent},
-          {path: '/events/:eventId/edit', element: <EditEvent/>},
+          {path: '/events/:eventId/edit', element: <EditEvent/>, loader: getEvent},
+          */
           {path: '/events/new', element: <NewEvent/>}
         ]
       }

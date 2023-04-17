@@ -1,13 +1,21 @@
-import {json, useLoaderData} from 'react-router-dom';
+import {json, Link, useRouteLoaderData} from 'react-router-dom';
 import {sendRequest} from '../../../hooks/use-http';
 
 export default function EventDetail() {
-  const {id, title, description} = useLoaderData() as { id: number, title: string, description: string };
+  const {id, title, description} = useRouteLoaderData('event-detail') as {
+    id: number,
+    title: string,
+    description: string
+  };
 
   return (
     <>
       <h1>{id} - {title}</h1>
       <p>{description}</p>
+      <footer style={{display: 'flex', justifyContent: 'center', gap: '1rem', marginTop: '1rem'}}>
+        <Link to="edit">Edit</Link>
+        <a>Delete</a>
+      </footer>
     </>
   );
 };
