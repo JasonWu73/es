@@ -47,7 +47,7 @@ export async function getEvents() {
   });
 
   if (error) {
-    throw new Error(error);
+    throw new Response('Server error happened', {status: 500});
   }
 
   return data;
