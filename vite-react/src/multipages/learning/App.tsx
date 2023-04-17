@@ -6,6 +6,7 @@ import NewEvent from './routes/NewEvent';
 import EditEvent from './routes/EditEvent';
 import Root from './routes/Root';
 import EventNavigation from './components/EventNavigation';
+import {apiAxios} from '../../utils/http';
 
 const router = createHashRouter([
   {
@@ -15,7 +16,18 @@ const router = createHashRouter([
       {
         element: <EventNavigation/>,
         children: [
-          {path: '/events', element: <EventList/>},
+          {
+            path: '/events',
+            element: <EventList/>,
+            loader: async () => {
+              const response = await apiAxios({
+                method: 'get',
+                url: 'https://dummyjson.com/products'
+              });
+
+              return response.data;
+            }
+          },
           {path: '/events/:eventId', element: <EventDetail/>},
           {path: '/events/:eventId/edit', element: <EditEvent/>},
           {path: '/events/new', element: <NewEvent/>}

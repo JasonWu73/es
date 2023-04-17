@@ -1,9 +1,24 @@
-import {Link} from 'react-router-dom';
+import {Link, useLoaderData} from 'react-router-dom';
 import {useEffect, useState} from 'react';
 import {useHttp} from '../../../hooks/use-http';
 
 
 export default function EventList() {
+  const {products: events} = useLoaderData() as { products: { id: number, title: string }[] };
+
+  return (
+    <>
+      <ul>
+        {events.map(event =>
+          <li key={event.id}>
+            <Link to={event.id + ''}>{event.title}</Link>
+          </li>
+        )}
+      </ul>
+    </>
+  );
+
+  /*
   const {loading, error, events} = useEvents();
 
   return (
@@ -21,6 +36,7 @@ export default function EventList() {
       }
     </>
   );
+  */
 };
 
 function useEvents() {
@@ -29,13 +45,15 @@ function useEvents() {
 
   useEffect(
     () => {
-      sendRequest(
+      const controller = sendRequest(
         {
           method: 'get',
           url: 'https://dummyjson.com/products'
         },
         data => setEvents(data.products)
       );
+
+      return () => controller.abort();
     },
     []
   );
