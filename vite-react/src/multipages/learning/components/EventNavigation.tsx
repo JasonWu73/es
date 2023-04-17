@@ -1,4 +1,4 @@
-import classes from './Navigation.module.scss';
+import classes from './MainNavigation.module.scss';
 import {NavLink, Outlet} from 'react-router-dom';
 
 export default function EventNavigation() {

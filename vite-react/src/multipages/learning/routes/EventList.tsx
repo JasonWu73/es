@@ -1,21 +1,44 @@
 import {Link} from 'react-router-dom';
+import {useEffect, useState} from 'react';
+import {useHttp} from '../../../hooks/use-http';
 
-const DUMMY_EVENTS: { id: number, title: string }[] = [
-  {id: 1, title: 'iPhone 9'},
-  {id: 2, title: 'iPhone 10'}
-];
 
 export default function EventList() {
+  const {loading, error, events} = useEvents();
+
   return (
     <>
-      <h1>Event List</h1>
-      <ul>
-        {DUMMY_EVENTS.map(event =>
-          <li key={event.id}>
-            <Link to={event.id + ''}>{event.title}</Link>
-          </li>
-        )}
-      </ul>
+      {loading && <p>Loading...</p>}
+      {!loading && error && <p>{error}</p>}
+      {!loading && !error && events &&
+        <ul>
+          {events.map(event =>
+            <li key={event.id}>
+              <Link to={event.id + ''}>{event.title}</Link>
+            </li>
+          )}
+        </ul>
+      }
     </>
   );
 };
+
+function useEvents() {
+  const {loading, error, sendRequest} = useHttp();
+  const [events, setEvents] = useState<{ id: number, title: string }[]>();
+
+  useEffect(
+    () => {
+      sendRequest(
+        {
+          method: 'get',
+          url: 'https://dummyjson.com/products'
+        },
+        data => setEvents(data.products)
+      );
+    },
+    []
+  );
+
+  return {loading, error, events};
+}

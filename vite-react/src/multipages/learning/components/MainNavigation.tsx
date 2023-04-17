@@ -1,4 +1,4 @@
-import classes from './Navigation.module.scss';
+import classes from './MainNavigation.module.scss';
 import {NavLink} from 'react-router-dom';
 
 const ROUTES: { path: string, name: string }[] = [
