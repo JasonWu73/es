@@ -13,6 +13,36 @@ export interface AxiosRequest {
   data?: object;
 }
 
+export async function sendRequest(
+  {method, url, headers, params, data}: AxiosRequest
+): Promise<[data: any, error: string | null]> {
+  try {
+    const response = await apiAxios({
+      method,
+      url,
+      headers: extendHeader(url, headers),
+      params,
+      data
+    });
+    return [response.data, null];
+  } catch (error) {
+    const axiosError = error as AxiosError;
+    useUnauthorizedLogout(axiosError);
+
+    const errorData: any = axiosError.response?.data;
+
+    if (errorData && Object.keys(errorData).length > 0) {
+      const errorMessage =
+        errorData.error ||
+        errorData.message ||
+        JSON.stringify(errorData);
+      return [errorMessage, null];
+    }
+
+    return [axiosError.message, null];
+  }
+}
+
 export function useHttp() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');

@@ -1,12 +1,11 @@
 import {createHashRouter, RouterProvider} from 'react-router-dom';
 import Home from './routes/Home';
-import EventList from './routes/EventList';
+import EventList, {getEvents} from './routes/EventList';
 import EventDetail from './routes/EventDetail';
 import NewEvent from './routes/NewEvent';
 import EditEvent from './routes/EditEvent';
 import Root from './routes/Root';
 import EventNavigation from './components/EventNavigation';
-import {apiAxios} from '../../utils/http';
 
 const router = createHashRouter([
   {
@@ -19,14 +18,7 @@ const router = createHashRouter([
           {
             path: '/events',
             element: <EventList/>,
-            loader: async () => {
-              const response = await apiAxios({
-                method: 'get',
-                url: 'https://dummyjson.com/products'
-              });
-
-              return response.data;
-            }
+            loader: getEvents
           },
           {path: '/events/:eventId', element: <EventDetail/>},
           {path: '/events/:eventId/edit', element: <EditEvent/>},
