@@ -24,13 +24,17 @@ export const uiSlice = createSlice({
     },
     setError(state, action: PayloadAction<string>) {
       state.error = action.payload;
+    },
+    resetUiSlice(state) {
+      state.loading = false;
+      state.error = '';
     }
   }
 });
 
 export const uiReducer = uiSlice.reducer;
 
-export const {setLoading, setError} = uiSlice.actions;
+export const {setLoading, setError, resetUiSlice} = uiSlice.actions;
 
 export function sendRequest(
   {method, url, headers, params, data}: AxiosRequest,

@@ -1,7 +1,7 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {AppDispatch} from '../../store';
 import {addPostApi, deletePostApi, getPostApi, getPostsApi, Post} from './post-api';
-import {sendRequest} from '../../components/layout/ui-slice';
+import {resetUiSlice, sendRequest} from '../../components/layout/ui-slice';
 
 export interface PostState {
   total: number;
@@ -30,7 +30,7 @@ export const postSlice = createSlice({
     replacePost(state, action: PayloadAction<Post>) {
       state.post = action.payload;
     },
-    reset(state) {
+    resetPostSlice(state) {
       state.total = 0;
       state.pageNumber = 1;
       state.pageSize = 10;
@@ -42,7 +42,14 @@ export const postSlice = createSlice({
 
 export const postReducer = postSlice.reducer;
 
-export const {replacePosts, replacePost, reset} = postSlice.actions;
+export const {replacePosts, replacePost, resetPostSlice} = postSlice.actions;
+
+export function reset() {
+  return (dispatch: AppDispatch) => {
+    dispatch(resetPostSlice());
+    dispatch(resetUiSlice());
+  };
+}
 
 export function getPostsRequest(pageNumber: number, pageSize: number) {
   return (dispatch: AppDispatch) => {

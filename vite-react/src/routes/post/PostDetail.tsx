@@ -3,7 +3,7 @@ import {useNavigate, useParams} from 'react-router-dom';
 import {useEffect} from 'react';
 import {Button, Empty, Space, Typography} from 'antd';
 import {useAppDispatch, useAppSelector} from '../../store-hooks';
-import {getPostRequest} from './post-slice';
+import {getPostRequest, reset} from './post-slice';
 import {SkeletonLoading} from '../../components/loading/SuspenseLoading';
 import PostTags from './PostTags';
 
@@ -21,7 +21,10 @@ export default function PostDetail() {
     () => {
       const controller = dispatch(getPostRequest(+postId));
 
-      return () => controller.abort();
+      return () => {
+        controller.abort();
+        dispatch(reset());
+      }
     },
     []
   );
