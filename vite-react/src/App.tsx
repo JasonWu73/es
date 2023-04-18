@@ -1,10 +1,10 @@
 import {createBrowserRouter, RouterProvider} from 'react-router-dom';
 import {lazy, ReactNode, useMemo} from 'react';
-import {CalculatorOutlined, EditOutlined, HomeOutlined} from '@ant-design/icons';
+import {CalculatorOutlined, FormOutlined, HomeOutlined} from '@ant-design/icons';
 import {useAppSelector} from './store-hooks';
-import AdminLayout from './components/layout/AdminLayout';
+import AdminLayout from './routes/layout/AdminLayout';
 import Home from './routes/home/Home';
-import ErrorPage from './routes/error/ErrorPage';
+import ErrorBoundary from './routes/error/ErrorBoundary';
 import Secure from './routes/auth/Secure';
 import {delayForDemo} from './utils/promisify';
 import Login from './routes/auth/Login';
@@ -43,7 +43,7 @@ const MENUS: MenuItem[] = [
   },
   {
     title: '文章列表',
-    icon: <EditOutlined/>,
+    icon: <FormOutlined/>,
     authority: 'post',
     children: [
       {
@@ -66,6 +66,7 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <Root/>,
+    errorElement: <ErrorBoundary/>,
     children: [
       {
         element: <AdminLayout/>,
@@ -87,7 +88,7 @@ const router = createBrowserRouter([
         ]
       },
       {path: 'login', element: <Login/>},
-      {path: '*', element: <ErrorPage code={404} message="糟糕！未找到您要访问的页面 :("/>}
+      {path: '*', element: <ErrorBoundary/>}
     ]
   }
 ]);

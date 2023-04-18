@@ -10,15 +10,16 @@ import ErrorPage from './routes/ErrorPage';
 
 const router = createHashRouter([
   {
+    path: '/',
     element: <Root/>,
     errorElement: <ErrorPage/>,
     children: [
-      {path: '/', element: <Home/>},
+      {index: true, element: <Home/>},
       {
         element: <EventNavigation/>,
         children: [
           {
-            path: '/events',
+            path: 'events',
             children: [
               {index: true, element: <EventList/>, loader: loadEvents},
               {
@@ -29,10 +30,10 @@ const router = createHashRouter([
                   {index: true, element: <EventDetail/>, action: deleteEvent},
                   {path: 'edit', element: <EditEvent/>, action: updateEvent}
                 ]
-              }
+              },
+              {path: 'new', element: <NewEvent/>}
             ]
-          },
-          {path: '/events/new', element: <NewEvent/>}
+          }
         ]
       }
     ]

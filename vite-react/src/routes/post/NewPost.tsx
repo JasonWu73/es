@@ -1,39 +1,43 @@
 import {usePageTitle} from '../../hooks/use-page-title';
-import {Button, Form, Input} from 'antd';
-import {useHttp} from '../../hooks/use-http';
+import {Button, Form, Input, Select, Tag} from 'antd';
 import TextArea from 'antd/es/input/TextArea';
 import {useAppDispatch, useAppSelector} from '../../store-hooks';
-import {addPost} from './post-slice';
+import {addPostRequest} from './post-slice';
 import {useNavigate} from 'react-router-dom';
-import {useErrorNotification} from '../../components/layout/use-layout';
-import {addPostApi} from './post-api';
+import {getPostTagColor} from './PostTags';
+import React from 'react';
+
+const TAGS: { label: string, value: string }[] = [
+  {label: 'History', value: 'history'},
+  {label: 'Fiction', value: 'fiction'},
+  {label: 'Crime', value: 'crime'},
+  {label: 'Magical', value: 'magical'},
+  {label: 'Mystery', value: 'mystery'},
+  {label: 'Love', value: 'love'},
+  {label: 'Classic', value: 'classic'}
+];
 
 export default function NewPost() {
   usePageTitle('新增文章');
-
-  const {loading, error, sendRequest} = useHttp();
-
-  useErrorNotification(error);
-
+  const loading = useAppSelector(state => state.ui.loading);
   const userId = useAppSelector(state => state.auth.userId);
   const dispatch = useAppDispatch();
-
   const navigate = useNavigate();
 
-  function handleFormFinish({title, body}: { title: string, body: string }) {
+  function handleFormFinish(values: { tags: string[], title: string, body: string }) {
     const newPost = {
-      title: title.trim(),
-      body: body.trim(),
-      userId
+      userId,
+      tags: values.tags,
+      title: values.title.trim(),
+      body: values.body.trim()
     };
 
-    sendRequest(
-      addPostApi(newPost),
-      newPost => {
-        dispatch(addPost(newPost));
-        navigate('/posts');
-      }
-    );
+    console.log('Add post: ', newPost);
+
+    dispatch(addPostRequest(
+      newPost,
+      () => navigate('/posts')
+    ));
   }
 
   return (
@@ -45,19 +49,51 @@ export default function NewPost() {
       autoComplete="off"
     >
       <Form.Item
-        label="标题"
-        name="title"
-        rules={[{required: true, whitespace: true, message: '标题不能为空'}]}
+        label="标签"
+        name="tags"
+        rules={[{required: true, message: '文章标签不能为空'}]}
       >
-        <Input/>
+        <Select
+          mode="multiple"
+          allowClear
+          style={{width: '100%'}}
+          placeholder="请选择文章所对应的标签"
+          options={TAGS}
+          tagRender={props => {
+            const {label, value, closable, onClose} = props;
+
+            return (
+              <Tag
+                color={getPostTagColor(value)}
+                onMouseDown={e => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                }}
+                closable={closable}
+                onClose={onClose}
+                style={{marginRight: 3}}
+              >
+                {label}
+              </Tag>
+            );
+          }}
+        />
       </Form.Item>
 
       <Form.Item
-        label="内容"
-        name="body"
-        rules={[{required: true, whitespace: true, message: '内容不能为空'}]}
+        label="文章标题"
+        name="title"
+        rules={[{required: true, whitespace: true, message: '文章标题不能为空'}]}
       >
-        <TextArea rows={4}/>
+        <Input placeholder="请输入文章标题"/>
+      </Form.Item>
+
+      <Form.Item
+        label="文章内容"
+        name="body"
+        rules={[{required: true, whitespace: true, message: '文章内容不能为空'}]}
+      >
+        <TextArea placeholder="请输入文章内容" rows={4}/>
       </Form.Item>
 
       <Form.Item wrapperCol={{offset: 4}}>

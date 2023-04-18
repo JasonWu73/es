@@ -27,15 +27,18 @@ export async function sendRequest(
     return [response.data, null];
   } catch (error) {
     const axiosError = error as AxiosError;
-    logoutWhenUnauthorized(axiosError);
+    const isUnauthorizedError = axiosError.response?.status === 401;
+    const isApiRequest = axiosError.request.responseURL.startsWith(getInternalApiBaseUrl());
+
+    if (isUnauthorizedError && isApiRequest) {
+      store.dispatch(logout());
+      return [null, null];
+    }
 
     const errorData: any = axiosError.response?.data;
 
     if (errorData && Object.keys(errorData).length > 0) {
-      const errorMessage =
-        errorData.error ||
-        errorData.message ||
-        JSON.stringify(errorData);
+      const errorMessage = errorData.error || errorData.message || JSON.stringify(errorData);
       return [null, errorMessage];
     }
 
@@ -70,16 +73,18 @@ export function useHttp() {
         if (controller.signal.aborted) return;
 
         const axiosError = error as AxiosError;
-        logoutWhenUnauthorized(axiosError);
+        const isUnauthorizedError = axiosError.response?.status === 401;
+        const isApiRequest = axiosError.request.responseURL.startsWith(getInternalApiBaseUrl());
+
+        if (isUnauthorizedError && isApiRequest) {
+          store.dispatch(logout());
+          return;
+        }
 
         const errorData: any = axiosError.response?.data;
 
         if (errorData && Object.keys(errorData).length > 0) {
-          setError(
-            errorData.error ||
-            errorData.message ||
-            JSON.stringify(errorData)
-          );
+          setError(errorData.error || errorData.message || JSON.stringify(errorData));
           return;
         }
 
@@ -95,7 +100,7 @@ export function useHttp() {
   return {loading, error, sendRequest};
 }
 
-function extendHeader(url: string, headers?: object) {
+export function extendHeader(url: string, headers?: object) {
   if (!url.startsWith(getInternalApiBaseUrl())) {
     return headers;
   }
@@ -114,13 +119,4 @@ function extendHeader(url: string, headers?: object) {
   }
 
   return {Authorization: `Bearer ${accessToken}`};
-}
-
-function logoutWhenUnauthorized(axiosError: AxiosError<unknown, any>) {
-  const isUnauthorizedError = axiosError.response?.status === 401;
-  const isApiRequest = axiosError.request.responseURL.startsWith(getInternalApiBaseUrl());
-
-  if (isUnauthorizedError && isApiRequest) {
-    store.dispatch(logout());
-  }
 }

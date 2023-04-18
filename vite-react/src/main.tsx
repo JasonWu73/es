@@ -1,5 +1,5 @@
-import {createRoot} from 'react-dom/client';
-import App from './App';
+import React from 'react';
+import ReactDOM from 'react-dom/client';
 import {Provider} from 'react-redux';
 import {store} from './store';
 
@@ -13,20 +13,20 @@ import {ConfigProvider} from 'antd';
 import NProgress from 'nprogress';
 import 'nprogress/nprogress.css';
 
+import App from './App';
 import './index.scss';
-import {StrictMode} from 'react';
 
 dayjs.locale('zh-cn');
 
 NProgress.configure({showSpinner: false});
 
-const root = createRoot(document.getElementById('root') as HTMLElement);
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
-  <StrictMode>
+  <React.StrictMode>
     <Provider store={store}>
       <ConfigProvider locale={zhCN}>
         <App/>
       </ConfigProvider>
     </Provider>
-  </StrictMode>
+  </React.StrictMode>
 );
