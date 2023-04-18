@@ -17,14 +17,11 @@ export default function PostDetail() {
 
   if (!postId || isNaN(+postId)) return <Empty/>;
 
-  let isInitial = true;
-
   useEffect(
     () => {
-      if (!isInitial) return;
+      const controller = dispatch(getPostRequest(+postId));
 
-      isInitial = false;
-      dispatch(getPostRequest(+postId));
+      return () => controller.abort();
     },
     []
   );

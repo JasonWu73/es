@@ -89,7 +89,19 @@ export function useHttp() {
         }
 
         setError(axiosError.message);
-      }).finally(() => setLoading(false));
+      }).finally(() => {
+        if (!controller.signal.aborted) {
+          setLoading(false);
+          return;
+        }
+
+        setTimeout(
+          () => {
+            setLoading(false);
+          },
+          1000
+        );
+      });
 
       // controller.abort();
       return controller;

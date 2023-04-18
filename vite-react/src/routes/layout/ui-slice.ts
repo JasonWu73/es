@@ -71,7 +71,19 @@ export function sendRequest(
       }
 
       dispatch(setError(axiosError.message));
-    }).finally(() => dispatch(setLoading(false)));
+    }).finally(() => {
+      if (!controller.signal.aborted) {
+        dispatch(setLoading(false));
+        return;
+      }
+
+      setTimeout(
+        () => {
+          dispatch(setLoading(false));
+        },
+        1000
+      );
+    });
 
     // controller.abort();
     return controller;

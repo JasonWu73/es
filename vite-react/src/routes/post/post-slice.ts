@@ -60,7 +60,7 @@ export function getPostsRequest(pageNumber: number, pageSize: number) {
 
 export function getPostRequest(postId: number) {
   return (dispatch: AppDispatch) => {
-    dispatch(sendRequest(
+    return dispatch(sendRequest(
       getPostApi(postId),
       data => dispatch(replacePost(data))
     ));
