@@ -2,8 +2,9 @@ import {useCallback, useState} from 'react';
 import {apiAxios} from '../utils/http';
 import {AxiosError} from 'axios';
 import {getInternalApiBaseUrl} from '../config';
-import {logout} from '../routes/auth/auth-slice';
+import {logout, tryUpdateAccessToken} from '../routes/auth/auth-slice';
 import {store} from '../store';
+import {isAuthApi} from '../routes/auth/auth-api';
 
 export interface AxiosRequest {
   method: 'get' | 'post' | 'put' | 'delete';
@@ -43,6 +44,10 @@ export async function sendRequest(
     }
 
     return [null, axiosError.message];
+  } finally {
+    if (!isAuthApi(url)) {
+      store.dispatch(tryUpdateAccessToken());
+    }
   }
 }
 
@@ -92,6 +97,10 @@ export function useHttp() {
       }).finally(() => {
         if (!controller.signal.aborted) {
           setLoading(false);
+
+          if (!isAuthApi(url)) {
+            store.dispatch(tryUpdateAccessToken());
+          }
           return;
         }
 
@@ -113,15 +122,10 @@ export function useHttp() {
 }
 
 export function extendHeader(url: string, headers?: object) {
-  if (!url.startsWith(getInternalApiBaseUrl())) {
-    return headers;
-  }
+  if (!url.startsWith(getInternalApiBaseUrl())) return headers;
 
   const accessToken = store.getState().auth.accessToken;
-
-  if (!accessToken) {
-    return headers;
-  }
+  if (!accessToken) return headers;
 
   if (headers) {
     return {

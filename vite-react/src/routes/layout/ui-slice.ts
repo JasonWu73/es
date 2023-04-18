@@ -4,7 +4,8 @@ import {AxiosError} from 'axios';
 import {AxiosRequest, extendHeader} from '../../hooks/use-http';
 import {AppDispatch} from '../../store';
 import {getInternalApiBaseUrl} from '../../config';
-import {logout} from '../auth/auth-slice';
+import {logout, tryUpdateAccessToken} from '../auth/auth-slice';
+import {isAuthApi} from '../auth/auth-api';
 
 export interface LayoutState {
   loading: boolean;
@@ -74,6 +75,10 @@ export function sendRequest(
     }).finally(() => {
       if (!controller.signal.aborted) {
         dispatch(setLoading(false));
+
+        if (!isAuthApi(url)) {
+          dispatch(tryUpdateAccessToken());
+        }
         return;
       }
 

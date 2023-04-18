@@ -15,7 +15,7 @@ export function getAccessTokenApi(data: { username: string, password: string }):
   // };
 }
 
-export function refreshAccessTokenApi(refreshToken: string): AxiosRequest {
+export function updateAccessTokenApi(refreshToken: string): AxiosRequest {
   return {
     method: 'post',
     url: 'https://dummyjson.com/auth/login',
@@ -39,4 +39,10 @@ export function mockHttpApi(httpStatusCode: number): AxiosRequest {
     method: 'get',
     url: `https://dummyjson.com/http/${httpStatusCode}`
   };
+}
+
+export function isAuthApi(url: string) {
+  return url.startsWith(`${getInternalApiBaseUrl()}/auth/login`);
+
+  // return url.startsWith(`${getInternalApiBaseUrl()}/api/v1/token`);
 }

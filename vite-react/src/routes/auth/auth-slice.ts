@@ -1,5 +1,9 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {AppDispatch} from '../../store';
+import {AppDispatch, RootState} from '../../store';
+import {updateAccessTokenApi} from './auth-api';
+import {apiAxios} from '../../utils/http';
+import {AxiosError} from 'axios';
+import {getInternalApiBaseUrl} from '../../config';
 
 export interface AuthState {
   userId: number;
@@ -70,6 +74,53 @@ export function logout(callback?: () => void) {
     dispatch(clearAuth());
     clearLocalStorage();
     callback && callback();
+  };
+}
+
+let pending = false;
+
+export function tryUpdateAccessToken() {
+  return async (dispatch: AppDispatch, getState: () => RootState) => {
+    if (pending) return;
+
+    const {expiredAt, refreshToken} = getState().auth;
+
+    const currentTimestampSeconds = Math.floor(new Date().getTime() / 1000);
+    const countdownSeconds = expiredAt - currentTimestampSeconds;
+    const updateWhenLessThanSeconds = 60;
+
+    if (countdownSeconds <= updateWhenLessThanSeconds) {
+      pending = true;
+      const expiresInSeconds = 120;
+      const currentTimestampSeconds = Math.floor(new Date().getTime() / 1000);
+      const expiredAt = currentTimestampSeconds + expiresInSeconds;
+
+      try {
+        const {data} = await apiAxios(updateAccessTokenApi(refreshToken));
+
+        dispatch(
+          login({
+            userId: 7,
+            username: 'refreshed_admin',
+            expiredAt: expiredAt,
+            accessToken: data.token,
+            refreshToken: data.token,
+            authorities: ['counter', 'post'],
+            nickname: data.token.slice(-10)
+          })
+        );
+
+        pending = false;
+      } catch (error) {
+        const axiosError = error as AxiosError;
+        const isUnauthorizedError = axiosError.response?.status === 401;
+        const isApiRequest = axiosError.request.responseURL.startsWith(getInternalApiBaseUrl());
+
+        if (isUnauthorizedError && isApiRequest) {
+          dispatch(logout());
+        }
+      }
+    }
   };
 }
 

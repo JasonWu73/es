@@ -1,9 +1,7 @@
 import {useAppDispatch, useAppSelector} from '../../store-hooks';
 import {useLocation, useNavigate} from 'react-router-dom';
 import {useEffect} from 'react';
-import {login, logout, tryLogin} from './auth-slice';
-import {useHttp} from '../../hooks/use-http';
-import {refreshAccessTokenApi} from './auth-api';
+import {logout, tryLogin, tryUpdateAccessToken} from './auth-slice';
 
 export function useTryLogin() {
   const dispatch = useAppDispatch();
@@ -50,11 +48,10 @@ export function useAutoLogout() {
   );
 }
 
-export function useAutoRefreshAuth() {
+export function useAutoUpdateAuth() {
   const {pathname} = useLocation();
   const {expiredAt, refreshToken} = useAppSelector(state => state.auth);
   const dispatch = useAppDispatch();
-  const {sendRequest} = useHttp();
 
   useEffect(
     () => {
@@ -62,43 +59,8 @@ export function useAutoRefreshAuth() {
 
       if (!expiredAt || !refreshToken) return;
 
-      const currentTimestampSeconds = Math.floor(new Date().getTime() / 1000);
-      const countdownSeconds = expiredAt - currentTimestampSeconds;
-      const refreshWhenLessThanSeconds = 120;
-      let timeout: number;
-
-      if (countdownSeconds <= refreshWhenLessThanSeconds) {
-        timeout = window.setTimeout(
-          () => {
-            const expiresInSeconds = 300;
-            const currentTimestampSeconds = Math.floor(new Date().getTime() / 1000);
-            const expiredAt = currentTimestampSeconds + expiresInSeconds;
-
-            sendRequest(
-              refreshAccessTokenApi(refreshToken),
-              (data: { token: string }) => {
-                dispatch(
-                  login({
-                    userId: 7,
-                    username: 'refreshed_admin',
-                    expiredAt: expiredAt,
-                    accessToken: data.token,
-                    refreshToken: data.token,
-                    authorities: ['counter', 'post'],
-                    nickname: 'Refreshed Admin'
-                  })
-                );
-              }
-            );
-          },
-          5000
-        );
-      }
-
-      return () => {
-        timeout && window.clearTimeout(timeout);
-      };
+      dispatch(tryUpdateAccessToken());
     },
-    [pathname]
+    [pathname, expiredAt, refreshToken]
   );
 }
