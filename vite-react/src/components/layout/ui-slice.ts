@@ -4,10 +4,10 @@ import {AxiosError} from 'axios';
 import {AxiosRequest, extendHeader} from '../../hooks/use-http';
 import {AppDispatch} from '../../store';
 import {getInternalApiBaseUrl} from '../../config';
-import {logout, tryUpdateAccessToken} from '../auth/auth-slice';
-import {isAuthApi} from '../auth/auth-api';
+import {logout, tryUpdateAccessToken} from '../../routes/auth/auth-slice';
+import {isAuthApi} from '../../routes/auth/auth-api';
 
-export interface LayoutState {
+interface UiState {
   loading: boolean;
   error: string;
 }
@@ -17,7 +17,7 @@ export const uiSlice = createSlice({
   initialState: {
     loading: false,
     error: ''
-  } as LayoutState,
+  } as UiState,
   reducers: {
     setLoading(state, action: PayloadAction<boolean>) {
       state.loading = action.payload;

@@ -6,7 +6,7 @@ import NewEvent from './routes/NewEvent';
 import EditEvent, {updateEvent} from './routes/EditEvent';
 import Root from './routes/Root';
 import EventNavigation from './components/EventNavigation';
-import ErrorPage from './routes/ErrorPage';
+import ErrorPage from '../../components/error/ErrorPage';
 
 const router = createHashRouter([
   {

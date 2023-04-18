@@ -1,7 +1,6 @@
 import classes from './Login.module.scss';
 import {usePageTitle} from '../../hooks/use-page-title';
 import {Alert, Button, Form, Input, Layout, Typography} from 'antd';
-import {FooterLayout} from '../layout/AdminLayout';
 import bg from '../../assets/img/ant-design-pro-background.svg';
 import {LockOutlined, UserOutlined} from '@ant-design/icons';
 import {useAppDispatch} from '../../store-hooks';
@@ -10,6 +9,7 @@ import {useLocation, useNavigate} from 'react-router-dom';
 import {useHttp} from '../../hooks/use-http';
 import {getAccessTokenApi} from './auth-api';
 import {useState} from 'react';
+import FooterLayout from '../../components/layout/FooterLayout';
 
 export default function Login() {
   usePageTitle('登录');

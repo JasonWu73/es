@@ -9,7 +9,7 @@ export default function EventList() {
 
   return (
     <>
-      <ul>
+      <ul style={{listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '1rem'}}>
         {events.map(event =>
           <li key={event.id}>
             <Link to={event.id + ''}>{event.title}</Link>

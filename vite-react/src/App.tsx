@@ -2,9 +2,9 @@ import {createBrowserRouter, RouterProvider} from 'react-router-dom';
 import {lazy, ReactNode, useMemo} from 'react';
 import {CalculatorOutlined, FormOutlined, HomeOutlined} from '@ant-design/icons';
 import {useAppSelector} from './store-hooks';
-import AdminLayout from './routes/layout/AdminLayout';
+import AdminLayout from './routes/AdminLayout';
 import Home from './routes/home/Home';
-import ErrorBoundary from './routes/error/ErrorBoundary';
+import ErrorPage from './components/error/ErrorPage';
 import Secure from './routes/auth/Secure';
 import {delayForDemo} from './utils/promisify';
 import Login from './routes/auth/Login';
@@ -12,14 +12,6 @@ import PostList from './routes/post/PostList';
 import PostDetail from './routes/post/PostDetail';
 import NewPost from './routes/post/NewPost';
 import Root from './routes/Root';
-
-export const PAGES = [
-  {
-    title: 'Learning',
-    url: '/learning/index.html',
-    description: 'Learning never exhausts the mind.'
-  }
-];
 
 export interface MenuItem {
   title: string;
@@ -66,7 +58,7 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <Root/>,
-    errorElement: <ErrorBoundary/>,
+    errorElement: <ErrorPage/>,
     children: [
       {
         element: <AdminLayout/>,
@@ -88,7 +80,7 @@ const router = createBrowserRouter([
         ]
       },
       {path: 'login', element: <Login/>},
-      {path: '*', element: <ErrorBoundary/>}
+      {path: '*', element: <ErrorPage/>}
     ]
   }
 ]);

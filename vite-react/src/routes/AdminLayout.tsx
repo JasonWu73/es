@@ -1,13 +1,11 @@
-import {Alert, Breadcrumb, Button, Layout, Menu, Space, theme, Typography} from 'antd';
-import {Link, Outlet, useLocation, useNavigate} from 'react-router-dom';
-import Copyright from '../../components/copyright/Copyright';
-import {CSSProperties, ReactNode, useEffect, useMemo, useState} from 'react';
-import {LoginOutlined, PoweroffOutlined, UserOutlined} from '@ant-design/icons';
-import {useAppDispatch, useAppSelector} from '../../store-hooks';
-import {logout} from '../auth/auth-slice';
-import {MenuItem, PAGES, useAuthorizedMenus} from '../../App';
-import {useHttp} from '../../hooks/use-http';
-import {mockHttpApi} from '../auth/auth-api';
+import {Alert, Breadcrumb, Layout, Menu, Space} from 'antd';
+import {Link, Outlet, useLocation} from 'react-router-dom';
+import {CSSProperties, useEffect, useMemo, useState} from 'react';
+import {useAppSelector} from '../store-hooks';
+import {MenuItem, useAuthorizedMenus} from '../App';
+import FooterLayout from '../components/layout/FooterLayout';
+import HeaderLayout from '../components/layout/HeaderLayout';
+import {ContentLayout} from '../components/layout/ContentLayout';
 
 export default function AdminLayout() {
   const {pathname} = useLocation();
@@ -48,52 +46,6 @@ export default function AdminLayout() {
   );
 }
 
-export function HeaderLayout() {
-  const {sendRequest} = useHttp();
-
-  const topBarMenus = PAGES.map(page => {
-    return {
-      key: page.url,
-      label: <a href={page.url}>{page.title}</a>
-    };
-  });
-
-  topBarMenus.unshift({
-    key: 'Unauthorized',
-    label: <a onClick={() => sendRequest(mockHttpApi(401))}>
-      Mock Unauthorized
-    </a>
-  });
-
-  topBarMenus.unshift({
-    key: '/counter',
-    label: <Link to="/counter">计数器</Link>
-  });
-
-  return (
-    <Layout.Header style={{display: 'flex', alignItems: 'center', gap: '1rem'}}>
-      <Link to="/" style={{display: 'flex', alignItems: 'center'}}>
-        <img src="/vite.svg" alt="Vite logo"/>
-        <Typography.Title level={2} style={{color: 'white', marginBottom: 0}}>
-          Vite + React + TS
-        </Typography.Title>
-      </Link>
-
-      <Menu theme="dark" mode="horizontal" selectable={false} items={topBarMenus}/>
-
-      <AuthButton/>
-    </Layout.Header>
-  );
-}
-
-export function FooterLayout() {
-  return (
-    <Layout.Footer style={{textAlign: 'center'}}>
-      <Copyright/>
-    </Layout.Footer>
-  );
-}
-
 interface PathSnippet {
   url: string;
   title: string;
@@ -130,37 +82,6 @@ function usePathSnippets(menus: MenuItem[]): PathSnippet[] {
       }
     },
     [menus, pathname]
-  );
-}
-
-function AuthButton() {
-  const {username, nickname} = useAppSelector(state => state.auth);
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-
-  return (
-    <div style={{marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: '1rem'}}>
-      {
-        username &&
-        <Typography.Text strong style={{color: 'white', fontSize: '1.6rem'}}>
-          <UserOutlined/> {nickname || username}
-        </Typography.Text>
-      }
-
-      {
-        username &&
-        <Button type="primary" icon={<PoweroffOutlined/>} onClick={() => dispatch(logout())}>
-          注销
-        </Button>
-      }
-
-      {
-        !username &&
-        <Button type="primary" icon={<LoginOutlined/>} onClick={() => navigate('/login')}>
-          登录
-        </Button>
-      }
-    </div>
   );
 }
 
@@ -299,22 +220,5 @@ function useBreadcrumbItems(paths: PathSnippet[]) {
       ].concat(prevBreadcrumbItems);
     },
     [paths]
-  );
-}
-
-function ContentLayout({children}: { children: ReactNode }) {
-  const {token: {colorBgContainer}} = theme.useToken();
-
-  return (
-    <Layout.Content
-      style={{
-        padding: '2.4rem',
-        margin: 0,
-        minHeight: '28rem',
-        background: colorBgContainer
-      }}
-    >
-      {children}
-    </Layout.Content>
   );
 }

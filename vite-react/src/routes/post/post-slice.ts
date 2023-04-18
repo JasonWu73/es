@@ -1,7 +1,7 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {AppDispatch} from '../../store';
 import {addPostApi, deletePostApi, getPostApi, getPostsApi, Post} from './post-api';
-import {sendRequest} from '../layout/ui-slice';
+import {sendRequest} from '../../components/layout/ui-slice';
 
 export interface PostState {
   total: number;
