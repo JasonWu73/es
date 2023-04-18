@@ -30,7 +30,7 @@ export const postSlice = createSlice({
     replacePost(state, action: PayloadAction<Post>) {
       state.post = action.payload;
     },
-    resetPost(state) {
+    reset(state) {
       state.total = 0;
       state.pageNumber = 1;
       state.pageSize = 10;
@@ -42,7 +42,7 @@ export const postSlice = createSlice({
 
 export const postReducer = postSlice.reducer;
 
-export const {replacePosts, replacePost, resetPost} = postSlice.actions;
+export const {replacePosts, replacePost, reset} = postSlice.actions;
 
 export function getPostsRequest(pageNumber: number, pageSize: number) {
   return async (dispatch: AppDispatch) => {
