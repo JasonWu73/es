@@ -1,6 +1,6 @@
 import {usePageTitle} from '../../hooks/use-page-title';
 import {useEffect} from 'react';
-import {Button, Popconfirm, Space, Table, TablePaginationConfig, Typography} from 'antd';
+import {Button, Popconfirm, Space, Table, Typography} from 'antd';
 import {Link} from 'react-router-dom';
 import {deletePostRequest, getPostsRequest, reset} from './post-slice';
 import {useAppDispatch, useAppSelector} from '../../store-hooks';
@@ -30,18 +30,11 @@ export default function PostList() {
     []
   );
 
-  function handleTableChange(pagination: TablePaginationConfig) {
-    dispatch(getPostsRequest(
-      pagination.current!,
-      pagination.pageSize!
-    ));
-  }
-
   return (
     <Space direction="vertical" style={{width: '100%'}}>
       <Button
         type="primary"
-        onClick={() => dispatch(getPostsRequest(pageNumber, pageSize))}
+        onClick={() => dispatch(getPostsRequest(1, 10))}
       >
         刷新列表
       </Button>
@@ -55,7 +48,10 @@ export default function PostList() {
           current: pageNumber,
           pageSize: pageSize
         }}
-        onChange={handleTableChange}
+        onChange={(pagination) => dispatch(getPostsRequest(
+          pagination.current!,
+          pagination.pageSize!
+        ))}
       >
         <Column title="文章 ID" dataIndex="id" key="id" width="5%"/>
         <Column title="文章标题" dataIndex="title" key="title" width="50%"/>
