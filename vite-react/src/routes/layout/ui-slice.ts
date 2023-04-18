@@ -12,7 +12,7 @@ export interface LayoutState {
 }
 
 export const uiSlice = createSlice({
-  name: 'layout',
+  name: 'ui',
   initialState: {
     loading: false,
     error: ''
