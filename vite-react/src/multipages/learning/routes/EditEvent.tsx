@@ -1,6 +1,14 @@
 import classes from './EditEvent.module.scss';
 import Button from '../../../components/button/Button';
-import {useRouteLoaderData, useNavigate, useSubmit, json, redirect, useNavigation} from 'react-router-dom';
+import {
+  useRouteLoaderData,
+  useNavigate,
+  useSubmit,
+  json,
+  redirect,
+  useNavigation,
+  useActionData
+} from 'react-router-dom';
 import {FormEvent, useRef} from 'react';
 import {sendRequest} from '../../../hooks/use-http';
 
@@ -15,6 +23,7 @@ export default function EditEvent() {
   const descriptionRef = useRef<HTMLInputElement>(null);
   const submit = useSubmit();
   const navigation = useNavigation();
+  const errors = useActionData() as { title?: string, description?: string };
 
   const isSubmitting = navigation.state === 'submitting';
 
@@ -38,10 +47,12 @@ export default function EditEvent() {
       <div>
         <label htmlFor="title">Title</label>
         <input type="text" id="title" name="title" ref={titleRef} defaultValue={title}/>
+        {errors?.title && <span>{errors.title}</span>}
       </div>
       <div>
         <label htmlFor="description">Description</label>
         <input type="text" id="description" name="description" ref={descriptionRef} defaultValue={description}/>
+        {errors?.description && <span>{errors.description}</span>}
       </div>
       <div>
         <Button type="button" onClick={() => navigate('..', {relative: 'path'})} disabled={isSubmitting}>Cancel</Button>
@@ -53,14 +64,24 @@ export default function EditEvent() {
 
 export async function updateEvent({params, request}: { params: any, request: Request }) {
   const formData = await request.formData();
+  const title = formData.get('title') as string;
+  const description = formData.get('description') as string;
+  const errors: { title?: string, description?: string } = {};
+
+  if (title.length <= 0) {
+    errors.title = 'Title must not be empty';
+  }
+
+  if (description.length <= 0) {
+    errors.description = 'Description must not be empty';
+  }
+
+  if (Object.keys(errors).length) return errors;
 
   const [data, error] = await sendRequest({
     method: 'put',
     url: `https://dummyjson.com/products/${params.eventId}`,
-    data: {
-      title: formData.get('title'),
-      description: formData.get('description')
-    }
+    data: {title, description}
   });
 
   if (error) {
