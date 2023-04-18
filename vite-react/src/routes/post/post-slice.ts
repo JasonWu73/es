@@ -1,22 +1,7 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {AppDispatch} from '../../store';
-import {addPostApi, deletePostApi, getPostApi, getPostsApi} from './post-api';
+import {addPostApi, deletePostApi, getPostApi, getPostsApi, NewPost, Post} from './post-api';
 import {sendRequest} from '../layout/ui-slice';
-
-export interface Post {
-  id: number;
-  userId: number;
-  tags: string[];
-  title: string;
-  body: string;
-}
-
-export interface NewPost {
-  userId: number;
-  tags: string[];
-  title: string;
-  body: string;
-}
 
 export interface PostState {
   posts: Post[];

@@ -2,11 +2,12 @@ import {usePageTitle} from '../../hooks/use-page-title';
 import {useEffect} from 'react';
 import {Button, Popconfirm, Space, Table, Typography} from 'antd';
 import {Link} from 'react-router-dom';
-import {deletePostRequest, getPostsRequest, Post} from './post-slice';
+import {deletePostRequest, getPostsRequest} from './post-slice';
 import {useAppDispatch, useAppSelector} from '../../store-hooks';
 import Column from 'antd/es/table/Column';
 import {DeleteOutlined, EditOutlined} from '@ant-design/icons';
 import PostTags from './PostTags';
+import {Post} from './post-api';
 
 export default function PostList() {
   usePageTitle('所有文章');

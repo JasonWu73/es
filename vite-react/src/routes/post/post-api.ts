@@ -1,5 +1,19 @@
 import {AxiosRequest} from '../../hooks/use-http';
-import {NewPost} from './post-slice';
+
+export interface Post {
+  id: number;
+  userId: number;
+  tags: string[];
+  title: string;
+  body: string;
+}
+
+export interface NewPost {
+  userId: number;
+  tags: string[];
+  title: string;
+  body: string;
+}
 
 const BASE_URL = 'https://dummyjson.com';
 
@@ -25,13 +39,7 @@ export function addPostApi(post: NewPost): AxiosRequest {
   };
 }
 
-export function updatePostApi(post: {
-  id: number;
-  userId: number;
-  tags: string[];
-  title: string;
-  body: string;
-}): AxiosRequest {
+export function updatePostApi(post: Post): AxiosRequest {
   return {
     method: 'post',
     url: `${BASE_URL}/posts/add`,
