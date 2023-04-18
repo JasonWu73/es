@@ -1,14 +1,7 @@
 import {AxiosRequest} from '../../hooks/use-http';
 
 export interface Post {
-  id: number;
-  userId: number;
-  tags: string[];
-  title: string;
-  body: string;
-}
-
-export interface NewPost {
+  id?: number;
   userId: number;
   tags: string[];
   title: string;
@@ -17,10 +10,14 @@ export interface NewPost {
 
 const BASE_URL = 'https://dummyjson.com';
 
-export function getPostsApi(): AxiosRequest {
+export function getPostsApi(pageNumber: number, pageSize: number): AxiosRequest {
   return {
     method: 'get',
-    url: `${BASE_URL}/posts`
+    url: `${BASE_URL}/posts`,
+    params: {
+      limit: pageSize,
+      skip: (pageNumber - 1) * pageSize
+    }
   };
 }
 
@@ -31,7 +28,7 @@ export function getPostApi(postId: number): AxiosRequest {
   };
 }
 
-export function addPostApi(post: NewPost): AxiosRequest {
+export function addPostApi(post: Post): AxiosRequest {
   return {
     method: 'post',
     url: `${BASE_URL}/posts/add`,

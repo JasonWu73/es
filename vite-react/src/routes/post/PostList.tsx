@@ -1,6 +1,6 @@
 import {usePageTitle} from '../../hooks/use-page-title';
 import {useEffect} from 'react';
-import {Button, Popconfirm, Space, Table, Typography} from 'antd';
+import {Popconfirm, Space, Table, TablePaginationConfig, Typography} from 'antd';
 import {Link} from 'react-router-dom';
 import {deletePostRequest, getPostsRequest, resetPost} from './post-slice';
 import {useAppDispatch, useAppSelector} from '../../store-hooks';
@@ -12,6 +12,9 @@ import {Post} from './post-api';
 export default function PostList() {
   usePageTitle('所有文章');
   const loading = useAppSelector(state => state.ui.loading);
+  const total = useAppSelector(state => state.post.total);
+  const pageNumber = useAppSelector(state => state.post.pageNumber);
+  const pageSize = useAppSelector(state => state.post.pageSize);
   const posts = useAppSelector(state => state.post.posts);
   const dispatch = useAppDispatch();
 
@@ -22,7 +25,7 @@ export default function PostList() {
       if (!isInitial) return;
 
       isInitial = false;
-      dispatch(getPostsRequest());
+      dispatch(getPostsRequest(pageNumber, pageSize));
 
       return () => {
         dispatch(resetPost());
@@ -31,11 +34,26 @@ export default function PostList() {
     []
   );
 
+  function handleTableChange(pagination: TablePaginationConfig) {
+    dispatch(getPostsRequest(
+      pagination.current!,
+      pagination.pageSize!
+    ));
+  }
+
   return (
     <Space direction="vertical" style={{width: '100%'}}>
-      <Button type="primary" onClick={() => dispatch(getPostsRequest())}>刷新列表</Button>
-
-      <Table rowKey="id" dataSource={posts} loading={loading}>
+      <Table
+        rowKey="id"
+        dataSource={posts}
+        loading={loading}
+        pagination={{
+          total: total,
+          current: pageNumber,
+          pageSize: pageSize
+        }}
+        onChange={handleTableChange}
+      >
         <Column title="文章 ID" dataIndex="id" key="id" width="5%"/>
         <Column title="文章标题" dataIndex="title" key="title" width="50%"/>
         <Column
@@ -57,7 +75,7 @@ export default function PostList() {
                 <Popconfirm
                   title="删除文章"
                   description="您确定要删除此文章吗？"
-                  onConfirm={() => dispatch(deletePostRequest(post.id))}
+                  onConfirm={() => dispatch(deletePostRequest(post.id!))}
                   okText="确认"
                   cancelText="取消"
                 >

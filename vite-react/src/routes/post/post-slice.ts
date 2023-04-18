@@ -1,27 +1,39 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {AppDispatch} from '../../store';
-import {addPostApi, deletePostApi, getPostApi, getPostsApi, NewPost, Post} from './post-api';
+import {addPostApi, deletePostApi, getPostApi, getPostsApi, Post} from './post-api';
 import {sendRequest} from '../layout/ui-slice';
 
 export interface PostState {
+  total: number;
+  pageNumber: number;
+  pageSize: number;
   posts: Post[];
-  post: Post | null;
+  post?: Post | null;
 }
 
 export const postSlice = createSlice({
   name: 'post',
   initialState: {
+    total: 0,
+    pageNumber: 1,
+    pageSize: 10,
     posts: [],
     post: null
   } as PostState,
   reducers: {
-    replacePosts(state, action: PayloadAction<Post[]>) {
-      state.posts = action.payload;
+    replacePosts(state, action: PayloadAction<PostState>) {
+      state.total = action.payload.total;
+      state.pageNumber = action.payload.pageNumber;
+      state.pageSize = action.payload.pageSize;
+      state.posts = action.payload.posts;
     },
     replacePost(state, action: PayloadAction<Post>) {
       state.post = action.payload;
     },
     resetPost(state) {
+      state.total = 0;
+      state.pageNumber = 1;
+      state.pageSize = 10;
       state.posts = [];
       state.post = null;
     }
@@ -32,11 +44,16 @@ export const postReducer = postSlice.reducer;
 
 export const {replacePosts, replacePost, resetPost} = postSlice.actions;
 
-export function getPostsRequest() {
+export function getPostsRequest(pageNumber: number, pageSize: number) {
   return async (dispatch: AppDispatch) => {
     dispatch(sendRequest(
-      getPostsApi(),
-      data => dispatch(replacePosts(data.posts))
+      getPostsApi(pageNumber, pageSize),
+      data => dispatch(replacePosts({
+        total: data.total,
+        pageNumber: pageNumber,
+        pageSize: pageSize,
+        posts: data.posts
+      }))
     ));
   };
 }
@@ -50,7 +67,7 @@ export function getPostRequest(postId: number) {
   };
 }
 
-export function addPostRequest(post: NewPost, callback?: () => void) {
+export function addPostRequest(post: Post, callback?: () => void) {
   return async (dispatch: AppDispatch) => {
     dispatch(sendRequest(
       addPostApi(post),
