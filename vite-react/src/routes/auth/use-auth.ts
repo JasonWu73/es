@@ -23,6 +23,8 @@ export function useTryLogin() {
   );
 }
 
+let isInitial = true;
+
 export function useAutoLogout() {
   const expiredAt = useAppSelector(state => state.auth.expiredAt);
   const dispatch = useAppDispatch();
@@ -30,6 +32,10 @@ export function useAutoLogout() {
 
   useEffect(
     () => {
+      if (isInitial) return;
+
+      isInitial = false;
+
       if (expiredAt <= 0) {
         navigate('/login', {replace: true});
         return;
