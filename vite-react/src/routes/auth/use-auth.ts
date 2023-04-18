@@ -30,15 +30,16 @@ export function useAutoLogout() {
 
   useEffect(
     () => {
-      if (expiredAt <= 0) return;
+      if (expiredAt <= 0) {
+        navigate('/login', {replace: true});
+        return;
+      }
 
       const currentTimestamp = new Date().getTime();
       const countdownMilliseconds = expiredAt * 1000 - currentTimestamp;
 
       const timeout = window.setTimeout(
-        () => {
-          dispatch(logout(() => navigate('/login', {replace: true})));
-        },
+        () => dispatch(logout()),
         countdownMilliseconds
       );
 

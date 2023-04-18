@@ -66,14 +66,22 @@ function AuthButton() {
 
       {
         username &&
-        <Button type="primary" icon={<PoweroffOutlined/>} onClick={() => dispatch(logout())}>
+        <Button
+          type="primary"
+          icon={<PoweroffOutlined/>}
+          onClick={() => dispatch(logout())}
+        >
           注销
         </Button>
       }
 
       {
         !username &&
-        <Button type="primary" icon={<LoginOutlined/>} onClick={() => navigate('/login')}>
+        <Button
+          type="primary"
+          icon={<LoginOutlined/>}
+          onClick={() => navigate('/login')}
+        >
           登录
         </Button>
       }

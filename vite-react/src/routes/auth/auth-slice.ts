@@ -113,11 +113,10 @@ export function tryLogin(callback: () => void) {
   };
 }
 
-export function logout(callback?: () => void) {
+export function logout() {
   return (dispatch: AppDispatch) => {
     dispatch(clearAuth());
     clearLocalStorage();
-    callback && callback();
   };
 }
 
