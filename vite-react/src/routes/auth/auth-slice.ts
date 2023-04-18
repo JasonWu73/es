@@ -1,9 +1,10 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {AppDispatch, RootState} from '../../store';
-import {updateAccessTokenApi} from './auth-api';
+import {getAccessTokenApi, updateAccessTokenApi} from './auth-api';
 import {apiAxios} from '../../utils/http';
 import {AxiosError} from 'axios';
 import {getInternalApiBaseUrl} from '../../config';
+import {sendRequest} from '../../components/layout/ui-slice';
 
 export interface AuthState {
   userId: number;
@@ -51,6 +52,49 @@ export const authSlice = createSlice({
 export const authReducer = authSlice.reducer;
 
 export const {setAuth, clearAuth} = authSlice.actions;
+
+export function getAccessTokenRequest(
+  username: string,
+  password: string,
+  callback: () => void
+) {
+  const isValidUsername = username === 'admin' || username === 'user';
+  const isValidPassword = password === '123';
+
+  return (dispatch: AppDispatch) => {
+    dispatch(sendRequest(
+      getAccessTokenApi({
+        username: isValidUsername ? 'kminchelle' : username,
+        password: isValidPassword ? '0lelplR' : password
+      }),
+      data => {
+        const {token: accessToken} = data;
+
+        const expiresInSeconds = 30;
+        const currentTimestampSeconds = Math.floor(new Date().getTime() / 1000);
+        const expiredAt = currentTimestampSeconds + expiresInSeconds;
+
+        const userId = username === 'admin' ? 1 : 2;
+        const authorities = username === 'admin' ? ['counter', 'post'] : ['post'];
+        const nickname = username === 'admin' ? '测试管理员' : '测试用户';
+
+        const authData = {
+          userId,
+          username,
+          expiredAt,
+          accessToken,
+          refreshToken: accessToken,
+          authorities,
+          nickname
+        };
+
+        dispatch(login(authData));
+
+        callback();
+      }
+    ));
+  };
+}
 
 export function login(auth: AuthState) {
   return (dispatch: AppDispatch) => {

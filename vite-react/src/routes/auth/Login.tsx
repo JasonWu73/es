@@ -3,12 +3,9 @@ import {usePageTitle} from '../../hooks/use-page-title';
 import {Alert, Button, Form, Input, Layout, Typography} from 'antd';
 import bg from '../../assets/img/ant-design-pro-background.svg';
 import {LockOutlined, UserOutlined} from '@ant-design/icons';
-import {useAppDispatch} from '../../store-hooks';
-import {login} from './auth-slice';
+import {useAppDispatch, useAppSelector} from '../../store-hooks';
+import {getAccessTokenRequest} from './auth-slice';
 import {useLocation, useNavigate} from 'react-router-dom';
-import {useHttp} from '../../hooks/use-http';
-import {getAccessTokenApi} from './auth-api';
-import {useState} from 'react';
 import FooterLayout from '../../components/layout/FooterLayout';
 
 export default function Login() {
@@ -43,55 +40,22 @@ export default function Login() {
 }
 
 function LoginForm() {
-  const {loading, error, sendRequest} = useHttp();
-  const [fakeError, setFakeError] = useState('');
+  const {loading, error} = useAppSelector(state => state.ui);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const location = useLocation();
 
   const from = location.state?.from?.pathname || '/';
 
-  function handleLoginSubmit(formData: { username: string, password: string }) {
-    setFakeError('');
+  function handleLoginSubmit(values: { username: string, password: string }) {
+    const username = values.username.trim();
+    const password = values.password.trim();
 
-    const username = formData.username.trim();
-    const password = formData.password.trim();
-
-    sendRequest(
-      getAccessTokenApi({
-        username: isValidUsername(username) ? 'kminchelle' : username,
-        password: isValidPassword(password) ? '0lelplR' : password
-
-      }),
-      data => {
-        applyAuth(data, username);
-      }
-    );
-  }
-
-  function applyAuth(data: { token: string }, username: string) {
-    const {token: accessToken} = data;
-
-    const expiresInSeconds = 30;
-    const currentTimestampSeconds = Math.floor(new Date().getTime() / 1000);
-    const expiredAt = currentTimestampSeconds + expiresInSeconds;
-
-    const userId = username === 'admin' ? 1 : 2;
-    const authorities = username === 'admin' ? ['counter', 'post'] : ['post'];
-    const nickname = username === 'admin' ? '测试管理员' : '测试用户';
-
-    const authData = {
-      userId,
+    dispatch(getAccessTokenRequest(
       username,
-      expiredAt,
-      accessToken,
-      refreshToken: accessToken,
-      authorities,
-      nickname
-    };
-
-    dispatch(login(authData));
-    navigate(from, {replace: true});
+      password,
+      () => navigate(from, {replace: true})
+    ));
   }
 
   return (
@@ -102,9 +66,9 @@ function LoginForm() {
       autoComplete="off"
     >
       {
-        (error || fakeError) &&
+        error &&
         <Form.Item>
-          <Alert type="error" message={error || fakeError} showIcon closable/>
+          <Alert type="error" message={error} showIcon closable/>
         </Form.Item>
       }
 
@@ -123,12 +87,4 @@ function LoginForm() {
       </Form.Item>
     </Form>
   );
-}
-
-function isValidUsername(username: string) {
-  return username === 'admin' || username === 'user';
-}
-
-function isValidPassword(password: string) {
-  return password === '123';
 }
