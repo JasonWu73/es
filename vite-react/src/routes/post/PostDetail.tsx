@@ -1,5 +1,5 @@
 import {usePageTitle} from '../../hooks/use-page-title';
-import {useParams} from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import {Dispatch, SetStateAction, useEffect, useState} from 'react';
 import {Button, Empty, Space, Typography} from 'antd';
 import {useAppSelector} from '../../store-hooks';
@@ -11,17 +11,14 @@ import {SkeletonLoading} from '../../components/loading/SuspenseLoading';
 
 export default function PostDetail() {
   const {postId} = useParams();
-
+  usePageTitle(`文章详情 - ${postId}`);
   if (!postId) return <Empty/>;
 
-  usePageTitle(`文章详情 - ${postId}`);
-
   const {loading, error, sendRequest} = useHttp();
-
   useErrorNotification(error);
-
   const posts = useAppSelector(state => state.post.posts);
   const [post, setPost] = useState<Post>();
+  const navigate = useNavigate();
 
   useEffect(
     () => {
@@ -67,6 +64,10 @@ export default function PostDetail() {
 
         <section>
           <Typography.Text>用户 ID：{post.userId ?? ''}</Typography.Text>
+        </section>
+
+        <section>
+          <Button onClick={() => navigate('..')}>返回</Button>
         </section>
       </>
     ) :

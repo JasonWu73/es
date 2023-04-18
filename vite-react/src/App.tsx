@@ -64,20 +64,30 @@ const Counter = lazy(() => delayForDemo(import('./routes/counter/Counter')));
 
 const router = createBrowserRouter([
   {
+    path: '/',
     element: <Root/>,
     children: [
       {
         element: <AdminLayout/>,
         children: [
-          {path: '/', element: <Home/>},
-          {path: '/counter', element: <Secure authority="counter"><Counter/></Secure>},
-          {path: '/posts', element: <Secure authority="post_view"><PostList/></Secure>},
-          {path: '/posts/:postId', element: <Secure authority="post_view"><PostDetail/></Secure>},
-          {path: '/posts/new', element: <Secure authority="post_add"><NewPost/></Secure>}
+          {index: true, element: <Home/>},
+          {
+            children: [
+              {path: 'counter', element: <Secure authority="counter"><Counter/></Secure>},
+              {
+                path: 'posts',
+                children: [
+                  {index: true, element: <Secure authority="post_view"><PostList/></Secure>},
+                  {path: ':postId', element: <Secure authority="post_view"><PostDetail/></Secure>},
+                  {path: 'new', element: <Secure authority="post_add"><NewPost/></Secure>}
+                ]
+              }
+            ]
+          }
         ]
       },
-      {path: '/login', element: <Login/>},
-      {path: '/*', element: <ErrorPage code={404} message="糟糕！未找到您要访问的页面 :("/>}
+      {path: 'login', element: <Login/>},
+      {path: '*', element: <ErrorPage code={404} message="糟糕！未找到您要访问的页面 :("/>}
     ]
   }
 ]);
