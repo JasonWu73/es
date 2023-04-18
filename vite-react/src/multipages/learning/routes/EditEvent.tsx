@@ -55,7 +55,7 @@ export default function EditEvent() {
         {errors?.description && <span>{errors.description}</span>}
       </div>
       <div>
-        <Button type="button" onClick={() => navigate('..', {relative: 'path'})} disabled={isSubmitting}>Cancel</Button>
+        <Button type="button" onClick={() => navigate('..')} disabled={isSubmitting}>Cancel</Button>
         <Button type="submit" disabled={isSubmitting}>{isSubmitting ? 'Submitting...' : 'Submit'}</Button>
       </div>
     </form>
