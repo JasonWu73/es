@@ -2,7 +2,7 @@ import {usePageTitle} from '../../hooks/use-page-title';
 import {useEffect} from 'react';
 import {Button, Popconfirm, Space, Table, Typography} from 'antd';
 import {Link} from 'react-router-dom';
-import {deletePostRequest, getPostsRequest} from './post-slice';
+import {deletePostRequest, getPostsRequest, resetPost} from './post-slice';
 import {useAppDispatch, useAppSelector} from '../../store-hooks';
 import Column from 'antd/es/table/Column';
 import {DeleteOutlined, EditOutlined} from '@ant-design/icons';
@@ -23,6 +23,10 @@ export default function PostList() {
 
       isInitial = false;
       dispatch(getPostsRequest());
+
+      return () => {
+        dispatch(resetPost());
+      };
     },
     []
   );

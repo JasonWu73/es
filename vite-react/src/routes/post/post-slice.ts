@@ -20,13 +20,17 @@ export const postSlice = createSlice({
     },
     replacePost(state, action: PayloadAction<Post>) {
       state.post = action.payload;
+    },
+    resetPost(state) {
+      state.posts = [];
+      state.post = null;
     }
   }
 });
 
 export const postReducer = postSlice.reducer;
 
-export const {replacePosts, replacePost} = postSlice.actions;
+export const {replacePosts, replacePost, resetPost} = postSlice.actions;
 
 export function getPostsRequest() {
   return async (dispatch: AppDispatch) => {
