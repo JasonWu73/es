@@ -1,6 +1,6 @@
 import classes from './EditEvent.module.scss';
 import Button from '../../../components/button/Button';
-import {useRouteLoaderData, useNavigate, useSubmit, json, redirect} from 'react-router-dom';
+import {useRouteLoaderData, useNavigate, useSubmit, json, redirect, useNavigation} from 'react-router-dom';
 import {FormEvent, useRef} from 'react';
 import {sendRequest} from '../../../hooks/use-http';
 
@@ -14,6 +14,9 @@ export default function EditEvent() {
   const titleRef = useRef<HTMLInputElement>(null);
   const descriptionRef = useRef<HTMLInputElement>(null);
   const submit = useSubmit();
+  const navigation = useNavigation();
+
+  const isSubmitting = navigation.state === 'submitting';
 
   function handleSubmit(event: FormEvent) {
     event.preventDefault();
@@ -41,8 +44,8 @@ export default function EditEvent() {
         <input type="text" id="description" name="description" ref={descriptionRef} defaultValue={description}/>
       </div>
       <div>
-        <Button type="button" onClick={() => navigate('..', {relative: 'path'})}>Cancel</Button>
-        <Button type="submit">Submit</Button>
+        <Button type="button" onClick={() => navigate('..', {relative: 'path'})} disabled={isSubmitting}>Cancel</Button>
+        <Button type="submit" disabled={isSubmitting}>{isSubmitting ? 'Submitting...' : 'Submit'}</Button>
       </div>
     </form>
   );
