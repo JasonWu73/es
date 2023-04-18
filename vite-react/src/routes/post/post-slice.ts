@@ -45,8 +45,8 @@ export const postReducer = postSlice.reducer;
 export const {replacePosts, replacePost, reset} = postSlice.actions;
 
 export function getPostsRequest(pageNumber: number, pageSize: number) {
-  return async (dispatch: AppDispatch) => {
-    dispatch(sendRequest(
+  return (dispatch: AppDispatch) => {
+    return dispatch(sendRequest(
       getPostsApi(pageNumber, pageSize),
       data => dispatch(replacePosts({
         total: data.total,
@@ -59,7 +59,7 @@ export function getPostsRequest(pageNumber: number, pageSize: number) {
 }
 
 export function getPostRequest(postId: number) {
-  return async (dispatch: AppDispatch) => {
+  return (dispatch: AppDispatch) => {
     dispatch(sendRequest(
       getPostApi(postId),
       data => dispatch(replacePost(data))
@@ -68,7 +68,7 @@ export function getPostRequest(postId: number) {
 }
 
 export function addPostRequest(post: Post, callback?: () => void) {
-  return async (dispatch: AppDispatch) => {
+  return (dispatch: AppDispatch) => {
     dispatch(sendRequest(
       addPostApi(post),
       () => callback && callback()
@@ -77,7 +77,7 @@ export function addPostRequest(post: Post, callback?: () => void) {
 }
 
 export function deletePostRequest(postId: number) {
-  return async (dispatch: AppDispatch) => {
+  return (dispatch: AppDispatch) => {
     dispatch(sendRequest(deletePostApi(postId)));
   };
 }

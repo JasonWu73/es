@@ -35,21 +35,24 @@ export function sendRequest(
   {method, url, headers, params, data}: AxiosRequest,
   applyData?: (data: any) => void
 ) {
-  return async (dispatch: AppDispatch) => {
-    try {
-      dispatch(setLoading(true));
-      dispatch(setError(''));
+  return (dispatch: AppDispatch) => {
+    dispatch(setLoading(true));
+    dispatch(setError(''));
 
-      const response = await apiAxios({
-        method,
-        url,
-        headers: extendHeader(url, headers),
-        params,
-        data
-      });
+    const controller = new AbortController();
 
+    apiAxios({
+      signal: controller.signal,
+      method,
+      url,
+      headers: extendHeader(url, headers),
+      params,
+      data
+    }).then(response => {
       applyData && applyData(response.data);
-    } catch (error) {
+    }).catch(error => {
+      if (controller.signal.aborted) return;
+
       const axiosError = error as AxiosError;
       const isUnauthorizedError = axiosError.response?.status === 401;
       const isApiRequest = axiosError.request.responseURL.startsWith(getInternalApiBaseUrl());
@@ -68,8 +71,9 @@ export function sendRequest(
       }
 
       dispatch(setError(axiosError.message));
-    } finally {
-      dispatch(setLoading(false));
-    }
+    }).finally(() => dispatch(setLoading(false)));
+
+    // controller.abort();
+    return controller;
   };
 }

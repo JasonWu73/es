@@ -1,6 +1,6 @@
 import {usePageTitle} from '../../hooks/use-page-title';
 import {useEffect} from 'react';
-import {Popconfirm, Space, Table, TablePaginationConfig, Typography} from 'antd';
+import {Button, Popconfirm, Space, Table, TablePaginationConfig, Typography} from 'antd';
 import {Link} from 'react-router-dom';
 import {deletePostRequest, getPostsRequest, reset} from './post-slice';
 import {useAppDispatch, useAppSelector} from '../../store-hooks';
@@ -18,16 +18,12 @@ export default function PostList() {
   const posts = useAppSelector(state => state.post.posts);
   const dispatch = useAppDispatch();
 
-  let isInitial = true;
-
   useEffect(
     () => {
-      if (!isInitial) return;
-
-      isInitial = false;
-      dispatch(getPostsRequest(pageNumber, pageSize));
+      const controller = dispatch(getPostsRequest(pageNumber, pageSize));
 
       return () => {
+        controller.abort();
         dispatch(reset());
       };
     },
@@ -43,6 +39,13 @@ export default function PostList() {
 
   return (
     <Space direction="vertical" style={{width: '100%'}}>
+      <Button
+        type="primary"
+        onClick={() => dispatch(getPostsRequest(pageNumber, pageSize))}
+      >
+        刷新列表
+      </Button>
+
       <Table
         rowKey="id"
         dataSource={posts}
