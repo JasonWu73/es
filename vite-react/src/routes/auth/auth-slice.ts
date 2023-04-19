@@ -3,8 +3,8 @@ import {AppDispatch, RootState} from '../../store';
 import {getAccessTokenApi, updateAccessTokenApi} from './auth-api';
 import {apiAxios} from '../../utils/http';
 import {AxiosError} from 'axios';
-import {getInternalApiBaseUrl} from '../../config';
 import {sendRequest} from '../../components/layout/ui-slice';
+import {needsLogout} from '../../hooks/use-http';
 
 export interface AuthState {
   userId: number;
@@ -123,7 +123,7 @@ export function logout() {
 let pending = false;
 
 export function tryUpdateAccessToken() {
-  return async (dispatch: AppDispatch, getState: () => RootState) => {
+  return (dispatch: AppDispatch, getState: () => RootState) => {
     if (pending) return;
 
     const {expiredAt, refreshToken} = getState().auth;
@@ -138,8 +138,8 @@ export function tryUpdateAccessToken() {
       const currentTimestampSeconds = Math.floor(new Date().getTime() / 1000);
       const expiredAt = currentTimestampSeconds + expiresInSeconds;
 
-      try {
-        const {data} = await apiAxios(updateAccessTokenApi(refreshToken));
+      apiAxios(updateAccessTokenApi(refreshToken)).then(response => {
+        const {data} = response;
 
         dispatch(
           login({
@@ -152,17 +152,12 @@ export function tryUpdateAccessToken() {
             nickname: data.token.slice(-10)
           })
         );
-
-        pending = false;
-      } catch (error) {
+      }).catch(error => {
         const axiosError = error as AxiosError;
-        const isUnauthorizedError = axiosError.response?.status === 401;
-        const isApiRequest = axiosError.request.responseURL.startsWith(getInternalApiBaseUrl());
-
-        if (isUnauthorizedError && isApiRequest) {
-          dispatch(logout());
-        }
-      }
+        if (needsLogout(dispatch, axiosError)) return;
+      }).finally(() => {
+        pending = false;
+      });
     }
   };
 }

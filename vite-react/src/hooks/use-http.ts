@@ -3,7 +3,7 @@ import {apiAxios} from '../utils/http';
 import {AxiosError} from 'axios';
 import {getInternalApiBaseUrl} from '../config';
 import {logout, tryUpdateAccessToken} from '../routes/auth/auth-slice';
-import {store} from '../store';
+import {AppDispatch, store} from '../store';
 import {isAuthApi} from '../routes/auth/auth-api';
 
 export interface AxiosRequest {
@@ -25,29 +25,17 @@ export async function sendRequest(
       params,
       data
     });
+
+    tryUpdateAuth(store.dispatch, url);
+
     return [response.data, null];
   } catch (error) {
     const axiosError = error as AxiosError;
-    const isUnauthorizedError = axiosError.response?.status === 401;
-    const isApiRequest = axiosError.request.responseURL.startsWith(getInternalApiBaseUrl());
+    if (needsLogout(store.dispatch, axiosError)) return [null, null];
 
-    if (isUnauthorizedError && isApiRequest) {
-      store.dispatch(logout());
-      return [null, null];
-    }
+    tryUpdateAuth(store.dispatch, url);
 
-    const errorData: any = axiosError.response?.data;
-
-    if (errorData && Object.keys(errorData).length > 0) {
-      const errorMessage = errorData.error || errorData.message || JSON.stringify(errorData);
-      return [null, errorMessage];
-    }
-
-    return [null, axiosError.message];
-  } finally {
-    if (!isAuthApi(url)) {
-      store.dispatch(tryUpdateAccessToken());
-    }
+    return [null, getError(axiosError)];
   }
 }
 
@@ -73,34 +61,21 @@ export function useHttp() {
         params,
         data
       }).then(response => {
+        tryUpdateAuth(store.dispatch, url);
+
         applyData && applyData(response.data);
       }).catch(error => {
         if (controller.signal.aborted) return;
 
         const axiosError = error as AxiosError;
-        const isUnauthorizedError = axiosError.response?.status === 401;
-        const isApiRequest = axiosError.request.responseURL.startsWith(getInternalApiBaseUrl());
+        if (needsLogout(store.dispatch, axiosError)) return;
 
-        if (isUnauthorizedError && isApiRequest) {
-          store.dispatch(logout());
-          return;
-        }
+        tryUpdateAuth(store.dispatch, url);
 
-        const errorData: any = axiosError.response?.data;
-
-        if (errorData && Object.keys(errorData).length > 0) {
-          setError(errorData.error || errorData.message || JSON.stringify(errorData));
-          return;
-        }
-
-        setError(axiosError.message);
+        setError(getError(axiosError));
       }).finally(() => {
         if (!controller.signal.aborted) {
           setLoading(false);
-
-          if (!isAuthApi(url)) {
-            store.dispatch(tryUpdateAccessToken());
-          }
           return;
         }
 
@@ -135,4 +110,32 @@ export function extendHeader(url: string, headers?: object) {
   }
 
   return {Authorization: `Bearer ${accessToken}`};
+}
+
+export function needsLogout(dispatch: AppDispatch, error: AxiosError) {
+  const isUnauthorizedError = error.response?.status === 401;
+  const isApiRequest = error.request.responseURL.startsWith(getInternalApiBaseUrl());
+
+  if (isUnauthorizedError && isApiRequest) {
+    dispatch(logout());
+    return true;
+  }
+
+  return false;
+}
+
+export function tryUpdateAuth(dispatch: AppDispatch, url: string) {
+  if (!isAuthApi(url)) {
+    dispatch(tryUpdateAccessToken());
+  }
+}
+
+export function getError(error: AxiosError) {
+  const errorData: any = error.response?.data;
+
+  if (errorData && Object.keys(errorData).length > 0) {
+    return errorData.error || errorData.message || JSON.stringify(errorData);
+  }
+
+  return error.message;
 }

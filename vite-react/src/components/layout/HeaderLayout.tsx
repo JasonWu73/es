@@ -30,7 +30,7 @@ export default function HeaderLayout() {
   topBarMenus.push({
     key: 'Unauthorized',
     label: <a onClick={() => sendRequest(mockHttpApi(401))}>
-      Mock Unauthorized
+      响应 401
     </a>
   });
 
