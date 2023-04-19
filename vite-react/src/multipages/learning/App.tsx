@@ -4,7 +4,7 @@ import EventList, {loadEvents} from './routes/EventList';
 import EventDetail, {deleteEvent, loadEvent} from './routes/EventDetail';
 import NewEvent from './routes/NewEvent';
 import EditEvent, {updateEvent} from './routes/EditEvent';
-import MyLayout from './routes/MyLayout';
+import LearningLayout from './routes/LearningLayout';
 import EventNavigation from './components/EventNavigation';
 import ErrorPage from '../../components/error/ErrorPage';
 import Login from '../../routes/auth/Login';
@@ -17,7 +17,7 @@ const router = createHashRouter([
     errorElement: <ErrorPage/>,
     children: [
       {
-        element: <MyLayout/>,
+        element: <LearningLayout/>,
         children: [
           {index: true, element: <Home/>},
           {

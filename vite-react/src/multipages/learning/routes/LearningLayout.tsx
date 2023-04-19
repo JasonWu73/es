@@ -6,7 +6,7 @@ import HeaderLayout from '../../../components/layout/HeaderLayout';
 import {ContentLayout} from '../../../components/layout/ContentLayout';
 import {SkeletonLoading} from '../../../components/loading/SuspenseLoading';
 
-export default function MyLayout() {
+export default function LearningLayout() {
   const navigation = useNavigation();
 
   return (
