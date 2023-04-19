@@ -32,8 +32,6 @@ export default function NewPost() {
       body: values.body.trim()
     };
 
-    console.log('Add post: ', newPost);
-
     dispatch(addPostRequest(
       newPost,
       () => navigate('/posts')

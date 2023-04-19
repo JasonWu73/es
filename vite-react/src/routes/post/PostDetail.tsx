@@ -30,6 +30,19 @@ export default function PostDetail() {
     []
   );
 
+  function handleUpdateClick() {
+    if (
+      !post ||
+      post.tags.length === 0 ||
+      post.title.trim().length === 0 ||
+      post.body.trim().length === 0
+    ) {
+      return;
+    }
+
+    dispatch(updatePostRequest());
+  }
+
   const postContent = post ?
     (
       <>
@@ -82,7 +95,7 @@ export default function PostDetail() {
 
         <Space>
           <Button onClick={() => navigate('..')}>返回</Button>
-          <Button type="primary" onClick={() => dispatch(updatePostRequest())}>更新</Button>
+          <Button type="primary" onClick={handleUpdateClick}>更新</Button>
         </Space>
       </>
     ) :

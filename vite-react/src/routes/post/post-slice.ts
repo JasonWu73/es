@@ -88,20 +88,8 @@ export function addPostRequest(post: Post, callback?: () => void) {
 
 export function updatePostRequest() {
   return (dispatch: AppDispatch, getState: () => RootState) => {
-    const post = getState().post.post;
-
-    if (
-      !post ||
-      post.tags.length === 0 ||
-      post.title.trim().length === 0 ||
-      post.body.trim().length === 0
-    ) {
-      dispatch(setError('缺少必填数据'));
-      return;
-    }
-
     dispatch(sendRequest(
-      updatePostApi(post)
+      updatePostApi(getState().post.post!)
     ));
   };
 }
