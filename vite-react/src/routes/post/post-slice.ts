@@ -1,7 +1,7 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {AppDispatch} from '../../store';
-import {addPostApi, deletePostApi, getPostApi, getPostsApi, Post} from './post-api';
-import {resetUiSlice, sendRequest} from '../../components/layout/ui-slice';
+import {AppDispatch, RootState} from '../../store';
+import {addPostApi, deletePostApi, getPostApi, getPostsApi, Post, updatePostApi} from './post-api';
+import {resetUiSlice, sendRequest, setError} from '../../components/layout/ui-slice';
 
 export interface PostState {
   total: number;
@@ -30,6 +30,9 @@ export const postSlice = createSlice({
     replacePost(state, action: PayloadAction<Post>) {
       state.post = action.payload;
     },
+    updatePost(state, action: PayloadAction<Post>) {
+      state.post = {...state.post, ...action.payload};
+    },
     resetPostSlice(state) {
       state.total = 0;
       state.pageNumber = 1;
@@ -42,7 +45,7 @@ export const postSlice = createSlice({
 
 export const postReducer = postSlice.reducer;
 
-export const {replacePosts, replacePost, resetPostSlice} = postSlice.actions;
+export const {replacePosts, replacePost, updatePost, resetPostSlice} = postSlice.actions;
 
 export function reset() {
   return (dispatch: AppDispatch) => {
@@ -79,6 +82,26 @@ export function addPostRequest(post: Post, callback?: () => void) {
     dispatch(sendRequest(
       addPostApi(post),
       () => callback && callback()
+    ));
+  };
+}
+
+export function updatePostRequest() {
+  return (dispatch: AppDispatch, getState: () => RootState) => {
+    const post = getState().post.post;
+
+    if (
+      !post ||
+      post.tags.length === 0 ||
+      post.title.trim().length === 0 ||
+      post.body.trim().length === 0
+    ) {
+      dispatch(setError('缺少必填数据'));
+      return;
+    }
+
+    dispatch(sendRequest(
+      updatePostApi(post)
     ));
   };
 }

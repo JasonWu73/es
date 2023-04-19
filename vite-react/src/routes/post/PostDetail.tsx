@@ -1,11 +1,12 @@
 import {usePageTitle} from '../../hooks/use-page-title';
 import {useNavigate, useParams} from 'react-router-dom';
 import {useEffect} from 'react';
-import {Button, Empty, Space, Typography} from 'antd';
+import {Button, Empty, Select, Space, Tag, Typography} from 'antd';
 import {useAppDispatch, useAppSelector} from '../../store-hooks';
-import {getPostRequest, reset} from './post-slice';
+import {getPostRequest, reset, updatePost, updatePostRequest} from './post-slice';
 import {SkeletonLoading} from '../../components/loading/SuspenseLoading';
-import PostTags from './PostTags';
+import {getPostTagColor} from './PostTags';
+import {TAGS} from './NewPost';
 
 export default function PostDetail() {
   const {postId} = useParams();
@@ -24,25 +25,77 @@ export default function PostDetail() {
       return () => {
         controller.abort();
         dispatch(reset());
-      }
+      };
     },
     []
   );
 
+  function handleUpdateClick() {
+    dispatch(updatePostRequest());
+  }
+
   const postContent = post ?
     (
       <>
-        <Typography.Title level={2}>{postId} - {post.title}</Typography.Title>
-        <PostTags tags={post.tags}/>
-        <Typography.Text>{post.body}</Typography.Text>
-        <Typography.Text>用户 ID：{post.userId}</Typography.Text>
-        <Button onClick={() => navigate('..')}>返回</Button>
+        <Typography.Title
+          level={2}
+          editable={{onChange: value => value.trim().length && dispatch(updatePost({...post, title: value.trim()}))}}
+          style={{flexGrow: 1}}
+        >
+          {postId}. {post.title}
+          {post.title.trim().length === 0 && <Typography.Text type="danger">文章标题不能为空</Typography.Text>}
+        </Typography.Title>
+
+        <Select
+          mode="multiple"
+          allowClear
+          style={{width: '100%'}}
+          placeholder="请选择文章所对应的标签"
+          options={TAGS}
+          defaultValue={post.tags}
+          onChange={value => dispatch(updatePost({...post, tags: value}))}
+          status={post.tags.length === 0 ? 'error' : ''}
+          tagRender={props => {
+            const {label, value, closable, onClose} = props;
+
+            return (
+              <Tag
+                color={getPostTagColor(value)}
+                onMouseDown={e => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                }}
+                closable={closable}
+                onClose={onClose}
+                style={{marginRight: 3}}
+              >
+                {label}
+              </Tag>
+            );
+          }}
+        />
+        {post.tags.length === 0 && <Typography.Text type="danger">文章标签不能为空</Typography.Text>}
+
+        <Typography.Paragraph
+          editable={{onChange: value => value.trim().length && dispatch(updatePost({...post, body: value.trim()}))}}
+          style={{marginTop: '1rem'}}
+        >
+          {post.body}
+          {post.body.trim().length === 0 && <Typography.Text type="danger">文章内容不能为空</Typography.Text>}
+        </Typography.Paragraph>
+
+        <Typography.Paragraph>用户 ID：{post.userId}</Typography.Paragraph>
+
+        <Space>
+          <Button onClick={() => navigate('..')}>返回</Button>
+          <Button type="primary" onClick={handleUpdateClick}>更新</Button>
+        </Space>
       </>
     ) :
     <Empty/>;
 
   return (
-    <Space direction="vertical" size="large" style={{width: '100%'}}>
+    <Space direction="vertical" style={{width: '100%'}}>
       {loading && <SkeletonLoading/>}
       {!loading && postContent}
     </Space>

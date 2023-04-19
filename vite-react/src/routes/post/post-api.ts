@@ -38,8 +38,8 @@ export function addPostApi(post: Post): AxiosRequest {
 
 export function updatePostApi(post: Post): AxiosRequest {
   return {
-    method: 'post',
-    url: `${BASE_URL}/posts/add`,
+    method: 'put',
+    url: `${BASE_URL}/posts/${post.id}`,
     data: post
   };
 }

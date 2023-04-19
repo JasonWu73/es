@@ -7,7 +7,7 @@ import {useNavigate} from 'react-router-dom';
 import {getPostTagColor} from './PostTags';
 import React from 'react';
 
-const TAGS: { label: string, value: string }[] = [
+export const TAGS: { label: string, value: string }[] = [
   {label: 'History', value: 'history'},
   {label: 'Fiction', value: 'fiction'},
   {label: 'Crime', value: 'crime'},
