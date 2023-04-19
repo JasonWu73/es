@@ -23,8 +23,6 @@ export function useTryLogin() {
   );
 }
 
-let isInitial = true;
-
 export function useAutoLogout() {
   const expiredAt = useAppSelector(state => state.auth.expiredAt);
   const dispatch = useAppDispatch();
@@ -32,14 +30,12 @@ export function useAutoLogout() {
 
   useEffect(
     () => {
-      if (isInitial) return;
-
-      isInitial = false;
-
-      if (expiredAt <= 0) {
+      if (expiredAt === -1) {
         navigate('/login', {replace: true});
         return;
       }
+
+      if (expiredAt === 0) return;
 
       const currentTimestamp = new Date().getTime();
       const countdownMilliseconds = expiredAt * 1000 - currentTimestamp;
