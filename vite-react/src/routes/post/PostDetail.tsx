@@ -30,10 +30,6 @@ export default function PostDetail() {
     []
   );
 
-  function handleUpdateClick() {
-    dispatch(updatePostRequest());
-  }
-
   const postContent = post ?
     (
       <>
@@ -43,7 +39,6 @@ export default function PostDetail() {
           style={{flexGrow: 1}}
         >
           {postId}. {post.title}
-          {post.title.trim().length === 0 && <Typography.Text type="danger">文章标题不能为空</Typography.Text>}
         </Typography.Title>
 
         <Select
@@ -81,14 +76,13 @@ export default function PostDetail() {
           style={{marginTop: '1rem'}}
         >
           {post.body}
-          {post.body.trim().length === 0 && <Typography.Text type="danger">文章内容不能为空</Typography.Text>}
         </Typography.Paragraph>
 
         <Typography.Paragraph>用户 ID：{post.userId}</Typography.Paragraph>
 
         <Space>
           <Button onClick={() => navigate('..')}>返回</Button>
-          <Button type="primary" onClick={handleUpdateClick}>更新</Button>
+          <Button type="primary" onClick={() => dispatch(updatePostRequest())}>更新</Button>
         </Space>
       </>
     ) :
