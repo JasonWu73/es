@@ -70,7 +70,7 @@ export function getAccessTokenRequest(
       data => {
         const {token: accessToken} = data;
 
-        const expiresInSeconds = 30;
+        const expiresInSeconds = 120;
         const currentTimestampSeconds = Math.floor(new Date().getTime() / 1000);
         const expiredAt = currentTimestampSeconds + expiresInSeconds;
 

@@ -1,6 +1,5 @@
-import classes from './Login.module.scss';
 import {usePageTitle} from '../../hooks/use-page-title';
-import {Alert, Button, Form, Input, Layout, Typography} from 'antd';
+import {Alert, Button, Form, Input, Layout, Space, Typography} from 'antd';
 import bg from '../../assets/img/ant-design-pro-background.svg';
 import {LockOutlined, UserOutlined} from '@ant-design/icons';
 import {useAppDispatch, useAppSelector} from '../../store-hooks';
@@ -14,24 +13,31 @@ export default function Login() {
   return (
     <Layout
       style={{
-        minHeight: '100vh',
+        minHeight: '100dvh',
         backgroundImage: `url(${bg})`,
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'center 11rem',
         backgroundSize: '100%'
       }}
     >
-      <Layout.Content>
-        <div className={classes.login}>
-          <div className={classes.login__logo}>
-            <img src="/vite.svg" alt="Vite logo"/>
+      <Layout.Content style={{display: 'flex'}}>
+        <Space
+          direction="vertical"
+          style={{
+            width: '100%',
+            justifyContent: 'center',
+            alignItems: 'center'
+          }}
+        >
+          <Space>
+            <img src="/vite.svg" alt="Vite logo" style={{pointerEvents: 'none'}}/>
             <Typography.Title level={2} style={{marginBottom: 0}}>
               Vite + React + TS
             </Typography.Title>
-          </div>
+          </Space>
 
           <LoginForm/>
-        </div>
+        </Space>
       </Layout.Content>
 
       <FooterLayout/>

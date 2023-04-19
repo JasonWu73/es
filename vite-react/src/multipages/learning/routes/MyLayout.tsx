@@ -10,7 +10,7 @@ export default function MyLayout() {
   const navigation = useNavigation();
 
   return (
-    <Layout style={{minHeight: '100vh'}}>
+    <Layout style={{minHeight: '100dvh'}}>
       <HeaderLayout/>
 
       <ContentLayout>

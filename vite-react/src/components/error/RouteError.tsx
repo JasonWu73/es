@@ -2,24 +2,19 @@ import {useNavigate} from 'react-router-dom';
 import {useCallback, useEffect, useState} from 'react';
 import {Button, Space, Typography} from 'antd';
 
-const COUNTDOWN_SECONDS = 10;
+const COUNTDOWN_SECONDS = 100;
 
 export default function RouteError({code, message}: { code: number, message: string }) {
   const {goToHome, countdown} = useRedirect();
 
   return (
-    <div
-      style={{
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        maxWidth: '80rem'
-      }}
+    <Space
+      direction="vertical"
+      style={{width: '100%', justifyContent: 'center', alignItems: 'center'}}
     >
       <Typography.Title
         type="warning"
-        style={{marginBottom: '1rem', fontSize: '18.6rem', textAlign: 'center'}}
+        style={{marginBottom: '1rem', fontSize: '18.6rem'}}
       >
         {code}
       </Typography.Title>
@@ -37,7 +32,7 @@ export default function RouteError({code, message}: { code: number, message: str
         </Typography.Text>
         <Button type="primary" onClick={goToHome}>首页</Button>
       </Space>
-    </div>
+    </Space>
   );
 }
 

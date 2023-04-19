@@ -22,10 +22,10 @@ export default function AdminLayout() {
   };
 
   return (
-    <Layout>
+    <Layout style={{minHeight: '100dvh'}}>
       <HeaderLayout/>
 
-      <Layout style={{minHeight: 'calc(100vh - 64px)'}}>
+      <Layout>
         <SidebarMenu menus={authorizedMenus} paths={pathSnippets}/>
 
         <Layout style={ContentContainerStyle}>
