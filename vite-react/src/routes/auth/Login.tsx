@@ -6,9 +6,11 @@ import {useAppDispatch, useAppSelector} from '../../store-hooks';
 import {getAccessTokenRequest} from './auth-slice';
 import {useLocation, useNavigate} from 'react-router-dom';
 import FooterLayout from '../../components/layout/FooterLayout';
+import {useEffect} from 'react';
 
 export default function Login() {
   usePageTitle('登录');
+  useAutoRedirect();
 
   return (
     <Layout
@@ -92,5 +94,19 @@ function LoginForm() {
         </Button>
       </Form.Item>
     </Form>
+  );
+}
+
+function useAutoRedirect() {
+  const username = useAppSelector(state => state.auth.username);
+  const navigate = useNavigate();
+
+  useEffect(
+    () => {
+      if (!username) return;
+
+      navigate('/', {replace: true});
+    },
+    []
   );
 }
