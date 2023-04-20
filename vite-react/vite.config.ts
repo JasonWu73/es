@@ -10,13 +10,20 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: resolve(__dirname, 'index.html'),
-        ...getPagesInput()
+        ...getPageInputs()
       },
+      output: {
+        manualChunks(id) {
+          if (id.includes('node_modules/react')) {
+            return 'react';
+          }
+        }
+      }
     }
   }
 });
 
-function getPagesInput() {
+function getPageInputs() {
   const pagesInput = {};
 
   (pages as string[]).forEach(page => {
