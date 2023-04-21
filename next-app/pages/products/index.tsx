@@ -1,8 +1,13 @@
 import Layout from '@/components/layout/layout';
 import Head from 'next/head';
 import Link from 'next/link';
+import { useHttp } from '@/hooks/use-http';
+import { getProductsApi } from '@/api/product-api';
+import { useEffect } from 'react';
 
 export default function Products() {
+  const productsData = useProductsData();
+
   return (
     <Layout>
       <Head>
@@ -17,5 +22,23 @@ export default function Products() {
         </Link>
       </ul>
     </Layout>
+  );
+}
+
+function useProductsData() {
+  const { sendRequest } = useHttp();
+
+  useEffect(
+    () => {
+      const abortController = sendRequest(
+        getProductsApi(1, 10),
+        (data) => console.log(data),
+      );
+
+      return () => {
+        abortController.abort();
+      };
+    },
+    [],
   );
 }

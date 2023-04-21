@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 
 export default function ProductDetail() {
   const router = useRouter();
-  console.log(router.query);
+  console.log(router.query.productId);
 
   return (
     <Layout>
