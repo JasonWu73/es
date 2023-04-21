@@ -14,6 +14,13 @@ export interface Product {
   images: string[];
 }
 
+export interface ProductsPagination {
+  products: Product[];
+  total: number;
+  skip: number;
+  limit: number;
+}
+
 const BASE_URL = 'https://dummyjson.com';
 
 export function getProductsApi(pageNumber: number, pageSize: number): AxiosRequest {

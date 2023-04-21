@@ -2,11 +2,11 @@ import Layout from '@/components/layout/layout';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useHttp } from '@/hooks/use-http';
-import { getProductsApi } from '@/api/product-api';
-import { useEffect } from 'react';
+import { getProductsApi, ProductsPagination } from '@/api/product-api';
+import { useEffect, useState } from 'react';
 
 export default function Products() {
-  const productsData = useProductsData();
+  const { loading, error, productsData } = useProductsData();
 
   return (
     <Layout>
@@ -14,25 +14,34 @@ export default function Products() {
         <title>All Products</title>
       </Head>
 
-      <h1 className="text-3xl font-bold">All Products</h1>
+      <div className="text-center">
+        <h1 className="text-3xl font-bold">All Products</h1>
 
-      <ul>
-        <Link href="/products/1">
-          <li>Product 1</li>
-        </Link>
-      </ul>
+        {loading && <span>Loading...</span>}
+        {error && <span className="text-red-500">{error}</span>}
+        {!loading && !error && (
+          <ul className="flex flex-col gap-1">
+            {productsData && productsData.products.map(product => (
+              <Link key={product.id} href={`/products/${product.id}`}>
+                <li className="border-b hover:bg-slate-100">{product.title}</li>
+              </Link>
+            ))}
+          </ul>
+        )}
+      </div>
     </Layout>
   );
 }
 
 function useProductsData() {
-  const { sendRequest } = useHttp();
+  const { loading, error, sendRequest } = useHttp();
+  const [productsData, setProductsData] = useState<ProductsPagination>();
 
   useEffect(
     () => {
       const abortController = sendRequest(
         getProductsApi(1, 10),
-        (data) => console.log(data),
+        setProductsData,
       );
 
       return () => {
@@ -41,4 +50,6 @@ function useProductsData() {
     },
     [],
   );
+
+  return { loading, error, productsData };
 }

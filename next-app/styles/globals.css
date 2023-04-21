@@ -26,5 +26,5 @@ body {
 }
 
 #nprogress .bar {
-  background: #f5222d !important;
+  @apply bg-red-500 !important;
 }
