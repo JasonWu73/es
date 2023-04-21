@@ -72,7 +72,7 @@ export default function Navbar() {
 function PageLogo() {
   return (
     <Link href="/">
-      <Image src={NextJsLogo} alt="Logo" width={205} className="cursor-pointer" />
+      <Image src={NextJsLogo} alt="Logo" priority width={205} className="cursor-pointer" />
     </Link>
   );
 }

@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
 
-  // 导出静态网站
+  // Generate as a static site (or Single-Page Application)
   output: 'export',
   trailingSlash: true,
   images: {
