@@ -20,7 +20,9 @@ export default function Navbar() {
         <ul className="hidden sm:flex">
           {ROUTES.map(route => (
             <Link key={route.link} href={route.link}>
-              <li className="ml-10 hover:border-b text-xl">{route.title}</li>
+              <li className="ml-10 hover:border-b text-xl flex items-center gap-1">
+                {route.title}
+              </li>
             </Link>
           ))}
         </ul>
@@ -55,7 +57,9 @@ export default function Navbar() {
           <ul>
             {ROUTES.map(route => (
               <Link key={route.link} href={route.link}>
-                <li className="pt-4 hover:border-b text-lg">{route.title}</li>
+                <li className="pt-4 hover:border-b text-lg flex items-center gap-1">
+                  {route.title}
+                </li>
               </Link>
             ))}
           </ul>

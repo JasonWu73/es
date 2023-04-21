@@ -1,12 +1,12 @@
 import Link from 'next/link';
 import Layout from '@/components/layout/layout';
 import Head from 'next/head';
+import { AiFillCustomerService, AiFillFire } from 'react-icons/ai';
+import React from 'react';
 
-export const ROUTES: { link: string, title: string; }[] = [
-  { link: '/styling/learning', title: 'Tailwind CSS' },
-  { link: '/b', title: '导航2' },
-  { link: '/c', title: '导航3' },
-  { link: '/d', title: '导航4' },
+export const ROUTES: { link: string, title: React.ReactNode; }[] = [
+  { link: '/styling/learning', title: <><AiFillFire /> Tailwind CSS</> },
+  { link: '/products', title: <><AiFillCustomerService /> Products</> },
 ];
 
 export default function Home() {
