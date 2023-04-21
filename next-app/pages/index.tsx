@@ -1,13 +1,30 @@
 import Link from 'next/link';
+import Layout from '@/components/layout/layout';
+import Head from 'next/head';
+
+export const ROUTES: { link: string, title: string; }[] = [
+  { link: '/beauty/learning', title: 'Tailwind CSS' },
+  { link: '/b', title: '导航2' },
+  { link: '/c', title: '导航3' },
+  { link: '/d', title: '导航4' },
+];
 
 export default function Home() {
   return (
-    <main>
-      <h1>Next.js + Tailwind CSS</h1>
+    <Layout>
+      <Head>
+        <title>首页</title>
+      </Head>
+
+      <h1 className="text-3xl font-bold">
+        Next.js + Tailwind CSS
+      </h1>
 
       <ul>
-        <Link href="/beauty/bullseye">靶心</Link>
+        <Link href="/beauty/learning">
+          <li>Learning Tailwind CSS</li>
+        </Link>
       </ul>
-    </main>
+    </Layout>
   );
 }
