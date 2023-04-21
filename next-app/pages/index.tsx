@@ -3,7 +3,7 @@ import Layout from '@/components/layout/layout';
 import Head from 'next/head';
 
 export const ROUTES: { link: string, title: string; }[] = [
-  { link: '/beauty/learning', title: 'Tailwind CSS' },
+  { link: '/styling/learning', title: 'Tailwind CSS' },
   { link: '/b', title: '导航2' },
   { link: '/c', title: '导航3' },
   { link: '/d', title: '导航4' },
@@ -13,7 +13,7 @@ export default function Home() {
   return (
     <Layout>
       <Head>
-        <title>首页</title>
+        <title>Home</title>
       </Head>
 
       <h1 className="text-3xl font-bold">
@@ -21,7 +21,7 @@ export default function Home() {
       </h1>
 
       <ul>
-        <Link href="/beauty/learning">
+        <Link href="/styling/learning">
           <li>Learning Tailwind CSS</li>
         </Link>
       </ul>

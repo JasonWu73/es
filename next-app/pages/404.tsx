@@ -5,10 +5,13 @@ export default function Custom404() {
   return (
     <Layout>
       <Head>
-        <title>页面不存在</title>
+        <title>Page Not Found</title>
       </Head>
 
-      <h2 className="text-2xl font-bold">您访问的页面不存在 :(</h2>
+      <h1 className="text-3xl font-bold text-red-500 text-center">
+        404! <br />
+        <span className="text-gray-500 font-normal">Page Not Found :(</span>
+      </h1>
     </Layout>
   );
 };
