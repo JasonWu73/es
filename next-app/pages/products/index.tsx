@@ -16,6 +16,9 @@ export default function Products() {
 
       <div className="text-center">
         <h1 className="text-3xl font-bold">All Products</h1>
+        <div className="my-4 text-blue-500 hover:underline">
+          <Link href="/products/new-product">Add Product</Link>
+        </div>
 
         {loading && <p>Loading...</p>}
         {error && <p className="text-red-500">{error}</p>}

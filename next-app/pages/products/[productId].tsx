@@ -32,7 +32,7 @@ export default function ProductDetail() {
           <p>{product.description}</p>
         </div>
       )}
-      <div className="text-right mr-6">
+      <div className="text-right mr-6 mt-4">
         <Link
           href="/products"
           className="font-bold text-blue-500 hover:underline"
