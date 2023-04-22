@@ -1,30 +1,41 @@
 import Layout from '@/components/layout/layout';
-import Link from 'next/link';
 import Form from '@/components/form/form';
 import Input from '@/components/form/input';
+import Button from '@/components/button/Button';
+import { router } from 'next/client';
+import Head from 'next/head';
+import React from 'react';
 
 export default function NewProduct() {
   return (
     <Layout>
-      <NewProductForm />
+      <Head>
+        <title>Add Product</title>
+      </Head>
 
-      <div className="text-right mr-6 mt-4">
-        <Link
-          href="/products"
-          className="font-bold text-blue-500 hover:underline"
-        >
-          Go To Product List
-        </Link>
-      </div>
+      <NewProductForm />
     </Layout>
   );
 }
 
 function NewProductForm() {
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+  }
+
   return (
-    <Form>
+    <Form onSubmit={handleSubmit}>
       <Input title="Title" type="text" />
       <Input title="Description" type="text" />
+      <div className="text-right mr-4">
+        <Button
+          onClick={() => router.push('/products')}
+          className="mr-1"
+        >
+          Cancel
+        </Button>
+        <Button type="primary">Submit</Button>
+      </div>
     </Form>
   );
 }
