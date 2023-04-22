@@ -17,8 +17,8 @@ export default function Products() {
       <div className="text-center">
         <h1 className="text-3xl font-bold">All Products</h1>
 
-        {loading && <span>Loading...</span>}
-        {error && <span className="text-red-500">{error}</span>}
+        {loading && <p>Loading...</p>}
+        {error && <p className="text-red-500">{error}</p>}
         {!loading && !error && (
           <ul className="flex flex-col gap-1">
             {productsData && productsData.products.map(product => (
@@ -41,14 +41,14 @@ function useProductsData() {
     () => {
       const abortController = sendRequest(
         getProductsApi(1, 10),
-        setProductsData,
+        setProductsData
       );
 
       return () => {
         abortController.abort();
       };
     },
-    [],
+    []
   );
 
   return { loading, error, productsData };

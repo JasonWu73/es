@@ -11,7 +11,7 @@ export interface AxiosRequest {
 }
 
 export async function sendRequest(
-  { method, url, headers, params, data }: AxiosRequest,
+  { method, url, headers, params, data }: AxiosRequest
 ): Promise<[data: any, error: string | null]> {
   try {
     const response = await apiAxios({
@@ -19,7 +19,7 @@ export async function sendRequest(
       url,
       headers,
       params,
-      data,
+      data
     });
 
     return [response.data, null];
@@ -37,7 +37,7 @@ export function useHttp() {
   const sendRequest = useCallback(
     (
       { method, url, headers, params, data }: AxiosRequest,
-      applyData?: (data: any) => void,
+      applyData?: (data: any) => void
     ) => {
       setLoading(true);
       setError('');
@@ -50,7 +50,7 @@ export function useHttp() {
         url,
         headers,
         params,
-        data,
+        data
       }).then(response => {
         applyData && applyData(response.data);
       }).catch(error => {
@@ -68,14 +68,14 @@ export function useHttp() {
           () => {
             setLoading(false);
           },
-          1000,
+          1000
         );
       });
 
       // controller.abort();
       return controller;
     },
-    [],
+    []
   );
 
   return { loading, error, sendRequest };
