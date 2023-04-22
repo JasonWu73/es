@@ -23,7 +23,9 @@ export default function Products() {
           <ul className="flex flex-col gap-1">
             {productsData && productsData.products.map(product => (
               <Link key={product.id} href={`/products/${product.id}`}>
-                <li className="border-b hover:bg-slate-100">{product.title}</li>
+                <li className="border-b hover:bg-slate-100">
+                  {product.title}
+                </li>
               </Link>
             ))}
           </ul>

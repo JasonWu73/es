@@ -33,7 +33,12 @@ export default function ProductDetail() {
         </div>
       )}
       <div className="text-right mr-6">
-        <Link href="/products">Go To Product List</Link>
+        <Link
+          href="/products"
+          className="font-bold text-blue-500 hover:underline"
+        >
+          Go To Product List
+        </Link>
       </div>
     </Layout>
   );
