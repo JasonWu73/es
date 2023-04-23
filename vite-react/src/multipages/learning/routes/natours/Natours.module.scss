@@ -41,11 +41,13 @@ $dark-green-opacity: rgba(40, 180, 133, 0.8);
   top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
+  text-align: center;
 }
 
 .heading-primary {
   color: #fff;
   text-transform: uppercase;
+  margin-bottom: 6rem;
 
   &--main {
     display: block;
@@ -70,6 +72,7 @@ $dark-green-opacity: rgba(40, 180, 133, 0.8);
     font-size: 2rem;
     font-weight: 900;
     letter-spacing: 1.74rem;
+    text-align: left;
 
     animation: moveInRight 1s ease-out;
   }
@@ -104,5 +107,33 @@ $dark-green-opacity: rgba(40, 180, 133, 0.8);
   100% {
     opacity: 1;
     transform: translateX(0);
+  }
+}
+
+.btn {
+
+  &:link,
+  &:visited {
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 1.5rem 4rem;
+    display: inline-block;
+    border-radius: 10rem;
+    transition: all 0.2s;
+  }
+
+  &:hover {
+    transform: translateY(-0.3rem);
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
+  }
+
+  &:active {
+    transform: translateY(-0.1rem);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+  }
+
+  &-white {
+    background-color: #fff;
+    color: #777;
   }
 }

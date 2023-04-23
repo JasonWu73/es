@@ -14,6 +14,14 @@ export default function NatoursHeader() {
           <span className={styles['heading-primary--main']}>Outdoors</span>
           <span className={styles['heading-primary--sub']}>is where life happens</span>
         </h1>
+
+        <a
+          href="#"
+          className={`${styles.btn} ${styles['btn-white']}`}
+          onClick={e => e.preventDefault()}
+        >
+          Discover our tours
+        </a>
       </div>
     </header>
   );
