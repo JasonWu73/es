@@ -52,6 +52,17 @@ $dark-green-opacity: rgba(40, 180, 133, 0.8);
     font-size: 6rem;
     font-weight: 400;
     letter-spacing: 4.5rem;
+
+    animation-name: moveInLeft;
+    animation-duration: 1s;
+    // ease-out: 由快到慢, 更通用
+    // ease-in: 由慢到快
+    animation-timing-function: ease-out;
+
+    /*
+    animation-delay: 3s;
+    animation-iteration-count: 3;
+    */
   }
 
   &--sub {
@@ -59,5 +70,39 @@ $dark-green-opacity: rgba(40, 180, 133, 0.8);
     font-size: 2rem;
     font-weight: 900;
     letter-spacing: 1.74rem;
+
+    animation: moveInRight 1s ease-out;
+  }
+}
+
+@keyframes moveInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-10rem);
+  }
+
+  80% {
+    transform: translateX(1rem);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes moveInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(10rem);
+  }
+
+  80% {
+    transform: translateX(-1rem);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0);
   }
 }
