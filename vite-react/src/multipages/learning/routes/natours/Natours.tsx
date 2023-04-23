@@ -7,7 +7,7 @@ export default function Natours() {
   usePageTitle('Natours');
 
   return (
-    <div className={styles.natours}>
+    <div className={styles['natours']}>
       <NatoursHeader />
     </div>
   );
