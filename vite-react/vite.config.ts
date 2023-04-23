@@ -1,7 +1,7 @@
-import {defineConfig} from 'vite';
+import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import {resolve, dirname, parse} from 'path';
-import {pages} from './pages';
+import { resolve, dirname, parse } from 'path';
+import { pages } from './pages';
 
 // https://vitejs.dev/config/
 export default defineConfig({

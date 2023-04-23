@@ -14,14 +14,14 @@ export default function RouteError({code, message}: { code: number, message: str
     >
       <Typography.Title
         type="warning"
-        style={{marginBottom: '1rem', fontSize: '18.6rem'}}
+        style={{marginBottom: '1rem', fontSize: '10rem'}}
       >
         {code}
       </Typography.Title>
 
       <Typography.Title
         level={2}
-        style={{marginTop: '1rem', fontSize: '3.3rem'}}
+        style={{marginTop: '1rem', fontSize: '3rem'}}
       >
         {message}
       </Typography.Title>

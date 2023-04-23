@@ -1,13 +1,13 @@
-import {usePageTitle} from '../../hooks/use-page-title';
-import {useEffect} from 'react';
-import {Button, Popconfirm, Space, Table, Typography} from 'antd';
-import {Link} from 'react-router-dom';
-import {deletePostRequest, getPostsRequest, reset} from './post-slice';
-import {useAppDispatch, useAppSelector} from '../../store-hooks';
+import { usePageTitle } from '../../hooks/use-page-title';
+import { useEffect } from 'react';
+import { Button, Popconfirm, Space, Table, Typography } from 'antd';
+import { Link } from 'react-router-dom';
+import { deletePostRequest, getPostsRequest, reset } from './post-slice';
+import { useAppDispatch, useAppSelector } from '../../store-hooks';
 import Column from 'antd/es/table/Column';
-import {DeleteOutlined, EditOutlined} from '@ant-design/icons';
 import PostTags from './PostTags';
-import {Post} from './post-api';
+import { Post } from './post-api';
+import { AiOutlineDelete, AiOutlineEdit } from 'react-icons/all';
 
 export default function PostList() {
   usePageTitle('所有文章');
@@ -31,7 +31,7 @@ export default function PostList() {
   );
 
   return (
-    <Space direction="vertical" style={{width: '100%'}}>
+    <Space direction="vertical" style={{ width: '100%' }}>
       <Button
         type="primary"
         onClick={() => dispatch(getPostsRequest(1, 10))}
@@ -53,14 +53,14 @@ export default function PostList() {
           pagination.pageSize!
         ))}
       >
-        <Column title="文章 ID" dataIndex="id" key="id" width="5%"/>
-        <Column title="文章标题" dataIndex="title" key="title" width="50%"/>
+        <Column title="文章 ID" dataIndex="id" key="id" width="5%" />
+        <Column title="文章标题" dataIndex="title" key="title" width="50%" />
         <Column
           title="文章标签"
           dataIndex="tags"
           key="tags"
           width="35%"
-          render={(_: any, {tags}: { tags: string[] }) => <PostTags tags={tags}/>}
+          render={(_: any, { tags }: { tags: string[] }) => <PostTags tags={tags} />}
         />
         <Column
           title="操作"
@@ -69,7 +69,7 @@ export default function PostList() {
           render={(_: any, post: Post) => {
             return (
               <Space>
-                <Link to={`/posts/${post.id}`}><EditOutlined/></Link>
+                <Link to={`/posts/${post.id}`}><AiOutlineEdit /></Link>
 
                 <Popconfirm
                   title="删除文章"
@@ -78,7 +78,7 @@ export default function PostList() {
                   okText="确认"
                   cancelText="取消"
                 >
-                  <Typography.Link><DeleteOutlined/></Typography.Link>
+                  <Typography.Link><AiOutlineDelete /></Typography.Link>
                 </Popconfirm>
               </Space>
             );

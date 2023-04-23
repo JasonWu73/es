@@ -1,11 +1,11 @@
 /* @font-face 应该在任何其他样式之前定义 */
-//@font-face {
-//  font-family: "JetBrains Mono Web";
-//  src: url("../../assets/fonts/JetBrainsMono-Regular.woff2") format("woff2");
-//}
+@font-face {
+  font-family: "JetBrains Mono Web";
+  src: url("../../assets/fonts/JetBrainsMono-Regular.woff2") format("woff2");
+}
 
 @import "../../sass/base/reset";
 
-//body {
-//  font-family: "JetBrains Mono Web", sans-serif;
-//}
+body {
+  font-family: "JetBrains Mono Web", sans-serif;
+}

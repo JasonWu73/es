@@ -1,20 +1,20 @@
-import {usePageTitle} from '../../hooks/use-page-title';
-import {Card, Divider, List} from 'antd';
-import {PAGES} from '../../components/layout/HeaderLayout';
+import { usePageTitle } from '../../hooks/use-page-title';
+import { Card, Divider, List } from 'antd';
+import { PAGES } from '../../components/layout/HeaderLayout';
 
 export default function Home() {
   usePageTitle('首页');
 
   return (
     <>
-      <MultiplePages/>
+      <MultiplePages />
     </>
   );
 }
 
 function MultiplePages() {
   return (
-    <Card style={{maxWidth: '60rem', margin: '1rem auto'}}>
+    <Card style={{ maxWidth: '60rem', margin: '1rem auto' }}>
       <Divider orientation="left">多页链接</Divider>
       <List
         itemLayout="horizontal"

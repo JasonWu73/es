@@ -3,8 +3,9 @@ import { mockHttpApi } from '../../routes/auth/auth-api';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button, Layout, Menu, Space, Typography } from 'antd';
 import { useAppDispatch, useAppSelector } from '../../store-hooks';
-import { LoginOutlined, PoweroffOutlined, UserOutlined } from '@ant-design/icons';
 import { logout } from '../../routes/auth/auth-slice';
+import { AiOutlineLogin, AiOutlineLogout, AiOutlineUser } from 'react-icons/all';
+import React from 'react';
 
 export const PAGES = [
   {
@@ -57,36 +58,42 @@ function AuthButton() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
+  const buttonStyles: React.CSSProperties = {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '0.2rem'
+  };
+
   return (
     <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: '1rem' }}>
-      {
-        username &&
-        <Typography.Text strong style={{ color: 'white', fontSize: '1.6rem' }}>
-          <UserOutlined /> {nickname || username}
+      {username && (
+        <Typography.Text style={{ ...buttonStyles, color: 'white', fontSize: '1rem' }}>
+          <AiOutlineUser />
+          <span>{nickname || username}</span>
         </Typography.Text>
-      }
+      )}
 
-      {
-        username &&
+      {username && (
         <Button
           type="primary"
-          icon={<PoweroffOutlined />}
+          icon={<AiOutlineLogout />}
           onClick={() => dispatch(logout())}
+          style={buttonStyles}
         >
           注销
         </Button>
-      }
+      )}
 
-      {
-        !username &&
+      {!username && (
         <Button
           type="primary"
-          icon={<LoginOutlined />}
+          icon={<AiOutlineLogin />}
           onClick={() => navigate('/login')}
+          style={buttonStyles}
         >
           登录
         </Button>
-      }
+      )}
     </div>
   );
 }

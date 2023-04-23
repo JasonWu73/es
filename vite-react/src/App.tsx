@@ -1,17 +1,17 @@
-import {createBrowserRouter, RouterProvider} from 'react-router-dom';
-import {lazy, ReactNode, useMemo} from 'react';
-import {CalculatorOutlined, FormOutlined, HomeOutlined} from '@ant-design/icons';
-import {useAppSelector} from './store-hooks';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { lazy, ReactNode, useMemo } from 'react';
+import { useAppSelector } from './store-hooks';
 import AdminLayout from './routes/AdminLayout';
 import Home from './routes/home/Home';
-import ErrorPage from './components/error/ErrorPage';
+import ErrorPage from './routes/error/ErrorPage';
 import Secure from './routes/auth/Secure';
-import {delayForDemo} from './utils/promisify';
+import { delayForDemo } from './utils/promisify';
 import Login from './routes/auth/Login';
 import PostList from './routes/post/PostList';
 import PostDetail from './routes/post/PostDetail';
 import NewPost from './routes/post/NewPost';
 import Root from './routes/Root';
+import { AiOutlineCalculator, AiOutlineHome, BsPen } from 'react-icons/all';
 
 export interface MenuItem {
   title: string;
@@ -25,17 +25,17 @@ const MENUS: MenuItem[] = [
   {
     title: '首页',
     url: '/',
-    icon: <HomeOutlined/>
+    icon: <AiOutlineHome />
   },
   {
     title: '计数器',
     url: '/counter',
-    icon: <CalculatorOutlined/>,
+    icon: <AiOutlineCalculator />,
     authority: 'counter'
   },
   {
     title: '文章列表',
-    icon: <FormOutlined/>,
+    icon: <BsPen />,
     authority: 'post',
     children: [
       {
@@ -57,35 +57,35 @@ const Counter = lazy(() => delayForDemo(import('./routes/counter/Counter')));
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Root/>,
-    errorElement: <ErrorPage/>,
+    element: <Root />,
+    errorElement: <ErrorPage />,
     children: [
       {
-        element: <AdminLayout/>,
+        element: <AdminLayout />,
         children: [
-          {index: true, element: <Home/>},
+          { index: true, element: <Home /> },
           {
             children: [
-              {path: 'counter', element: <Secure authority="counter"><Counter/></Secure>},
+              { path: 'counter', element: <Secure authority="counter"><Counter /></Secure> },
               {
                 path: 'posts',
                 children: [
-                  {index: true, element: <Secure authority="post_view"><PostList/></Secure>},
-                  {path: ':postId', element: <Secure authority="post_view"><PostDetail/></Secure>},
-                  {path: 'new', element: <Secure authority="post_add"><NewPost/></Secure>}
+                  { index: true, element: <Secure authority="post_view"><PostList /></Secure> },
+                  { path: ':postId', element: <Secure authority="post_view"><PostDetail /></Secure> },
+                  { path: 'new', element: <Secure authority="post_add"><NewPost /></Secure> }
                 ]
               }
             ]
           }
         ]
       },
-      {path: 'login', element: <Login/>}
+      { path: 'login', element: <Login /> }
     ]
   }
 ]);
 
 export default function App() {
-  return <RouterProvider router={router}/>;
+  return <RouterProvider router={router} />;
 }
 
 export function useAuthorizedMenus() {
@@ -108,7 +108,7 @@ export function useAuthorizedMenus() {
             const submenus = getAuthorizedMenus(menu.children);
 
             if (submenus.length > 0) {
-              filteredMenus.push({...menu, children: submenus});
+              filteredMenus.push({ ...menu, children: submenus });
             }
           }
         }

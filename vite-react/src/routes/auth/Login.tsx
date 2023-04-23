@@ -1,12 +1,12 @@
 import { usePageTitle } from '../../hooks/use-page-title';
 import { Alert, Button, Form, Input, Layout, Space, Typography } from 'antd';
 import bg from '../../assets/img/ant-design-pro-background.svg';
-import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { useAppDispatch, useAppSelector } from '../../store-hooks';
 import { getAccessTokenRequest } from './auth-slice';
 import { useLocation, useNavigate } from 'react-router-dom';
 import FooterLayout from '../../components/layout/FooterLayout';
 import { useEffect } from 'react';
+import { AiOutlineLock, AiOutlineUser } from 'react-icons/all';
 
 export default function Login() {
   usePageTitle('登录');
@@ -81,11 +81,11 @@ function LoginForm() {
       }
 
       <Form.Item name="username" rules={[{ required: true, whitespace: true, message: '用户名不能为空' }]}>
-        <Input size="large" prefix={<UserOutlined />} placeholder={'用户名：admin 或 user'} />
+        <Input size="large" prefix={<AiOutlineUser />} placeholder={'用户名：admin 或 user'} />
       </Form.Item>
 
       <Form.Item name="password" rules={[{ required: true, whitespace: true, message: '密码不能为空' }]}>
-        <Input.Password size="large" prefix={<LockOutlined />} placeholder={'密码：123'} />
+        <Input.Password size="large" prefix={<AiOutlineLock />} placeholder={'密码：123'} />
       </Form.Item>
 
       <Form.Item>
