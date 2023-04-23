@@ -1,12 +1,12 @@
-import {usePageTitle} from '../../hooks/use-page-title';
-import {Alert, Button, Form, Input, Layout, Space, Typography} from 'antd';
+import { usePageTitle } from '../../hooks/use-page-title';
+import { Alert, Button, Form, Input, Layout, Space, Typography } from 'antd';
 import bg from '../../assets/img/ant-design-pro-background.svg';
-import {LockOutlined, UserOutlined} from '@ant-design/icons';
-import {useAppDispatch, useAppSelector} from '../../store-hooks';
-import {getAccessTokenRequest} from './auth-slice';
-import {useLocation, useNavigate} from 'react-router-dom';
+import { LockOutlined, UserOutlined } from '@ant-design/icons';
+import { useAppDispatch, useAppSelector } from '../../store-hooks';
+import { getAccessTokenRequest } from './auth-slice';
+import { useLocation, useNavigate } from 'react-router-dom';
 import FooterLayout from '../../components/layout/FooterLayout';
-import {useEffect} from 'react';
+import { useEffect } from 'react';
 
 export default function Login() {
   usePageTitle('登录');
@@ -22,7 +22,7 @@ export default function Login() {
         backgroundSize: '100%'
       }}
     >
-      <Layout.Content style={{display: 'flex'}}>
+      <Layout.Content style={{ display: 'flex' }}>
         <Space
           direction="vertical"
           style={{
@@ -32,23 +32,23 @@ export default function Login() {
           }}
         >
           <Space>
-            <img src="/vite.svg" alt="Vite logo" style={{pointerEvents: 'none'}}/>
-            <Typography.Title level={2} style={{marginBottom: 0}}>
+            <img src="/react.svg" alt="Vite logo" width={32} style={{ pointerEvents: 'none' }} />
+            <Typography.Title level={2} style={{ marginBottom: 0 }}>
               Vite + React + TS
             </Typography.Title>
           </Space>
 
-          <LoginForm/>
+          <LoginForm />
         </Space>
       </Layout.Content>
 
-      <FooterLayout/>
+      <FooterLayout />
     </Layout>
   );
 }
 
 function LoginForm() {
-  const {loading, error} = useAppSelector(state => state.ui);
+  const { loading, error } = useAppSelector(state => state.ui);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const location = useLocation();
@@ -62,34 +62,34 @@ function LoginForm() {
     dispatch(getAccessTokenRequest(
       username,
       password,
-      () => navigate(from, {replace: true})
+      () => navigate(from, { replace: true })
     ));
   }
 
   return (
     <Form
       name="login"
-      style={{width: '32.8rem', margin: '0 auto'}}
+      style={{ width: '32.8rem', margin: '0 auto' }}
       onFinish={handleLoginSubmit}
       autoComplete="off"
     >
       {
         error &&
         <Form.Item>
-          <Alert type="error" message={error} showIcon closable/>
+          <Alert type="error" message={error} showIcon closable />
         </Form.Item>
       }
 
-      <Form.Item name="username" rules={[{required: true, whitespace: true, message: '用户名不能为空'}]}>
-        <Input size="large" prefix={<UserOutlined/>} placeholder={'用户名：admin 或 user'}/>
+      <Form.Item name="username" rules={[{ required: true, whitespace: true, message: '用户名不能为空' }]}>
+        <Input size="large" prefix={<UserOutlined />} placeholder={'用户名：admin 或 user'} />
       </Form.Item>
 
-      <Form.Item name="password" rules={[{required: true, whitespace: true, message: '密码不能为空'}]}>
-        <Input.Password size="large" prefix={<LockOutlined/>} placeholder={'密码：123'}/>
+      <Form.Item name="password" rules={[{ required: true, whitespace: true, message: '密码不能为空' }]}>
+        <Input.Password size="large" prefix={<LockOutlined />} placeholder={'密码：123'} />
       </Form.Item>
 
       <Form.Item>
-        <Button type="primary" loading={loading} htmlType="submit" size="large" style={{width: '100%'}}>
+        <Button type="primary" loading={loading} htmlType="submit" size="large" style={{ width: '100%' }}>
           登录
         </Button>
       </Form.Item>
@@ -105,7 +105,7 @@ function useAutoRedirect() {
     () => {
       if (!username) return;
 
-      navigate('/', {replace: true});
+      navigate('/', { replace: true });
     },
     []
   );

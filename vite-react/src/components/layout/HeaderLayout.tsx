@@ -1,10 +1,10 @@
-import {sendRequest} from '../../hooks/use-http';
-import {mockHttpApi} from '../../routes/auth/auth-api';
-import {Link, useNavigate} from 'react-router-dom';
-import {Button, Layout, Menu, Typography} from 'antd';
-import {useAppDispatch, useAppSelector} from '../../store-hooks';
-import {LoginOutlined, PoweroffOutlined, UserOutlined} from '@ant-design/icons';
-import {logout} from '../../routes/auth/auth-slice';
+import { sendRequest } from '../../hooks/use-http';
+import { mockHttpApi } from '../../routes/auth/auth-api';
+import { Link, useNavigate } from 'react-router-dom';
+import { Button, Layout, Menu, Space, Typography } from 'antd';
+import { useAppDispatch, useAppSelector } from '../../store-hooks';
+import { LoginOutlined, PoweroffOutlined, UserOutlined } from '@ant-design/icons';
+import { logout } from '../../routes/auth/auth-slice';
 
 export const PAGES = [
   {
@@ -35,32 +35,34 @@ export default function HeaderLayout() {
   });
 
   return (
-    <Layout.Header style={{display: 'flex', alignItems: 'center', gap: '1rem'}}>
-      <Link to="/" style={{display: 'flex', alignItems: 'center'}}>
-        <img src="/vite.svg" alt="Vite logo"/>
-        <Typography.Title level={2} style={{color: 'white', marginBottom: 0}}>
-          Vite + React + TS
-        </Typography.Title>
+    <Layout.Header style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+      <Link to="/" style={{ display: 'flex', alignItems: 'center' }}>
+        <Space>
+          <img src="/react.svg" alt="React logo" width={32} />
+          <Typography.Title level={2} style={{ color: 'white', marginBottom: 0 }}>
+            Vite + React + TS
+          </Typography.Title>
+        </Space>
       </Link>
 
-      <Menu theme="dark" mode="horizontal" selectable={false} items={topBarMenus}/>
+      <Menu theme="dark" mode="horizontal" selectable={false} items={topBarMenus} />
 
-      <AuthButton/>
+      <AuthButton />
     </Layout.Header>
   );
 }
 
 function AuthButton() {
-  const {username, nickname} = useAppSelector(state => state.auth);
+  const { username, nickname } = useAppSelector(state => state.auth);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   return (
-    <div style={{marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: '1rem'}}>
+    <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: '1rem' }}>
       {
         username &&
-        <Typography.Text strong style={{color: 'white', fontSize: '1.6rem'}}>
-          <UserOutlined/> {nickname || username}
+        <Typography.Text strong style={{ color: 'white', fontSize: '1.6rem' }}>
+          <UserOutlined /> {nickname || username}
         </Typography.Text>
       }
 
@@ -68,7 +70,7 @@ function AuthButton() {
         username &&
         <Button
           type="primary"
-          icon={<PoweroffOutlined/>}
+          icon={<PoweroffOutlined />}
           onClick={() => dispatch(logout())}
         >
           注销
@@ -79,7 +81,7 @@ function AuthButton() {
         !username &&
         <Button
           type="primary"
-          icon={<LoginOutlined/>}
+          icon={<LoginOutlined />}
           onClick={() => navigate('/login')}
         >
           登录
