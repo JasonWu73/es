@@ -17,7 +17,7 @@ export default function NatoursHeader() {
 
         <a
           href="#"
-          className={`${styles.btn} ${styles['btn-white']}`}
+          className={`${styles.btn} ${styles['btn-white']} ${styles['btn-animated']}`}
           onClick={e => e.preventDefault()}
         >
           Discover our tours
