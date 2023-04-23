@@ -1,15 +1,14 @@
 import React from 'react';
-import classes from './Natours.module.scss';
+import styles from './Natours.module.scss';
 import { usePageTitle } from '../../../../hooks/use-page-title';
+import NatoursHeader from './NatoursHeader';
 
 export default function Natours() {
   usePageTitle('Natours');
 
   return (
-    <div className={classes.natours}>
-      <header className={classes.header}>
-        Some text...
-      </header>
+    <div className={styles.natours}>
+      <NatoursHeader />
     </div>
   );
 }
