@@ -61,38 +61,26 @@ const router = createBrowserRouter([
     element: <Root />,
     errorElement: <ErrorPage />,
     children: [
+      { path: 'login', element: <SuspenseLoading><Login /></SuspenseLoading> },
       {
         element: <AdminLayout />,
         children: [
           { index: true, element: <SuspenseLoading><Home /></SuspenseLoading> },
           {
             children: [
-              {
-                path: 'counter',
-                element: <Secure authority="counter"><Counter /></Secure>
-              },
+              { path: 'counter', element: <Secure authority="counter"><Counter /></Secure> },
               {
                 path: 'posts',
                 children: [
-                  {
-                    index: true,
-                    element: <Secure authority="post_view"><PostList /></Secure>
-                  },
-                  {
-                    path: ':postId',
-                    element: <Secure authority="post_view"><PostDetail /></Secure>
-                  },
-                  {
-                    path: 'new',
-                    element: <Secure authority="post_add"><NewPost /></Secure>
-                  }
+                  { index: true, element: <Secure authority="post_view"><PostList /></Secure> },
+                  { path: ':postId', element: <Secure authority="post_view"><PostDetail /></Secure> },
+                  { path: 'new', element: <Secure authority="post_add"><NewPost /></Secure> }
                 ]
               }
             ]
           }
         ]
-      },
-      { path: 'login', element: <SuspenseLoading><Login /></SuspenseLoading> }
+      }
     ]
   }
 ]);

@@ -1,6 +1,7 @@
 import React from 'react';
 import { createHashRouter, RouterProvider } from 'react-router-dom';
 import Home from './routes/home/Home';
+import SuspenseLoading from '@/components/loading/SuspenseLoading';
 
 const Natours = React.lazy(() => import('./routes/natours/Natours'));
 
@@ -11,11 +12,7 @@ const router = createHashRouter([
       { index: true, element: <Home /> },
       {
         path: 'natours',
-        element: (
-          <React.Suspense fallback="🌀 Loading...">
-            <Natours />
-          </React.Suspense>
-        )
+        element: <SuspenseLoading><Natours /></SuspenseLoading>
       }
     ]
   }

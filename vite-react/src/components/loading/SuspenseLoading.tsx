@@ -15,12 +15,10 @@ export default function SuspenseLoading({ children }: Props) {
 
 export function SkeletonLoading() {
   return (
-    <div style={{ textAlign: 'center', marginTop: '2%' }}>
-      <Space direction="vertical" style={{ width: '95%' }}>
-        <Skeleton active title={false} paragraph={{ rows: 3 }} />
-        <Skeleton active paragraph={false} title={{ width: '40%' }} />
-        <Skeleton active title={false} paragraph={{ rows: 3 }} />
-      </Space>
-    </div>
+    <Space direction="vertical" size="middle" style={{ textAlign: 'center', marginTop: '1%', width: '100%' }}>
+      <Skeleton active title={false} paragraph={{ rows: 3 }} />
+      <Skeleton active paragraph={{ rows: 1, width: '40%' }} />
+      <Skeleton active title={false} paragraph={{ rows: 3 }} />
+    </Space>
   );
 }

@@ -1,11 +1,11 @@
-import { usePageTitle } from '../../hooks/use-page-title';
+import React from 'react';
+import { usePageTitle } from '@/hooks/use-page-title';
 import { Alert, Button, Form, Input, Layout, Space, Typography } from 'antd';
 import bg from '../../assets/img/ant-design-pro-background.svg';
-import { useAppDispatch, useAppSelector } from '../../store-hooks';
+import { useAppDispatch, useAppSelector } from '@/store-hooks';
 import { getAccessTokenRequest } from './auth-slice';
 import { useLocation, useNavigate } from 'react-router-dom';
 import FooterLayout from '../../components/layout/FooterLayout';
-import { useEffect } from 'react';
 import { AiOutlineLock, AiOutlineUser } from 'react-icons/all';
 
 export default function Login() {
@@ -101,7 +101,7 @@ function useAutoRedirect() {
   const username = useAppSelector(state => state.auth.username);
   const navigate = useNavigate();
 
-  useEffect(
+  React.useEffect(
     () => {
       if (!username) return;
 
