@@ -60,19 +60,11 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <Root />,
-    errorElement: (
-      <SuspenseLoading>
-        <ErrorPage />
-      </SuspenseLoading>
-    ),
+    errorElement: <SuspenseLoading><ErrorPage /></SuspenseLoading>,
     children: [
       {
         path: 'login',
-        element: (
-          <SuspenseLoading>
-            <Login />
-          </SuspenseLoading>
-        )
+        element: <SuspenseLoading><Login /></SuspenseLoading>
       },
       {
         element: <AdminLayout />,
@@ -82,38 +74,22 @@ const router = createBrowserRouter([
             children: [
               {
                 path: 'counter',
-                element: (
-                  <Secure authority="counter">
-                    <Counter />
-                  </Secure>
-                )
+                element: <Secure authority="counter"><Counter /></Secure>
               },
               {
                 path: 'posts',
                 children: [
                   {
                     index: true,
-                    element: (
-                      <Secure authority="post_view">
-                        <PostList />
-                      </Secure>
-                    )
+                    element: <Secure authority="post_view"><PostList /></Secure>
                   },
                   {
                     path: ':postId',
-                    element: (
-                      <Secure authority="post_view">
-                        <PostDetail />
-                      </Secure>
-                    )
+                    element: <Secure authority="post_view"><PostDetail /></Secure>
                   },
                   {
                     path: 'new',
-                    element: (
-                      <Secure authority="post_add">
-                        <NewPost />
-                      </Secure>
-                    )
+                    element: <Secure authority="post_add"><NewPost /></Secure>
                   }
                 ]
               }

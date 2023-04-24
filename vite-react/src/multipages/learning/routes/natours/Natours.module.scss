@@ -3,6 +3,7 @@ $color-primary-light: #55c57a;
 $color-primary-dark: #28b485;
 $color-gray-dark: #777;
 $color-white: #fff;
+$color-black: #000;
 
 .natours {
   font-weight: 400;
@@ -16,13 +17,13 @@ $color-white: #fff;
   background-image: linear-gradient(
       to right bottom,
       rgba($color-primary, 80%),
-      rgba($color-primary-dark, 80%)),
+      rgba($color-primary-dark, 80%)
+  ),
   url("./img/hero.jpg");
   background-size: cover;
   background-position: top;
   clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%);
   position: relative;
-
 
   &__logo-box {
     position: absolute;
@@ -105,7 +106,7 @@ $color-white: #fff;
 
   &:hover {
     transform: translateY(-0.3rem);
-    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
+    box-shadow: 0 1rem 2rem rgba($color-black, 0.2);
 
     &::after {
       transform: scaleX(1.4) scaleY(1.6);
@@ -115,7 +116,7 @@ $color-white: #fff;
 
   &:active {
     transform: translateY(-0.1rem);
-    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0.5rem 1rem rgba($color-black, 0.2);
   }
 
   &--white {
