@@ -3,13 +3,8 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { useAppSelector } from './store-hooks';
 import AdminLayout from './routes/AdminLayout';
 import Home from './routes/home/Home';
-import ErrorPage from './routes/error/ErrorPage';
 import Secure from './routes/auth/Secure';
 import { delayForDemo } from './utils/promisify';
-import Login from './routes/auth/Login';
-import PostList from './routes/post/PostList';
-import PostDetail from './routes/post/PostDetail';
-import NewPost from './routes/post/NewPost';
 import Root from './routes/Root';
 import { AiOutlineCalculator, AiOutlineHome, BsPen } from 'react-icons/all';
 
@@ -53,6 +48,11 @@ const MENUS: MenuItem[] = [
 ];
 
 const Counter = lazy(() => delayForDemo(import('./routes/counter/Counter')));
+const ErrorPage = lazy(() => import('./routes/error/ErrorPage'));
+const Login = lazy(() => import('./routes/auth/Login'));
+const PostList = lazy(() => import('./routes/post/PostList'));
+const PostDetail = lazy(() => import('./routes/post/PostDetail'));
+const NewPost = lazy(() => import('./routes/post/NewPost'));
 
 const router = createBrowserRouter([
   {
@@ -66,13 +66,25 @@ const router = createBrowserRouter([
           { index: true, element: <Home /> },
           {
             children: [
-              { path: 'counter', element: <Secure authority="counter"><Counter /></Secure> },
+              {
+                path: 'counter',
+                element: <Secure authority="counter"><Counter /></Secure>
+              },
               {
                 path: 'posts',
                 children: [
-                  { index: true, element: <Secure authority="post_view"><PostList /></Secure> },
-                  { path: ':postId', element: <Secure authority="post_view"><PostDetail /></Secure> },
-                  { path: 'new', element: <Secure authority="post_add"><NewPost /></Secure> }
+                  {
+                    index: true,
+                    element: <Secure authority="post_view"><PostList /></Secure>
+                  },
+                  {
+                    path: ':postId',
+                    element: <Secure authority="post_view"><PostDetail /></Secure>
+                  },
+                  {
+                    path: 'new',
+                    element: <Secure authority="post_add"><NewPost /></Secure>
+                  }
                 ]
               }
             ]
