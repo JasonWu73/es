@@ -69,7 +69,7 @@ function LoginForm() {
   return (
     <Form
       name="login"
-      style={{ width: '32.8rem', margin: '0 auto' }}
+      style={{ maxWidth: '32.8rem', margin: '0 auto' }}
       onFinish={handleLoginSubmit}
       autoComplete="off"
     >
