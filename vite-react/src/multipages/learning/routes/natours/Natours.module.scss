@@ -1,11 +1,13 @@
 $color-primary: #7ed56f;
 $color-primary-light: #55c57a;
 $color-primary-dark: #28b485;
+$color-gray-dark: #777;
+$color-white: #fff;
 
 .natours {
   font-weight: 400;
   line-height: 1.7;
-  color: #777;
+  color: $color-gray-dark;
   padding: 3rem;
 }
 
@@ -42,7 +44,7 @@ $color-primary-dark: #28b485;
 }
 
 .heading-primary {
-  color: #fff;
+  color: $color-white;
   text-transform: uppercase;
   margin-bottom: 6rem;
 
@@ -117,11 +119,11 @@ $color-primary-dark: #28b485;
   }
 
   &--white {
-    background-color: #fff;
-    color: #777;
+    background-color: $color-white;
+    color: $color-gray-dark;
 
     &::after {
-      background-color: #fff;
+      background-color: $color-white;
     }
   }
 
