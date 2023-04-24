@@ -1,6 +1,7 @@
-import { usePageTitle } from '../../hooks/use-page-title';
+import React from 'react';
+import { usePageTitle } from '@/hooks/use-page-title';
 import { Card, Divider, List } from 'antd';
-import { PAGES } from '../../components/layout/HeaderLayout';
+import { PAGES } from '@/components/layout/HeaderLayout';
 
 export default function Home() {
   usePageTitle('首页');

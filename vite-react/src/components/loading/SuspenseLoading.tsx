@@ -1,20 +1,26 @@
-import {ReactNode, Suspense} from 'react';
-import {Skeleton, Space} from 'antd';
+import React from 'react';
+import { Skeleton, Space } from 'antd';
 
-export default function SuspenseLoading({children}: { children: ReactNode }) {
+interface Props {
+  children: React.ReactNode;
+}
+
+export default function SuspenseLoading({ children }: Props) {
   return (
-    <Suspense fallback={<SkeletonLoading/>}>
+    <React.Suspense fallback={<SkeletonLoading />}>
       {children}
-    </Suspense>
+    </React.Suspense>
   );
 }
 
 export function SkeletonLoading() {
   return (
-    <Space direction="vertical" style={{width: '100%'}}>
-      <Skeleton active title={false} paragraph={{rows: 3}}/>
-      <Skeleton active paragraph={false} title={{width: '40%'}}/>
-      <Skeleton active title={false} paragraph={{rows: 3}}/>
-    </Space>
+    <div style={{ textAlign: 'center', marginTop: '2%' }}>
+      <Space direction="vertical" style={{ width: '95%' }}>
+        <Skeleton active title={false} paragraph={{ rows: 3 }} />
+        <Skeleton active paragraph={false} title={{ width: '40%' }} />
+        <Skeleton active title={false} paragraph={{ rows: 3 }} />
+      </Space>
+    </div>
   );
 }

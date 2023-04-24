@@ -1,14 +1,14 @@
-import {Alert, Breadcrumb, Layout, Menu, Space} from 'antd';
-import {Link, Outlet, useLocation} from 'react-router-dom';
-import {CSSProperties, useEffect, useMemo, useState} from 'react';
-import {useAppSelector} from '../store-hooks';
-import {MenuItem, useAuthorizedMenus} from '../App';
+import { Alert, Breadcrumb, Layout, Menu, Space } from 'antd';
+import { Link, Outlet, useLocation } from 'react-router-dom';
+import { CSSProperties, useEffect, useMemo, useState } from 'react';
+import { useAppSelector } from '@/store-hooks';
+import { MenuItem, useAuthorizedMenus } from '@/App';
 import FooterLayout from '../components/layout/FooterLayout';
 import HeaderLayout from '../components/layout/HeaderLayout';
-import {ContentLayout} from '../components/layout/ContentLayout';
+import { ContentLayout } from '@/components/layout/ContentLayout';
 
 export default function AdminLayout() {
-  const {pathname} = useLocation();
+  const { pathname } = useLocation();
   const authorizedMenus = useAuthorizedMenus();
   const pathSnippets = usePathSnippets(authorizedMenus);
   const error = useAppSelector(state => state.ui.error);
@@ -22,24 +22,24 @@ export default function AdminLayout() {
   };
 
   return (
-    <Layout style={{minHeight: '100dvh'}}>
-      <HeaderLayout/>
+    <Layout style={{ minHeight: '100dvh' }}>
+      <HeaderLayout />
 
       <Layout>
-        <SidebarMenu menus={authorizedMenus} paths={pathSnippets}/>
+        <SidebarMenu menus={authorizedMenus} paths={pathSnippets} />
 
         <Layout style={ContentContainerStyle}>
-          {!isHomePage && <Breadcrumbs paths={pathSnippets}/>}
+          {!isHomePage && <Breadcrumbs paths={pathSnippets} />}
 
           <ContentLayout>
-            <Space direction="vertical" style={{width: '100%'}}>
-              {error && <Alert type="error" message={error} showIcon closable/>}
+            <Space direction="vertical" style={{ width: '100%' }}>
+              {error && <Alert type="error" message={error} showIcon closable />}
 
-              <Outlet/>
+              <Outlet />
             </Space>
           </ContentLayout>
 
-          <FooterLayout/>
+          <FooterLayout />
         </Layout>
       </Layout>
     </Layout>
@@ -52,11 +52,11 @@ interface PathSnippet {
 }
 
 function usePathSnippets(menus: MenuItem[]): PathSnippet[] {
-  const {pathname} = useLocation();
+  const { pathname } = useLocation();
 
   return useMemo(
     () => {
-      if (pathname === '/') return [{url: '/', title: '首页'}];
+      if (pathname === '/') return [{ url: '/', title: '首页' }];
 
       const pathSnippets = pathname.split('/').filter((p) => p);
 
@@ -64,7 +64,7 @@ function usePathSnippets(menus: MenuItem[]): PathSnippet[] {
         const url = `/${pathSnippets.slice(0, index + 1).join('/')}`;
         const title = getMenuTitle(menus, url) ?? path;
 
-        return {url, title};
+        return { url, title };
       });
 
       function getMenuTitle(items: MenuItem[], urlToSearch: string): string | null {
@@ -85,16 +85,16 @@ function usePathSnippets(menus: MenuItem[]): PathSnippet[] {
   );
 }
 
-function SidebarMenu({menus, paths}: { menus: MenuItem[], paths: PathSnippet[] }) {
+function SidebarMenu({ menus, paths }: { menus: MenuItem[], paths: PathSnippet[] }) {
   const menuItems = useAntMenus(menus);
   const selectedKeys = useMenuSelectedKeys(menus, paths);
-  const {openKeys, setOpenKeys} = useOpenKeys(selectedKeys);
+  const { openKeys, setOpenKeys } = useOpenKeys(selectedKeys);
 
   return (
     <Layout.Sider>
       <Menu
         mode="inline"
-        style={{height: '100%', borderRight: 0}}
+        style={{ height: '100%', borderRight: 0 }}
         items={menuItems}
         selectedKeys={selectedKeys}
         openKeys={openKeys}
@@ -191,21 +191,21 @@ function useOpenKeys(selectedKeys: string[]) {
     [selectedKeys]
   );
 
-  return {openKeys, setOpenKeys};
+  return { openKeys, setOpenKeys };
 }
 
-function Breadcrumbs({paths}: { paths: PathSnippet[] }) {
+function Breadcrumbs({ paths }: { paths: PathSnippet[] }) {
   const breadcrumbItems = useBreadcrumbItems(paths);
 
   return (
-    <Breadcrumb items={breadcrumbItems} style={{margin: '1.6rem 0'}}/>
+    <Breadcrumb items={breadcrumbItems} style={{ margin: '1.6rem 0' }} />
   );
 }
 
 function useBreadcrumbItems(paths: PathSnippet[]) {
   return useMemo(
     () => {
-      const prevBreadcrumbItems = paths.map(({url, title}) => {
+      const prevBreadcrumbItems = paths.map(({ url, title }) => {
         return {
           key: url,
           title: <Link to={url}>{title}</Link>

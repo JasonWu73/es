@@ -1,8 +1,12 @@
-import {ReactNode} from 'react';
-import {Layout, theme} from 'antd';
+import React from 'react';
+import { Layout, theme } from 'antd';
 
-export function ContentLayout({children}: { children: ReactNode }) {
-  const {token: {colorBgContainer}} = theme.useToken();
+interface Props {
+  children: React.ReactNode;
+}
+
+export function ContentLayout({ children }: Props) {
+  const { token: { colorBgContainer } } = theme.useToken();
 
   return (
     <Layout.Content
