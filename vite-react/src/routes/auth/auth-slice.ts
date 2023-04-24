@@ -1,10 +1,10 @@
-import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {AppDispatch, RootState} from '../../store';
-import {getAccessTokenApi, updateAccessTokenApi} from './auth-api';
-import {apiAxios} from '../../utils/http';
-import {AxiosError} from 'axios';
-import {sendRequest} from '../../components/layout/ui-slice';
-import {needsLogout} from '../../hooks/use-http';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { AppDispatch, RootState } from '@/store';
+import { getAccessTokenApi, updateAccessTokenApi } from './auth-api';
+import { apiAxios } from '@/utils/http';
+import { AxiosError } from 'axios';
+import { sendRequest } from '@/components/layout/ui-slice';
+import { needsLogout } from '@/hooks/use-http';
 
 export interface AuthState {
   userId: number;
@@ -51,7 +51,7 @@ export const authSlice = createSlice({
 
 export const authReducer = authSlice.reducer;
 
-export const {setAuth, clearAuth} = authSlice.actions;
+export const { setAuth, clearAuth } = authSlice.actions;
 
 export function getAccessTokenRequest(
   username: string,
@@ -68,7 +68,7 @@ export function getAccessTokenRequest(
         password: isValidPassword ? '0lelplR' : password
       }),
       data => {
-        const {token: accessToken} = data;
+        const { token: accessToken } = data;
 
         const expiresInSeconds = 120;
         const currentTimestampSeconds = Math.floor(new Date().getTime() / 1000);
@@ -126,7 +126,7 @@ export function tryUpdateAccessToken() {
   return (dispatch: AppDispatch, getState: () => RootState) => {
     if (pending) return;
 
-    const {expiredAt, refreshToken} = getState().auth;
+    const { expiredAt, refreshToken } = getState().auth;
 
     const currentTimestampSeconds = Math.floor(new Date().getTime() / 1000);
     const countdownSeconds = expiredAt - currentTimestampSeconds;
@@ -139,7 +139,7 @@ export function tryUpdateAccessToken() {
       const expiredAt = currentTimestampSeconds + expiresInSeconds;
 
       apiAxios(updateAccessTokenApi(refreshToken)).then(response => {
-        const {data} = response;
+        const { data } = response;
 
         dispatch(
           login({

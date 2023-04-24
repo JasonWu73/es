@@ -27,7 +27,7 @@ function getPageInputs() {
   (pages as string[]).forEach(page => {
     // 获取目录名, 并将 `/` 替换为 `_`
     const dirName = path.dirname(page).replace(/\//g, '_');
-    // Get the file name without extension
+    // get the file name without extension
     const filename = path.parse(page).name;
 
     pagesInput[`${dirName}_${filename}`] = page;

@@ -1,4 +1,4 @@
-import { lazy, ReactNode, useMemo } from 'react';
+import React from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { useAppSelector } from './store-hooks';
 import AdminLayout from './routes/AdminLayout';
@@ -6,13 +6,14 @@ import Home from './routes/home/Home';
 import Secure from './routes/auth/Secure';
 import { delayForDemo } from './utils/promisify';
 import Root from './routes/Root';
-import { AiOutlineCalculator, AiOutlineHome, BsPen } from 'react-icons/all';
 import SuspenseLoading from '@/components/loading/SuspenseLoading';
+import { AiOutlineCalculator, AiOutlineHome } from 'react-icons/ai';
+import { BsPen } from 'react-icons/bs';
 
 export interface MenuItem {
   title: string;
   url?: string;
-  icon?: ReactNode;
+  icon?: React.ReactNode;
   authority?: string;
   children?: MenuItem[];
 }
@@ -48,33 +49,72 @@ const MENUS: MenuItem[] = [
   }
 ];
 
-const Counter = lazy(() => delayForDemo(import('./routes/counter/Counter')));
-const ErrorPage = lazy(() => import('./routes/error/ErrorPage'));
-const Login = lazy(() => import('./routes/auth/Login'));
-const PostList = lazy(() => import('./routes/post/PostList'));
-const PostDetail = lazy(() => import('./routes/post/PostDetail'));
-const NewPost = lazy(() => import('./routes/post/NewPost'));
+const ErrorPage = React.lazy(() => import('./routes/error/ErrorPage'));
+const Login = React.lazy(() => import('./routes/auth/Login'));
+const Counter = React.lazy(() => delayForDemo(import('./routes/counter/Counter')));
+const PostList = React.lazy(() => import('./routes/post/PostList'));
+const PostDetail = React.lazy(() => import('./routes/post/PostDetail'));
+const NewPost = React.lazy(() => import('./routes/post/NewPost'));
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <Root />,
-    errorElement: <ErrorPage />,
+    errorElement: (
+      <SuspenseLoading>
+        <ErrorPage />
+      </SuspenseLoading>
+    ),
     children: [
-      { path: 'login', element: <SuspenseLoading><Login /></SuspenseLoading> },
+      {
+        path: 'login',
+        element: (
+          <SuspenseLoading>
+            <Login />
+          </SuspenseLoading>
+        )
+      },
       {
         element: <AdminLayout />,
         children: [
-          { index: true, element: <SuspenseLoading><Home /></SuspenseLoading> },
+          { index: true, element: <Home /> },
           {
             children: [
-              { path: 'counter', element: <Secure authority="counter"><Counter /></Secure> },
+              {
+                path: 'counter',
+                element: (
+                  <Secure authority="counter">
+                    <Counter />
+                  </Secure>
+                )
+              },
               {
                 path: 'posts',
                 children: [
-                  { index: true, element: <Secure authority="post_view"><PostList /></Secure> },
-                  { path: ':postId', element: <Secure authority="post_view"><PostDetail /></Secure> },
-                  { path: 'new', element: <Secure authority="post_add"><NewPost /></Secure> }
+                  {
+                    index: true,
+                    element: (
+                      <Secure authority="post_view">
+                        <PostList />
+                      </Secure>
+                    )
+                  },
+                  {
+                    path: ':postId',
+                    element: (
+                      <Secure authority="post_view">
+                        <PostDetail />
+                      </Secure>
+                    )
+                  },
+                  {
+                    path: 'new',
+                    element: (
+                      <Secure authority="post_add">
+                        <NewPost />
+                      </Secure>
+                    )
+                  }
                 ]
               }
             ]
@@ -92,7 +132,7 @@ export default function App() {
 export function useAuthorizedMenus() {
   const authorities = useAppSelector(state => state.auth.authorities);
 
-  return useMemo(
+  return React.useMemo(
     () => {
       return getAuthorizedMenus(MENUS);
 
