@@ -16,13 +16,6 @@ export default defineConfig({
       input: {
         main: path.resolve(__dirname, 'index.html'),
         ...getPageInputs()
-      },
-      output: {
-        manualChunks(id) {
-          if (id.includes('node_modules/react')) {
-            return 'react';
-          }
-        }
       }
     }
   }
