@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './Natours.module.scss';
-import Logo from './img/logo-white.png';
+import Logo from '@/assets/natours/img/logo-white.png';
 
 export default function NatoursHeader() {
   return (
