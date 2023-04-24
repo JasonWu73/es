@@ -1,6 +1,6 @@
-import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {AppDispatch, RootState} from '../../store';
-import {wait} from '../../utils/promisify';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { AppDispatch, RootState } from '@/store';
+import { wait } from '@/utils/promisify';
 
 export const counterSlice = createSlice({
   name: 'counter',
@@ -8,13 +8,13 @@ export const counterSlice = createSlice({
     value: 0
   },
   reducers: {
-    increment: (state) => {
+    increment(state) {
       state.value += 1;
     },
-    decrement: (state) => {
+    decrement(state) {
       state.value -= 1;
     },
-    incrementByAmount: (state, action: PayloadAction<number>) => {
+    incrementByAmount(state, action: PayloadAction<number>) {
       state.value += action.payload;
     }
   }
@@ -22,7 +22,7 @@ export const counterSlice = createSlice({
 
 export const counterReducer = counterSlice.reducer;
 
-export const {increment, decrement, incrementByAmount} = counterSlice.actions;
+export const { increment, decrement, incrementByAmount } = counterSlice.actions;
 
 export function incrementAsync(amount: number) {
   return async (dispatch: AppDispatch, getState: () => RootState) => {

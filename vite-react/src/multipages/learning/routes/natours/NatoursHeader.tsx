@@ -1,12 +1,12 @@
 import React from 'react';
 import styles from './Natours.module.scss';
-import Logo from '@/assets/natours/img/logo-white.png';
+import logo from '@/assets/natours/img/logo-white.png';
 
 export default function NatoursHeader() {
   return (
     <header className={styles.header}>
       <div className={styles.header__logoBox}>
-        <img src={Logo} alt="Logo" className={styles.header__logo} />
+        <img src={logo} alt="Logo" className={styles.header__logo} />
       </div>
 
       <div className={styles.header__textBox}>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { usePageTitle } from '@/hooks/use-page-title';
 import { Alert, Button, Form, Input, Layout, Space, Typography } from 'antd';
-import bg from '../../assets/img/ant-design-pro-background.svg';
+import antDesignProBackground from '@/assets/img/ant-design-pro-background.svg';
 import { useAppDispatch, useAppSelector } from '@/store-hooks';
 import { getAccessTokenRequest } from './auth-slice';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -16,7 +16,7 @@ export default function Login() {
     <Layout
       style={{
         minHeight: '100dvh',
-        backgroundImage: `url(${bg})`,
+        backgroundImage: `url(${antDesignProBackground})`,
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'center 11rem',
         backgroundSize: '100%'

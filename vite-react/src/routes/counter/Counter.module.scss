@@ -1,29 +1,23 @@
 .counter {
   text-align: center;
+}
 
-  &__header {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    font-size: calc(1rem + 2vmin);
+.header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: calc(1rem + 2vmin);
+}
 
-    &__logo {
-      height: 40vmin;
-      pointer-events: none;
-    }
-  }
+.logo {
+  height: 40vmin;
+  pointer-events: none;
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .counter {
-
-    &__header {
-
-      &__logo {
-        animation: logo-float infinite 3s ease-in-out;
-      }
-    }
+  .logo {
+    animation: logo-float infinite 3s ease-in-out;
   }
 }
 

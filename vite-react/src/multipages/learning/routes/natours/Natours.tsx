@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './Natours.module.scss';
 import { usePageTitle } from '@/hooks/use-page-title';
-import Favicon from '@/assets/natours/img/favicon.png';
+import favicon from '@/assets/natours/img/favicon.png';
 import NatoursHeader from './NatoursHeader';
 import { changeFavicon } from '@/utils/page';
 
@@ -19,7 +19,7 @@ export default function Natours() {
 function useFavicon() {
   React.useEffect(
     () => {
-      const reset = changeFavicon(Favicon);
+      const reset = changeFavicon(favicon);
 
       return () => {
         reset();
