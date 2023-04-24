@@ -9,7 +9,14 @@ const router = createHashRouter([
     path: '/',
     children: [
       { index: true, element: <Home /> },
-      { path: 'natours', element: <Natours /> }
+      {
+        path: 'natours',
+        element: (
+          <React.Suspense fallback="🌀 Loading...">
+            <Natours />
+          </React.Suspense>
+        )
+      }
     ]
   }
 ]);
