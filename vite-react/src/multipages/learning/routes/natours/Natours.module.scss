@@ -1,10 +1,6 @@
 $light-green: #7ed56f;
-$light-green-opacity: rgba(126, 213, 111, 0.8);
-
 $medium-green: #55c57a;
-
 $dark-green: #28b485;
-$dark-green-opacity: rgba(40, 180, 133, 0.8);
 
 .natours {
   font-weight: 400;
@@ -17,8 +13,8 @@ $dark-green-opacity: rgba(40, 180, 133, 0.8);
   height: 95vh;
   background-image: linear-gradient(
       to right bottom,
-      $light-green-opacity,
-      $dark-green-opacity),
+      rgba($light-green, 80%),
+      rgba($dark-green, 80%)),
   url("./img/hero.jpg");
   background-size: cover;
   background-position: top;

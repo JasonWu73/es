@@ -1,5 +1,5 @@
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { lazy, ReactNode, useMemo } from 'react';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { useAppSelector } from './store-hooks';
 import AdminLayout from './routes/AdminLayout';
 import Home from './routes/home/Home';

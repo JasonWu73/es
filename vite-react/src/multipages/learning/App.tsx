@@ -1,5 +1,6 @@
+import React from 'react';
 import { createHashRouter, RouterProvider } from 'react-router-dom';
-import Home from './routes/Home';
+import Home from './routes/home/Home';
 import Natours from './routes/natours/Natours';
 
 const router = createHashRouter([
