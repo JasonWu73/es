@@ -67,7 +67,7 @@ function AuthButton() {
   return (
     <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: '1rem' }}>
       {username && (
-        <Typography.Text style={{ ...buttonStyles, color: 'white', fontSize: '1rem' }}>
+        <Typography.Text style={{ ...buttonStyles, color: 'white' }}>
           <AiOutlineUser />
           <span>{nickname || username}</span>
         </Typography.Text>

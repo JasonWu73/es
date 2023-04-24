@@ -7,6 +7,7 @@ import Secure from './routes/auth/Secure';
 import { delayForDemo } from './utils/promisify';
 import Root from './routes/Root';
 import { AiOutlineCalculator, AiOutlineHome, BsPen } from 'react-icons/all';
+import SuspenseLoading from '@/components/loading/SuspenseLoading';
 
 export interface MenuItem {
   title: string;
@@ -63,7 +64,7 @@ const router = createBrowserRouter([
       {
         element: <AdminLayout />,
         children: [
-          { index: true, element: <Home /> },
+          { index: true, element: <SuspenseLoading><Home /></SuspenseLoading> },
           {
             children: [
               {
@@ -91,7 +92,7 @@ const router = createBrowserRouter([
           }
         ]
       },
-      { path: 'login', element: <Login /> }
+      { path: 'login', element: <SuspenseLoading><Login /></SuspenseLoading> }
     ]
   }
 ]);
