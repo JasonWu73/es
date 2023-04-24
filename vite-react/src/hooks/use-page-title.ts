@@ -1,9 +1,10 @@
 import React from 'react';
+import { changePageTitle } from '@/utils/page';
 
 export function usePageTitle(title: string) {
   React.useEffect(
     () => {
-      document.title = title;
+      changePageTitle(title);
     },
     [title]
   );
