@@ -1,8 +1,8 @@
-import classes from './Counter.module.scss';
-import { usePageTitle } from '../../hooks/use-page-title';
+import styles from './Counter.module.scss';
+import { usePageTitle } from '@/hooks/use-page-title';
 import { useState } from 'react';
 import { Button, InputNumber, Space, Typography } from 'antd';
-import { useAppDispatch, useAppSelector } from '../../store-hooks';
+import { useAppDispatch, useAppSelector } from '@/store-hooks';
 import { decrement, increment, incrementAsync, incrementByAmount } from './counter-slice';
 import reduxLogo from '../../assets/img/redux-logo.svg';
 
@@ -19,9 +19,9 @@ export default function Counter() {
   }
 
   return (
-    <div className={classes.counter}>
-      <div className={classes.counter__header}>
-        <img src={reduxLogo} className={classes.counter__header__logo} alt="Redux logo" />
+    <div className={styles.counter}>
+      <div className={styles.counter__header}>
+        <img src={reduxLogo} className={styles.counter__header__logo} alt="Redux logo" />
         <Space direction="vertical">
           <Space>
             <Button type="default" shape="circle" size="large" onClick={() => dispatch(increment())}>+</Button>

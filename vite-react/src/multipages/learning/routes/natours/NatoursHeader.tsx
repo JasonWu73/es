@@ -4,20 +4,20 @@ import Logo from '@/assets/natours/img/logo-white.png';
 
 export default function NatoursHeader() {
   return (
-    <header className={styles['header']}>
-      <div className={styles['header__logo-box']}>
-        <img src={Logo} alt="Logo" className={styles['header__logo']} />
+    <header className={styles.header}>
+      <div className={styles.header__logoBox}>
+        <img src={Logo} alt="Logo" className={styles.header__logo} />
       </div>
 
-      <div className={styles['header__text-box']}>
-        <h1 className={styles['heading-primary']}>
-          <span className={styles['heading-primary--main']}>Outdoors</span>
-          <span className={styles['heading-primary--sub']}>is where life happens</span>
+      <div className={styles.header__textBox}>
+        <h1 className={styles.headingPrimary}>
+          <span className={styles.headingPrimaryMain}>Outdoors</span>
+          <span className={styles.headingPrimarySub}>is where life happens</span>
         </h1>
 
         <a
           href="#"
-          className={`${styles['btn']} ${styles['btn--white']} ${styles['btn--animated']}`}
+          className={`${styles.btn} ${styles.btnWhite} ${styles.btnAnimated}`}
           onClick={e => e.preventDefault()}
         >
           Discover our tours

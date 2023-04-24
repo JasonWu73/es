@@ -9,6 +9,11 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'src')
+    },
+  },
+  css: {
+    modules: {
+      localsConvention: 'dashesOnly'
     }
   },
   build: {
