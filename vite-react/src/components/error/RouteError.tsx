@@ -1,27 +1,32 @@
-import {useNavigate} from 'react-router-dom';
-import {useCallback, useEffect, useState} from 'react';
-import {Button, Space, Typography} from 'antd';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Button, Space, Typography } from 'antd';
 
-const COUNTDOWN_SECONDS = 100;
+interface Props {
+  code: number;
+  message: string;
+}
 
-export default function RouteError({code, message}: { code: number, message: string }) {
-  const {goToHome, countdown} = useRedirect();
+const COUNTDOWN_SECONDS = 10;
+
+export default function RouteError({ code, message }: Props) {
+  const { goToHome, countdown } = useRedirect();
 
   return (
     <Space
       direction="vertical"
-      style={{width: '100%', justifyContent: 'center', alignItems: 'center'}}
+      style={{ width: '100%', justifyContent: 'center', alignItems: 'center' }}
     >
       <Typography.Title
         type="warning"
-        style={{marginBottom: '1rem', fontSize: '10rem'}}
+        style={{ marginBottom: '1rem', fontSize: '10rem' }}
       >
         {code}
       </Typography.Title>
 
       <Typography.Title
         level={2}
-        style={{marginTop: '1rem', fontSize: '3rem'}}
+        style={{ marginTop: '1rem', fontSize: '3rem' }}
       >
         {message}
       </Typography.Title>
@@ -40,7 +45,7 @@ function useRedirect() {
   const navigate = useNavigate();
 
   const goToHome = useCallback(
-    () => navigate('/', {replace: true}),
+    () => navigate('/', { replace: true }),
     []
   );
 
@@ -63,5 +68,5 @@ function useRedirect() {
     []
   );
 
-  return {goToHome, countdown};
+  return { goToHome, countdown };
 }

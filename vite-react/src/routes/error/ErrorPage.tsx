@@ -1,6 +1,7 @@
+import React from 'react';
 import { Layout } from 'antd';
 import RouteError from '../../components/error/RouteError';
-import { usePageTitle } from '../../hooks/use-page-title';
+import { usePageTitle } from '@/hooks/use-page-title';
 import HeaderLayout from '../../components/layout/HeaderLayout';
 import FooterLayout from '../../components/layout/FooterLayout';
 
