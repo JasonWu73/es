@@ -1,15 +1,20 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import { resolve, dirname, parse } from 'path';
+import path from 'path';
 import { pages } from './pages';
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, 'src')
+    }
+  },
   build: {
     rollupOptions: {
       input: {
-        main: resolve(__dirname, 'index.html'),
+        main: path.resolve(__dirname, 'index.html'),
         ...getPageInputs()
       },
       output: {
@@ -27,8 +32,11 @@ function getPageInputs() {
   const pagesInput = {};
 
   (pages as string[]).forEach(page => {
-    const dirName = dirname(page).replace(/\//g, '_'); // 获取目录名, 并将 `/` 替换为 `_`
-    const filename = parse(page).name; // Get the file name without extension
+    // 获取目录名, 并将 `/` 替换为 `_`
+    const dirName = path.dirname(page).replace(/\//g, '_');
+    // Get the file name without extension
+    const filename = path.parse(page).name;
+
     pagesInput[`${dirName}_${filename}`] = page;
   });
 
