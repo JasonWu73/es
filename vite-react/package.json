@@ -4,9 +4,9 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview"
+    "vit-react:dev": "vite",
+    "vit-react:build": "tsc && vite build",
+    "vit-react:preview": "vite preview"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.3",
