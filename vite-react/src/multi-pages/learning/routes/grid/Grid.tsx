@@ -11,7 +11,7 @@ export default function Grid() {
           第 1 列，共 2 列
         </div>
         <div className="col-1-of-2">
-          第 1 列，共 2 列
+          第 2 列，共 2 列
         </div>
       </div>
 
@@ -20,10 +20,10 @@ export default function Grid() {
           第 1 列，共 3 列
         </div>
         <div className="col-1-of-3">
-          第 1 列，共 3 列
+          第 2 列，共 3 列
         </div>
         <div className="col-1-of-3">
-          第 1 列，共 3 列
+          第 3 列，共 3 列
         </div>
       </div>
 
@@ -32,7 +32,7 @@ export default function Grid() {
           第 1 列，共 3 列
         </div>
         <div className="col-2-of-3">
-          第 2 列，共 3 列
+          第 2 + 3 列，共 3 列
         </div>
       </div>
 
@@ -41,34 +41,34 @@ export default function Grid() {
           第 1 列，共 4 列
         </div>
         <div className="col-1-of-4">
-          第 1 列，共 4 列
-        </div>
-        <div className="col-1-of-4">
-          第 1 列，共 4 列
-        </div>
-        <div className="col-1-of-4">
-          第 1 列，共 4 列
-        </div>
-      </div>
-
-      <div className="row">
-        <div className="col-1-of-4">
-          第 1 列，共 4 列
-        </div>
-        <div className="col-1-of-4">
-          第 1 列，共 4 列
-        </div>
-        <div className="col-2-of-4">
           第 2 列，共 4 列
         </div>
+        <div className="col-1-of-4">
+          第 3 列，共 4 列
+        </div>
+        <div className="col-1-of-4">
+          第 4 列，共 4 列
+        </div>
       </div>
 
       <div className="row">
         <div className="col-1-of-4">
           第 1 列，共 4 列
         </div>
-        <div className="col-3-of-4">
-          第 3 列，共 4 列
+        <div className="col-1-of-4">
+          第 2 列，共 4 列
+        </div>
+        <div className="col-2-of-4">
+          第 3 + 4 列，共 4 列
+        </div>
+      </div>
+
+      <div className="row">
+        <div className="col-1-of-4">
+          第 1 列，共 4 列
+        </div>
+        <div className="col-3-of-4 offset">
+          第 2 + 3 + 4 列，共 4 列
         </div>
       </div>
     </section>

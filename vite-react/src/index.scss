@@ -1,5 +1,2 @@
 @import "@/sass/base/reset";
-
-#nprogress .bar {
-  background: #f5222d !important;
-}
+@import "@/sass/vendors/nprogress";
