@@ -9,7 +9,7 @@ export default function Home() {
     <>
       <nav>
         <ul>
-          <li><Link to="/tour">✈️ 去旅行吧</Link></li>
+          <li><Link to="/tour">去旅行吧 🏝️</Link></li>
           <li><Link to="/grid">栅格 Grid - 浮动 Float</Link></li>
         </ul>
       </nav>

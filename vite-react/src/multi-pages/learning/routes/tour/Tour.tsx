@@ -5,13 +5,13 @@ import TourHeader from './TourHeader';
 import { changeFavicon } from '@/utils/page';
 
 export default function Tour() {
-  usePageTitle('✈️ 去旅行吧');
+  usePageTitle('去旅行吧 🏝️');
   useFavicon();
 
   return (
-    <>
+    <div className="tour">
       <TourHeader />
-    </>
+    </div>
   );
 }
 
