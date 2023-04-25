@@ -1,3 +1,8 @@
+import React from 'react';
+import photo1 from '@/assets/tour/img/nat-1-large.jpg';
+import photo2 from '@/assets/tour/img/nat-2-large.jpg';
+import photo3 from '@/assets/tour/img/nat-3-large.jpg';
+
 export default function TourMain() {
   return (
     <main>
@@ -27,7 +32,11 @@ export default function TourMain() {
             <a href="#" className="btn-text" onClick={e => e.preventDefault()}>了解更多 &rarr;</a>
           </div>
           <div className="col-1-of-2">
-            Image Position
+            <div className="composition">
+              <img src={photo1} alt="Photo 1" className="composition__photo composition__photo--p1" />
+              <img src={photo2} alt="Photo 2" className="composition__photo composition__photo--p2" />
+              <img src={photo3} alt="Photo 3" className="composition__photo composition__photo--p3" />
+            </div>
           </div>
         </div>
       </section>
