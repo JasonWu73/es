@@ -1,12 +1,12 @@
 import React from 'react';
 import { Layout } from 'antd';
-import { usePageTitle } from '@/hooks/use-page-title';
+import { useTitle } from '@/hooks/use-page';
 import HeaderLayout from '@/components/layout/HeaderLayout';
 import RouteError from '@/components/error/RouteError';
 import FooterLayout from '@/components/layout/FooterLayout';
 
 export default function ErrorPage({ code = 404, message = '糟糕！未找到您要访问的页面 :(' }) {
-  usePageTitle(code + '');
+  useTitle(code + '');
 
   return (
     <Layout style={{ minHeight: '100dvh' }}>

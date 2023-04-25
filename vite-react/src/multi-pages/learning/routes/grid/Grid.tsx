@@ -1,8 +1,8 @@
 import React from 'react';
-import { usePageTitle } from '@/hooks/use-page-title';
+import { useTitle } from '@/hooks/use-page';
 
 export default function Grid() {
-  usePageTitle('栅格 Grid - 浮动 Float');
+  useTitle('栅格 Grid - 浮动 Float');
 
   return (
     <section>

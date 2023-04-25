@@ -1,9 +1,9 @@
 import React from 'react';
-import { usePageTitle } from '@/hooks/use-page-title';
+import { useTitle } from '@/hooks/use-page';
 import { Link } from 'react-router-dom';
 
 export default function Home() {
-  usePageTitle('Learning');
+  useTitle('Learning');
 
   return (
     <>

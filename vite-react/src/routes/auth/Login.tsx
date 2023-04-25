@@ -1,5 +1,5 @@
 import React from 'react';
-import { usePageTitle } from '@/hooks/use-page-title';
+import { useTitle } from '@/hooks/use-page';
 import { Alert, Button, Form, Input, Layout, Space, Typography } from 'antd';
 import antDesignProBackground from '@/assets/img/ant-design-pro-background.svg';
 import { useAppDispatch, useAppSelector } from '@/store-hooks';
@@ -9,7 +9,7 @@ import FooterLayout from '../../components/layout/FooterLayout';
 import { AiOutlineLock, AiOutlineUser } from 'react-icons/all';
 
 export default function Login() {
-  usePageTitle('登录');
+  useTitle('登录');
   useAutoRedirect();
 
   return (

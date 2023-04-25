@@ -1,10 +1,10 @@
 import React from 'react';
-import { usePageTitle } from '@/hooks/use-page-title';
+import { useTitle } from '@/hooks/use-page';
 import { Card, Divider, List } from 'antd';
 import { PAGES } from '@/components/layout/HeaderLayout';
 
 export default function Home() {
-  usePageTitle('首页');
+  useTitle('首页');
 
   return (
     <>

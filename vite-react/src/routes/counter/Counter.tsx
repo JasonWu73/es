@@ -1,13 +1,13 @@
 import React from 'react';
 import styles from './Counter.module.scss';
-import { usePageTitle } from '@/hooks/use-page-title';
+import { useTitle } from '@/hooks/use-page';
 import { Button, InputNumber, Space, Typography } from 'antd';
 import { useAppDispatch, useAppSelector } from '@/store-hooks';
 import { decrement, increment, incrementAsync, incrementByAmount } from './counter-slice';
 import reduxLogo from '@/assets/img/redux-logo.svg';
 
 export default function Counter() {
-  usePageTitle('计数器');
+  useTitle('计数器');
   const [incrementAmount, setIncrementAmount] = React.useState(2);
   const value = useAppSelector(state => state.counter.value);
   const dispatch = useAppDispatch();

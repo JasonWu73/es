@@ -1,5 +1,5 @@
 import React from 'react';
-import { usePageTitle } from '@/hooks/use-page-title';
+import { useTitle } from '@/hooks/use-page';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Button, Empty, Select, Space, Tag, Typography } from 'antd';
 import { useAppDispatch, useAppSelector } from '@/store-hooks';
@@ -11,7 +11,7 @@ import { TAGS } from './NewPost';
 export default function PostDetail() {
   const { postId } = useParams();
   const post = usePost(postId);
-  usePageTitle(`文章详情 - ${post?.title || ''}`);
+  useTitle(`文章详情 - ${post?.title || ''}`);
   const loading = useAppSelector(state => state.ui.loading);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
