@@ -1,9 +1,13 @@
+import React from 'react';
 import { Layout, Typography } from 'antd';
-import { AiOutlineCopyright } from 'react-icons/all';
 
-export default function FooterLayout() {
+interface Props {
+  style?: React.CSSProperties;
+}
+
+export default function FooterLayout({ style }: Props) {
   return (
-    <Layout.Footer>
+    <Layout.Footer style={{ textAlign: 'center', ...style }}>
       <Copyright />
     </Layout.Footer>
   );
@@ -11,14 +15,11 @@ export default function FooterLayout() {
 
 const DEFAULT_MESSAGE = `${new Date().getFullYear()} 吴仙杰个人演示项目`;
 
-function Copyright({ message = DEFAULT_MESSAGE }: { message?: string }) {
+function Copyright({ message = DEFAULT_MESSAGE }) {
   return (
     <>
-      <Typography.Text
-        type="secondary"
-        style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.2rem' }}
-      >
-        <AiOutlineCopyright /> {message}
+      <Typography.Text type="secondary">
+        &copy; {message}
       </Typography.Text>
     </>
   );
