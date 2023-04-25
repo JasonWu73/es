@@ -1,3 +1,4 @@
+import React from 'react';
 import '@/assets/linea-icons/styles.css';
 
 export default function TourFeatures() {

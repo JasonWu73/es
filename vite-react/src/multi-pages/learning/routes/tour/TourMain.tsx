@@ -3,6 +3,7 @@ import photo1 from '@/assets/tour/img/nat-1-large.jpg';
 import photo2 from '@/assets/tour/img/nat-2-large.jpg';
 import photo3 from '@/assets/tour/img/nat-3-large.jpg';
 import TourFeatures from '@/multi-pages/learning/routes/tour/TourFeatures';
+import Tours from '@/multi-pages/learning/routes/tour/Tours';
 
 export default function TourMain() {
   return (
@@ -43,6 +44,7 @@ export default function TourMain() {
       </section>
 
       <TourFeatures />
+      <Tours />
     </main>
   );
 };
