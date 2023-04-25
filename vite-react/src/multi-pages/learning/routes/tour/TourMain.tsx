@@ -24,7 +24,7 @@ export default function TourMain() {
               大自然的多彩芬芳，思绪沉沦在大自然如此令人向往之中。
             </p>
 
-            <a href="#" onClick={e => e.preventDefault()}>了解更多 &rarr;</a>
+            <a href="#" className="btn-text" onClick={e => e.preventDefault()}>了解更多 &rarr;</a>
           </div>
           <div className="col-1-of-2">
             Image Position
