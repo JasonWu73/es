@@ -5,7 +5,7 @@ export default function Grid() {
   useTitle('栅格 Grid - 浮动 Float');
 
   return (
-    <section>
+    <section className="grid-test">
       <div className="row">
         <div className="col-1-of-2">
           第 1 列，共 2 列

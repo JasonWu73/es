@@ -1,12 +1,24 @@
 @import "@/sass/abstracts/variables";
 @import "@/sass/abstracts/mixins";
 
-$color-row: $color-gray-light-2;
-$color-col: $color-primary;
+$test-color-row: $color-gray-light-2;
+$test-color-col: $color-primary;
+$test-padding: 1.5rem;
+
+.grid-test {
+
+  .row {
+    background-color: $test-color-row;
+
+    [class^="col-"] {
+      background-color: $test-color-col;
+      padding: $test-padding;
+    }
+  }
+}
 
 .row {
   max-width: $grid-width;
-  background-color: $color-row;
   margin: 0 auto;
 
   @include clearfix;
@@ -16,7 +28,6 @@ $color-col: $color-primary;
   }
 
   [class^="col-"] {
-    background-color: $color-col;
     float: left;
 
     &:not(:last-child) {
