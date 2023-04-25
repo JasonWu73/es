@@ -4,11 +4,7 @@
 
   .header {
     height: 95vh;
-    background-image: linear-gradient(
-        to right bottom,
-        rgba($color-primary, 0.8),
-        rgba($color-primary-dark, 0.8)
-    ),
+    background-image: linear-gradient(to right bottom, rgba($color-primary, 0.8), rgba($color-primary-dark, 0.8)),
     url("@/assets/tour/img/hero.jpg");
     background-size: cover;
     background-position: top;
@@ -74,16 +70,25 @@
     margin-top: -20vh;
   }
 
+  .section-features {
+    padding: 20rem 0;
+    background-image: linear-gradient(to right bottom, rgba($color-primary, 0.8), rgba($color-primary-dark, 0.8)),
+    url("@/assets/tour/img/nat-4.jpg");
+    background-size: cover;
+    transform: skewY(-7deg);
+    margin-top: -11rem;
+
+    & > * {
+      transform: skewY(7deg);
+    }
+  }
+
   .heading-secondary {
     font-size: 3.5rem;
     text-transform: uppercase;
     font-weight: 700;
     display: inline-block;
-    background-image: linear-gradient(
-        to right,
-        $color-primary-light,
-        $color-primary-dark
-    );
+    background-image: linear-gradient(to right, $color-primary-light, $color-primary-dark);
     -webkit-background-clip: text;
     color: transparent;
     letter-spacing: 0.2rem;
