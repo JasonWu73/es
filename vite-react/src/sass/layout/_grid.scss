@@ -28,6 +28,7 @@ $color-col: $color-primary;
     width: calc((100% - $gutter-horizontal) / 2);
   }
 
+  // margin-inline-start: 左偏移量
   .col-1-of-3 {
     width: calc((100% - 2 * $gutter-horizontal) / 3);
   }
