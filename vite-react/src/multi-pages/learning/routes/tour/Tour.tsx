@@ -1,8 +1,9 @@
 import React from 'react';
 import { usePageTitle } from '@/hooks/use-page-title';
 import favicon from '@/assets/tour/img/favicon.png';
-import TourHeader from './TourHeader';
 import { changeFavicon } from '@/utils/page';
+import TourHeader from '@/multi-pages/learning/routes/tour/TourHeader';
+import TourMain from '@/multi-pages/learning/routes/tour/TourMain';
 
 export default function Tour() {
   usePageTitle('去旅行吧 🏝️');
@@ -11,6 +12,7 @@ export default function Tour() {
   return (
     <div className="tour">
       <TourHeader />
+      <TourMain />
     </div>
   );
 }
