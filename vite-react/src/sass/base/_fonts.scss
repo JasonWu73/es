@@ -1,25 +1,7 @@
-// 白无常可可体
+// 免費開源的 11×11 中文點陣體
 @font-face {
-  font-family: "BWCKKT";
-  src: url("@/assets/fonts/BWCKKT-Regular.woff2") format("woff2");
-}
-
-@font-face {
-  font-family: "BWCKKT";
-  src: url("@/assets/fonts/BWCKKT-Bold.woff2") format("woff2");
-  font-weight: bold;
-}
-
-@font-face {
-  font-family: "BWCKKT";
-  src: url("@/assets/fonts/BWCKKT-Bold.woff2") format("woff2");
-  font-weight: 700;
-}
-
-@font-face {
-  font-family: "BWCKKT";
-  src: url("@/assets/fonts/BWCKKT-Light.woff2") format("woff2");
-  font-weight: 100;
+  font-family: "cubic-11";
+  src: url("@/assets/fonts/Cubic_11_1.013_R.woff2") format("woff2");
 }
 
 // JetBrains Mono
