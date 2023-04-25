@@ -1,18 +1,17 @@
 import React from 'react';
-import styles from './Natours.module.scss';
 import { usePageTitle } from '@/hooks/use-page-title';
-import favicon from '@/assets/natours/img/favicon.png';
-import NatoursHeader from './NatoursHeader';
+import favicon from '@/assets/tour/img/favicon.png';
+import TourHeader from './TourHeader';
 import { changeFavicon } from '@/utils/page';
 
-export default function Natours() {
-  usePageTitle('Natours');
+export default function Tour() {
+  usePageTitle('✈️ 去旅行吧');
   useFavicon();
 
   return (
-    <div className={styles['natours']}>
-      <NatoursHeader />
-    </div>
+    <>
+      <TourHeader />
+    </>
   );
 }
 

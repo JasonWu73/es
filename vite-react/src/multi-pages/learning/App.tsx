@@ -3,14 +3,16 @@ import { createHashRouter, RouterProvider } from 'react-router-dom';
 import Home from './routes/home/Home';
 import SuspenseLoading from '@/components/loading/SuspenseLoading';
 
-const Natours = React.lazy(() => import('./routes/natours/Natours'));
+const Tour = React.lazy(() => import('@/multi-pages/learning/routes/tour/Tour'));
+const Grid = React.lazy(() => import('./routes/grid/Grid'));
 
 const router = createHashRouter([
   {
     path: '/',
     children: [
       { index: true, element: <Home /> },
-      { path: 'natours', element: <SuspenseLoading><Natours /></SuspenseLoading> }
+      { path: 'tour', element: <SuspenseLoading><Tour /></SuspenseLoading> },
+      { path: 'grid', element: <SuspenseLoading><Grid /></SuspenseLoading> }
     ]
   }
 ]);
