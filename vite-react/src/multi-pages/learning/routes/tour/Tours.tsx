@@ -2,9 +2,9 @@ import React from 'react';
 
 export default function Tours() {
   return (
-    <section className="section-tours">
+    <section className="tour-section-tours">
       <div className="u-center-text u-margin-bottom-big">
-        <h2 className="heading-secondary">
+        <h2 className="tour-heading-secondary">
           最受欢迎的旅游
         </h2>
       </div>

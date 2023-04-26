@@ -9,9 +9,9 @@ export default function Tour() {
   useFaviconOnce(favicon);
 
   return (
-    <div className="tour">
+    <>
       <TourHeader />
       <TourMain />
-    </div>
+    </>
   );
 }
