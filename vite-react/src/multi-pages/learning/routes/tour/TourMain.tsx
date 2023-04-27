@@ -2,8 +2,8 @@ import React from 'react';
 import photo1 from '@/assets/tour/img/nat-1-large.jpg';
 import photo2 from '@/assets/tour/img/nat-2-large.jpg';
 import photo3 from '@/assets/tour/img/nat-3-large.jpg';
-import TourFeatures from '@/multi-pages/learning/routes/tour/TourFeatures';
-import Tours from '@/multi-pages/learning/routes/tour/TourList';
+import TourFeatureList from '@/multi-pages/learning/routes/tour/TourFeatureList';
+import TourList from '@/multi-pages/learning/routes/tour/TourList';
 
 const ABOUTS = [
   {
@@ -80,8 +80,8 @@ export default function TourMain() {
         </div>
       </section>
 
-      <TourFeatures />
-      <Tours />
+      <TourFeatureList />
+      <TourList />
     </main>
   );
 };

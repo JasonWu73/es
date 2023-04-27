@@ -24,7 +24,7 @@ const FEATURES = [
   }
 ];
 
-export default function TourFeatures() {
+export default function TourFeatureList() {
   return (
     <section className="tour-section-features">
       <div className="row">
