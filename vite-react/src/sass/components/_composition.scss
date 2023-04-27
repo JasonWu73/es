@@ -5,7 +5,7 @@
 
   &__photo {
     width: 50%;
-    box-shadow: 0 1.5rem 4rem rgba($color-black, 0.4);
+    box-shadow: $box-shadow-3;
     border-radius: 0.2rem;
     position: absolute;
     transition: transform 0.2s, outline 0.2s;
@@ -30,7 +30,7 @@
       outline: 1.5rem solid $color-primary;
       border-radius: 0;
       transform: scale(1.05) translateY(-0.5rem);
-      box-shadow: 0 2.5rem 4rem rgba($color-black, 0.5);
+      box-shadow: $box-shadow-4;
       z-index: 1;
     }
   }
