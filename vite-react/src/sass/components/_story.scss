@@ -1,0 +1,29 @@
+@import "@/sass/abstracts/variables";
+@import "@/sass/abstracts/mixins";
+
+.story {
+  width: 75%;
+  margin: 0 auto;
+  box-shadow: $box-shadow-5;
+  background-color: $color-white;
+  border-radius: 0.3rem;
+  padding: 6rem;
+  transform: skewX(-12deg);
+
+  &__shape {
+    width: 15rem;
+    height: 15rem;
+    float: left;
+    shape-outside: circle(50% at 50% 50%);
+    clip-path: circle(50% at 50% 50%);
+    transform: translate(-2rem, -2rem) skewX(12deg);
+  }
+
+  &__img {
+    height: 100%;
+  }
+
+  &__text {
+    transform: skewX(12deg);
+  }
+}
