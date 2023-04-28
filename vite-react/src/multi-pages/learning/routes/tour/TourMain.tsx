@@ -5,6 +5,7 @@ import photo3 from '@/assets/tour/img/nat-3-large.jpg';
 import TourFeatureList from '@/multi-pages/learning/routes/tour/TourFeatureList';
 import TourList from '@/multi-pages/learning/routes/tour/TourList';
 import TourStoryList from '@/multi-pages/learning/routes/tour/TourStoryList';
+import TourBook from '@/multi-pages/learning/routes/tour/TourBook';
 
 const ABOUTS = [
   {
@@ -84,6 +85,7 @@ export default function TourMain() {
       <TourFeatureList />
       <TourList />
       <TourStoryList />
+      <TourBook />
     </main>
   );
 };
