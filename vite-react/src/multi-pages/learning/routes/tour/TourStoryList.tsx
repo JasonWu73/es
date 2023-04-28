@@ -1,6 +1,8 @@
 import React from 'react';
 import nat8 from '@/assets/tour/img/nat-8.jpg';
 import nat9 from '@/assets/tour/img/nat-9.jpg';
+import videoMp4 from '@/assets/tour/img/video.mp4';
+import videoWebm from '@/assets/tour/img/video.webm';
 
 const STORIES = [
   {
@@ -22,6 +24,14 @@ const STORIES = [
 export default function TourStoryList() {
   return (
     <section className="tour-section-stories">
+      <div className="background-video">
+        <video className="background-video__content" autoPlay muted loop>
+          <source src={videoMp4} type="video/mp4" />
+          <source src={videoWebm} type="video/webm" />
+          抱歉，您的浏览器版本过低不支持播放 MP4 或 Webm 格式视频！
+        </video>
+      </div>
+
       <div className="u-center-text u-margin-bottom-big">
         <h2 className="tour-heading-secondary">
           为人们带来真正的快乐
