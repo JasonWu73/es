@@ -12,7 +12,9 @@ export default function TourNavigation() {
   return (
     <section className="navigation">
       <input type="checkbox" className="navigation__checkbox" id="navigation-toggle" />
-      <label htmlFor="navigation-toggle" className="navigation__button">菜单</label>
+      <label htmlFor="navigation-toggle" className="navigation__button">
+        <span className="navigation__icon">&nbsp;</span>
+      </label>
       <div className="navigation__background">&nbsp;</div>
       <nav className="navigation__nav">
         <ul className="navigation__list">
