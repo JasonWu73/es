@@ -1,4 +1,5 @@
 @import "@/sass/abstracts/variables";
+@import "@/sass/abstracts/mixins";
 
 .form {
 
@@ -79,12 +80,10 @@
       width: 1.3rem;
       background-color: $color-primary;
       border-radius: 50%;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
       opacity: 0;
       transition: opacity 0.3s;
+
+      @include horizontal-vertical-item;
     }
   }
 
