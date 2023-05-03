@@ -134,7 +134,7 @@ $card-height: 52rem;
   }
 
   &__action {
-    @include horizontal-vertical-item;
+    @include absolute-horizontal-vertical-item;
 
     width: 90%;
     text-align: center;

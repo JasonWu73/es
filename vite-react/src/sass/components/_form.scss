@@ -83,7 +83,7 @@
       opacity: 0;
       transition: opacity 0.3s;
 
-      @include horizontal-vertical-item;
+      @include absolute-horizontal-vertical-item;
     }
   }
 
