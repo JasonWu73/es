@@ -3,11 +3,11 @@ import logo from '@/assets/tour/img/logo-white.png';
 
 export default function TourHeader() {
 
-  function handleScrollTo(event: React.MouseEvent<HTMLAnchorElement>) {
+  function handleScrollToClick(event: React.MouseEvent<HTMLAnchorElement>) {
     event.preventDefault();
     const anchorEl = event.target as HTMLAnchorElement;
     const href = anchorEl.getAttribute('href')!;
-    document.querySelector(href)!.scrollIntoView();
+    document.querySelector(href)!.scrollIntoView({ behavior: 'smooth' });
   }
 
   return (
@@ -25,7 +25,7 @@ export default function TourHeader() {
         <a
           href={'#section-tours'}
           className="btn btn--white btn--animated"
-          onClick={handleScrollTo}
+          onClick={handleScrollToClick}
         >
           发现我们的旅行
         </a>
