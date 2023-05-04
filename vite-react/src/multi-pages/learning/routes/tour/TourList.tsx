@@ -1,4 +1,5 @@
 import React from 'react';
+import { handleScrollToClick } from '@/utils/nav';
 
 const TOURS = [
   {
@@ -59,8 +60,8 @@ export default function TourList() {
                     <p className="card__price-value">¥{tour.price}</p>
                   </div>
                   <a
-                    href="#"
-                    onClick={e => e.preventDefault()}
+                    href={'#popup'}
+                    onClick={handleScrollToClick}
                     className="btn btn--white"
                   >
                     立即预订

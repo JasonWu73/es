@@ -1,15 +1,8 @@
 import React from 'react';
 import logo from '@/assets/tour/img/logo-white.png';
+import { handleScrollToClick } from '@/utils/nav';
 
 export default function TourHeader() {
-
-  function handleScrollToClick(event: React.MouseEvent<HTMLAnchorElement>) {
-    event.preventDefault();
-    const anchorEl = event.target as HTMLAnchorElement;
-    const href = anchorEl.getAttribute('href')!;
-    document.querySelector(href)!.scrollIntoView({ behavior: 'smooth' });
-  }
-
   return (
     <header className="tour-header">
       <div className="tour-header__logo-box">

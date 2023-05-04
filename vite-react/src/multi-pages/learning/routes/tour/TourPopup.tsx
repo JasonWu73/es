@@ -1,16 +1,18 @@
 import React from 'react';
 import nat8 from '@/assets/tour/img/nat-8.jpg';
 import nat9 from '@/assets/tour/img/nat-9.jpg';
+import { handleScrollToClick } from '@/utils/nav';
 
 export default function TourPopup() {
   return (
-    <div className="popup">
+    <div className="popup" id="popup">
       <div className="popup__content">
         <div className="popup__left">
           <img src={nat8} alt="游行照片" className="popup__img" />
           <img src={nat9} alt="游行照片" className="popup__img" />
         </div>
         <div className="popup__right">
+          <a href={'#section-tours'} className="popup__close" onClick={handleScrollToClick}>&times;</a>
           <h2 className="tour-heading-secondary u-margin-bottom-small">开始预订</h2>
           <h3 className="tour-heading-tertiary u-margin-bottom-small">重要 &ndash; 请阅读相关条款</h3>
           <p className="popup__text">
