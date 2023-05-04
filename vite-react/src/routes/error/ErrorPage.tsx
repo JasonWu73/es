@@ -5,7 +5,12 @@ import HeaderLayout from '@/components/layout/HeaderLayout';
 import RouteError from '@/components/error/RouteError';
 import FooterLayout from '@/components/layout/FooterLayout';
 
-export default function ErrorPage({ code = 404, message = '糟糕！未找到您要访问的页面 :(' }) {
+interface Props {
+  code?: number;
+  message?: string;
+}
+
+export default function ErrorPage({ code, message }: Props) {
   useTitle(code + '');
 
   return (

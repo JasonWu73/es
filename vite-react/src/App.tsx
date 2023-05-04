@@ -49,12 +49,12 @@ const MENUS: MenuItem[] = [
   }
 ];
 
-const ErrorPage = React.lazy(() => import('./routes/error/ErrorPage'));
-const Login = React.lazy(() => import('./routes/auth/Login'));
-const Counter = React.lazy(() => delayForDemo(import('./routes/counter/Counter')));
-const PostList = React.lazy(() => import('./routes/post/PostList'));
-const PostDetail = React.lazy(() => import('./routes/post/PostDetail'));
-const NewPost = React.lazy(() => import('./routes/post/NewPost'));
+const ErrorPage = React.lazy(() => import('@/routes/error/ErrorPage'));
+const Login = React.lazy(() => import('@/routes/auth/Login'));
+const Counter = React.lazy(() => delayForDemo(import('@/routes/counter/Counter')));
+const PostList = React.lazy(() => import('@/routes/post/PostList'));
+const PostDetail = React.lazy(() => import('@/routes/post/PostDetail'));
+const NewPost = React.lazy(() => import('@/routes/post/NewPost'));
 
 const router = createBrowserRouter([
   {

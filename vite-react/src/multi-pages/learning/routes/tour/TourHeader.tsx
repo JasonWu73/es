@@ -2,6 +2,14 @@ import React from 'react';
 import logo from '@/assets/tour/img/logo-white.png';
 
 export default function TourHeader() {
+
+  function handleScrollTo(event: React.MouseEvent<HTMLAnchorElement>) {
+    event.preventDefault();
+    const anchorEl = event.target as HTMLAnchorElement;
+    const href = anchorEl.getAttribute('href')!;
+    document.querySelector(href)!.scrollIntoView();
+  }
+
   return (
     <header className="tour-header">
       <div className="tour-header__logo-box">
@@ -15,9 +23,9 @@ export default function TourHeader() {
         </h1>
 
         <a
-          href="#"
+          href={'#section-tours'}
           className="btn btn--white btn--animated"
-          onClick={e => e.preventDefault()}
+          onClick={handleScrollTo}
         >
           发现我们的旅行
         </a>

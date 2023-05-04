@@ -23,7 +23,7 @@ const TOURS = [
 
 export default function TourList() {
   return (
-    <section className="tour-section-tours">
+    <section className="tour-section-tours" id="section-tours">
       <div className="u-center-text u-margin-bottom-big">
         <h2 className="tour-heading-secondary">
           最受欢迎的旅游

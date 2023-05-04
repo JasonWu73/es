@@ -1,15 +1,15 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Space, Typography } from 'antd';
 
 interface Props {
-  code: number;
-  message: string;
+  code?: number;
+  message?: string;
 }
 
 const COUNTDOWN_SECONDS = 10;
 
-export default function RouteError({ code, message }: Props) {
+export default function RouteError({ code = 404, message = '糟糕！未找到您要访问的页面 :(' }: Props) {
   const { goToHome, countdown } = useRedirect();
 
   return (
@@ -44,14 +44,14 @@ export default function RouteError({ code, message }: Props) {
 function useRedirect() {
   const navigate = useNavigate();
 
-  const goToHome = useCallback(
+  const goToHome = React.useCallback(
     () => navigate('/', { replace: true }),
     []
   );
 
-  const [countdown, setCountdown] = useState(COUNTDOWN_SECONDS);
+  const [countdown, setCountdown] = React.useState(COUNTDOWN_SECONDS);
 
-  useEffect(
+  React.useEffect(
     () => {
       const interval = window.setInterval(
         () => setCountdown(prevCountdown => prevCountdown - 1),
