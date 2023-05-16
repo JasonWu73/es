@@ -62,7 +62,7 @@ function usePathSnippets(menus: MenuItem[]): PathSnippet[] {
 
       return pathSnippets.map((path, index) => {
         const url = `/${pathSnippets.slice(0, index + 1).join('/')}`;
-        const title = getMenuTitle(menus, url) ?? path;
+        const title = getMenuTitle(menus, url) ?? '详情';
 
         return {url, title};
       });
